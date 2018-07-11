@@ -1,0 +1,500 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/mui.picker.all.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="mui-content ju-app-wrap">
+		    <ul class="mui-table-view ju-list ju-app-query-wrap">
+	            <li class="mui-table-view-cell">
+	                <a class="fn-picker" data-type="type">
+	                	<span class="mui-pull-left">在线办理类型</span>
+	                	<span class="mui-pull-right">
+	                		<span class="picker-type picker-value" dt-key="type" dt-value="">全部</span>
+	                		<i class="iconfont icon-arrow-right"></i>
+	                	</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+	                <a class="fn-picker" data-type="state">
+	                	<span class="mui-pull-left">状态</span>
+	                	<span class="mui-pull-right">
+	                		<span class="picker-state picker-value" dt-key="state"  dt-value="">全部</span>
+	                		<i class="iconfont icon-arrow-right"></i>
+	                	</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+	                <a class="dates">
+	                	<span class="mui-pull-left">发起日期</span>
+	                	<span class="mui-pull-right">
+	                		<span class="fn-picker picker-start picker-value" data-type="start" dt-key="startDate" dt-value=""></span>
+	                		<span>至</span>
+	                		<span class="fn-picker picker-end picker-value" data-type="end" dt-key="endDate" dt-value=""></span>
+	                		<i class="iconfont icon-arrow-right"></i>
+	                	</span>
+	                </a>
+	            </li>
+	        </ul>
+	        <div class="ju-app-result-wrap mui-hidden">
+	        	<div id="refreshContainer" class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+		        <ul class="mui-list-unstyled ju-app-query-result">
+		        	<!--tpl-result-->
+	        	</ul>
+		        </div>
+		        </div>
+	        </div>
+        	<script type="text/html" id="tpl-result">
+        		{{each applyList}}
+        		<li class="ju-query-result-item ju-app-query-result-item">
+        			<div class="title">
+						发起日期：<span>{{$value.time}}</span>
+						{{if $value.state == "初始"}}
+						<a class="mui-btn-link btn-opt fn-del" data-id="{{$value.ID}}">删除</a>
+						{{/if}}
+						{{if $value.state == "审核中"}}
+						<a class="mui-btn-link btn-opt fn-recall" data-id="{{$value.ID}}">撤回</a>
+						{{/if}}
+        			</div>
+        			<ul class="list mui-table-view">
+        				<li class="mui-table-view-cell">
+        					<label>在线办理类型</label>
+        					<span>{{$value.type}}</span>
+        				</li>
+        				<li class="mui-table-view-cell">
+        					<label>所属公司</label>
+        					<span>{{$value.company}}</span>
+        				</li>
+        				<li class="mui-table-view-cell">
+        					<label>所属部门</label>
+        					<span>{{$value.department}}</span>
+        				</li>
+        				<li class="mui-table-view-cell">
+        					<label>状态</label>
+        					<span>{{$value.state}}</span>
+        				</li>
+        				<li class="mui-table-view-cell">
+        					<label>处理人</label>
+        					<span>{{$value.handler}}</span>
+        				</li>
+        				<li class="mui-table-view-cell">
+        					<label>申请原因</label>
+        					<span>{{$value.reason}}</span>
+        				</li>
+        				<li class="mui-table-view-cell link-cell"  data-type="{{$value.type|typeCode}}" data-state="{{$value.state|stateCode}}" data-param="type={{$value.type|typeCode}}&state={{$value.state|stateCode}}&ID={{$value.ID}}">
+        					<span class="link">查看详情<i class="iconfont icon-arrow-right"></i></span>
+        				</li>
+        			</ul>
+        		</li>
+    			{{/each}}
+    		</script>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/apply.js"></script>
+		<script src="../js/ajaxConfig.js" ></script>
+		<script src="../js/utils.js"></script>
+		<script type="text/javascript">
+			var _pickers = [];
+			var _typeArr = [
+				{text:'全部',value:''},
+				{text:'收入证明',value:'5000'},
+				{text:'在职证明',value:'5001'},
+				{text:'出国在职收入证明',value:'5007'},
+				{text:'档案转递',value:'5003'}
+//				,{text:'离职申请',value:'5005'},
+//				{text:'员工信息核对',value:'5006'}
+			];
+			var _statusArr = [
+				{text:'全部',value:''},
+				{text:'初始',value:0},
+				{text:'审核中',value:1},
+				{text:'已撤回',value:2},
+				{text:'已退回',value:3},
+				{text:'审核通过',value:4},
+				{text:'审核不通过',value:5},
+				{text:'终止审核',value:6}
+			]
+			
+//			初始：查看、修改、删除（只能初始状态）
+//     		审核中：查看、撤回（只能审核中状态）
+//     		已撤回：查看、修改（只能提交，不能保存）
+//     		已退回：查看、修改
+//			审核通过：查看
+//			审核不通过,终止审核:查看
+			
+			var _pageIndex = 1;
+			var _pageSize = 10;	//10,20,50,100,999
+			
+			function showPicker(){
+				var cur = this;
+				var ty = cur.getAttribute('data-type');
+				//picker不存在时创建
+				if(!_pickers[ty]){
+					switch(ty){
+						case 'start':
+						case 'end':
+							var t = '开始时间';
+							if(ty === 'end'){
+								t = '结束时间'
+							}
+							_pickers[ty] = new mui.DtPicker({
+								type:'date',
+								title:t,
+		    					endDate: new Date()
+							});
+						break;
+						case 'type':
+							_pickers[ty] = new mui.PopPicker({title:'在线办理类型'});
+							_pickers[ty].setData(_typeArr)
+						break;
+						case 'state':
+							_pickers[ty] = new mui.PopPicker({title:'状态'});
+							_pickers[ty].setData(_statusArr)
+						break;
+					}
+				}
+				//添加初始化参数
+				var tmpt = mui('.picker-'+ty)[0].getAttribute('dt-value');
+				switch(ty){
+					case 'start':
+					case 'end':
+						_pickers[ty].setSelectedValue(tmpt)
+					break;
+					case 'type':
+					case 'state':
+						_pickers[ty].pickers[0].setSelectedValue(tmpt)
+					break;
+				}
+				//显示picker
+				_pickers[ty].show(function (item) {
+					switch(ty){
+						case 'start':
+						case 'end':
+							mui('.picker-'+ty)[0].innerHTML = item.text;
+							mui('.picker-'+ty)[0].setAttribute('dt-value', item.value)
+						break;
+						case 'type':
+						case 'state':
+							mui('.picker-'+ty)[0].innerHTML = item[0].text;
+							mui('.picker-'+ty)[0].setAttribute('dt-value', item[0].value)
+						break;
+					}
+				})
+			}
+			
+			function actionQuery(){
+				//重置页码
+				_pageIndex = 1;
+				getData();
+			}
+			
+			function getData(isinit){
+				var querydata = {};
+				var doms = document.querySelectorAll('.picker-value');
+				mui.each(doms, function(i,ele){
+					querydata[ele.getAttribute('dt-key')] = ele.getAttribute('dt-value');
+				})
+				//判断是否为空
+//				if(querydata.type === '' || querydata.state === ''){
+//					mui.toast('请选择完整查询条件')
+//					return false;
+//				}
+				querydata.pageSize = _pageSize;
+				querydata.pageIndex = _pageIndex;
+				var qd = {};
+				if(isinit){
+					qd.startDate = querydata.startDate;
+					qd.endDate = querydata.endDate;
+					qd.type = querydata.type;
+					qd.state = querydata.state;
+					qd.pageSize = querydata.pageSize * querydata.pageIndex;
+					qd.pageIndex = querydata.pageIndex;
+				}
+				
+//				querydata.startDate = '';
+//				querydata.endDate = '';
+//				querydata.state = '';
+//				querydata.type = '';
+				
+				//请求数据
+				publicApi.getApplicationList({
+//					url:'../json/applist.json',
+//					type:'get',
+					data: isinit ? qd : querydata,
+					success:function(res){
+						if(res.status == 0){
+							//渲染节点
+							if(res.data.applyList){
+								template.defaults.imports.stateCode = function(data,format){
+									var code = getValFromObj(_statusArr,data);
+									return code;
+								}
+								template.defaults.imports.typeCode = function(data,format){
+									var code = getValFromObj(_typeArr,data);
+									return code;
+								}
+								var html = template('tpl-result', res.data);
+								if(_pageIndex === 1){
+									mui('.ju-app-query-result')[0].innerHTML = '';
+									mui('#refreshContainer').pullRefresh().refresh(true);
+								}
+								mui('.ju-app-result-wrap')[0].classList.remove('mui-hidden');
+								mui('.ju-app-query-result')[0].innerHTML += html;
+								if(_pageSize * (_pageIndex) >= res.data.total){
+									mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+									//手动使得无数据的提示显示？？？
+									mui('.mui-pull-bottom-pocket')[0].classList.add('mui-visibility');
+									mui('.mui-pull-bottom-pocket .mui-pull-caption')[0].classList.add('mui-pull-caption-nomore');
+									mui('.mui-pull-bottom-pocket .mui-pull-caption')[0].innerHTML = '没有更多数据了';
+								}
+								else{
+									mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+								}
+								//替换当前url
+								history.replaceState(null,null, '?' + serialize(querydata)+'random='+new Date().getTime())
+							}
+							else{
+								mui.toast('未查询到对应结果')
+								mui('.ju-app-result-wrap')[0].classList.add('mui-hidden');
+								mui('.ju-app-query-result')[0].innerHTML = '';
+								mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+							}
+						}
+						else{
+							mui.toast(res.error)
+						}
+					}
+				})
+			}
+			
+			function serialize(jsonobj){
+				var str = '';
+				for(var i in jsonobj){
+					str += i + '=' + jsonobj[i] + '&';
+				}
+				return str;
+			}
+			
+			function init(){
+				//初始化
+				var url = window.location.href;
+				console.log(url)
+				if(url.getUrlParam('startDate')){
+					var qd = {
+						type: url.getUrlParam('type'),
+						state: url.getUrlParam('state'),
+						startDate: url.getUrlParam('startDate'),
+						endDate: url.getUrlParam('endDate'),
+						pageIndex: url.getUrlParam('pageIndex'),
+						pageSize: url.getUrlParam('pageSize')
+					};
+					mui('.picker-type')[0].innerHTML = getTxtFromObj(_typeArr, qd.type);
+					mui('.picker-state')[0].innerHTML = getTxtFromObj(_statusArr, qd.state);
+					mui('.picker-type')[0].setAttribute('dt-value', qd.type);
+					mui('.picker-state')[0].setAttribute('dt-value', qd.state);
+					
+					mui('.picker-start')[0].innerHTML = qd.startDate;
+					mui('.picker-end')[0].innerHTML = qd.endDate;
+					mui('.picker-start')[0].setAttribute('dt-value', qd.startDate);
+					mui('.picker-end')[0].setAttribute('dt-value', qd.endDate);
+					
+					_pageSize = qd.pageSize;
+					_pageIndex = qd.pageIndex;
+					getData(1)
+				}
+				else{
+					//无本地查询数据，则添加起止时间（年初到底）
+					var firstd = new Date();
+					firstd.setMonth(0);
+					firstd.setDate(1);
+					var start = applyPublicMethods.getFormatDate(0, firstd);
+					mui('.picker-start')[0].innerHTML = start;
+					mui('.picker-end')[0].innerHTML = applyPublicMethods.getFormatDate(0);
+					mui('.picker-start')[0].setAttribute('dt-value', start);
+					mui('.picker-end')[0].setAttribute('dt-value', applyPublicMethods.getFormatDate(0));
+				}
+			}
+			
+			function gotoDetail(){
+				//详情查看
+				var dom = this;
+				var state = dom.getAttribute('data-state');
+				var type = dom.getAttribute('data-type');
+				var param = dom.getAttribute('data-param');
+				switch(parseInt(state)){
+					case 0:
+					case 2:
+					case 3:
+						gotoEdit(type, param);
+					break;
+					default:
+						mui.openWindow({
+							url:'ApplicationDetail.html?'+ param
+						})
+					break;
+				}
+			}
+			function gotoEdit(type,param){
+				//可修改的详情跳转
+				var uri = '';
+				switch(parseInt(type)){
+					case 5000:
+					//收入证明
+					uri = 'apply-proofOfIncome.html';
+					break;
+					case 5001:
+					//在职证明
+					uri = 'ApplyForEmploymentCertification.html';
+					break;
+					case 5007:
+					//出国在职收入证明
+					uri = 'ApplyForIncomeCertificationInChina.html';
+					break;
+					case 5003:
+					//档案转递
+					uri = 'ApplyForFileDelivery.html';
+					break;
+//					case 5005:
+//					//离职申请
+//					uri = '';
+//					break;
+//					case 5006:
+//					//员工信息核对
+//					break;
+				}
+				if(uri){
+					//进入对应修改页面
+					mui.openWindow({
+						url: uri +'?'+param+'&option=modify'
+					})
+				}
+				else{
+					mui.toast('无法跳转到对应页')
+				}
+			}
+			
+			function actionDel(){
+				//删除某条信息
+				var mid = this.getAttribute('data-id');
+				var itemdom = this.parentNode.parentNode;
+				mui.confirm('确认删除选中申请？','提示',['取消','确认'], function(e){
+					if(e.index == 0){
+						//取消并返回
+					}
+					else{
+						//进入删除
+						publicApi.delApplication({
+							data: {id:mid},
+							success:function(res){
+								if(res.status == 0){
+									if(res.data.code == 1){
+										itemdom.parentNode.removeChild(itemdom)
+									}
+									mui.toast(res.data.msg);
+								}
+								else{
+									mui.toast('删除失败')
+								}
+							}
+						})
+					}
+				})
+			}
+			
+			function actionRecall(){
+				//撤回某条信息
+				var mid = this.getAttribute('data-id');
+				mui.confirm('确认撤回选中申请？','提示',['取消','确认'], function(e){
+					if(e.index == 0){
+						//取消并返回
+					}
+					else{
+						//进入删除
+						publicApi.recallApplication({
+							data: {id:mid},
+							success:function(res){
+								if(res.status == 0){
+									if(res.data.code == 1){
+										_pageIndex = 1;
+										getData();
+									}
+									mui.toast(res.data.msg);
+								}
+								else{
+									mui.toast('撤回失败')
+								}
+							}
+						})
+					}
+				})
+			}
+			
+			function getValFromObj(obj,key){
+				var val = '';
+				for(var i in obj){
+					if(obj[i].text == key){
+						val = obj[i].value;
+						break;
+					}
+				}
+				return val;
+			}
+			function getTxtFromObj(obj,val){
+				var txt = '';
+				for(var i in obj){
+					if(obj[i].value == val){
+						txt = obj[i].text;
+						break;
+					}
+				}
+				return txt;
+			}
+			
+			function pullupRefresh(){
+				_pageIndex++;
+				getData();
+			}
+			
+			/*
+			 * init and bindings 
+			 */
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false,
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pullupRefresh
+					}
+				}
+			});
+			mui.initBackHeader({
+				title:'我的申请',
+				rightBtn:'<span style="color:#1b98e6">查询</span>',
+				rightCallback: actionQuery
+			})
+			init()
+			mui('.ju-app-wrap')
+			.on('tap','.fn-picker', showPicker)
+			.on('tap','.link-cell', gotoDetail)
+			.on('tap','.fn-del', actionDel)
+			.on('tap','.fn-recall', actionRecall)
+		</script>
+	</body>
+
+</html>

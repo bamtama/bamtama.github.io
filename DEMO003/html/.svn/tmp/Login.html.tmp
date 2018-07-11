@@ -1,0 +1,245 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div class="mui-content ju-login-wrap">
+			<div class="loginmask">
+				<!--纯装饰-->
+			</div>
+			<div class="cont">
+				<div class="mui-text-right">
+					<a href="Register.html" class="link">注册</a>
+				</div>
+				<form class="ju-form ju-login-form">
+					<div class="mui-input-row">
+						<label>账号 :</label>
+						<input type="text" name="username" placeholder="请输入账号">
+					</div>
+					<div class="mui-input-row">
+						<label>密码 :</label>
+						<input type="password" class="input-pwd" name="password" placeholder="请输入密码">
+						<i class="iconfont pwd-clear icon-close"></i>
+						<a class="pwd-visible invisible">
+							<i class="iconfont icon-visible"></i>
+							<i class="iconfont icon-invisible"></i>
+						</a>
+					</div>
+					<div class="opts">
+						<button type="submit" data-loading-text="登录中" class="mui-btn mui-btn-grad-blue mui-btn-block btn-login">登录</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script type="text/javascript">
+			function pwdVisible(flag) {
+				if(flag) {
+					mui('.pwd-visible').removeClass('invisible');
+					mui('.input-pwd')[0].setAttribute('type', 'text')
+				} else {
+					mui('.pwd-visible').addClass('invisible');
+					mui('.input-pwd')[0].setAttribute('type', 'password')
+				}
+			}
+
+			function togglePwdVisible(e) {
+				if(this.classList.contains('invisible')) {
+					pwdVisible(true)
+				} else {
+					pwdVisible(false)
+				}
+			}
+<<<<<<< .mine
+			
+			
+			function clearPwd(){
+=======
+
+			function clearPwd() {
+>>>>>>> .r355
+				mui('.input-pwd')[0].value = '';
+				mui('.pwd-clear')[0].style.visibility = 'hidden';
+			}
+
+			function showPwdClear() {
+				mui('.pwd-clear')[0].style.visibility = 'visible';
+			}
+
+			function actionLogin() {
+				document.activeElement.blur();
+				var u = mui('input[name="username"]')[0].value === undefined ? '' : mui('input[name="username"]')[0].value,
+					p = mui('input[name="password"]')[0].value === undefined ? '' : mui('input[name="password"]')[0].value;
+				//请求前判断
+				if(u.length <= 0 || p.length <= 0) {
+					mui.toast('请输入账号和密码');
+					return false;
+				}
+				//通过前台验证，锁定登录操作
+				mui('.btn-login').button('loading');
+				//开始请求
+<<<<<<< .mine
+//				setTimeout(function(){
+//					//模拟成功后跳转
+//					mui('.btn-login').button('reset');
+//					setTimeout(function(){location.href = 'Layout.html';},200)
+//				},1500)
+
+				var loginurl = "http://192.168.79.51:8080/smartbase/login.action?account="+u+"&password="+p+"&token=111&type=1";
+				var lxhr = new XMLHttpRequest();
+				lxhr.open('post', loginurl)
+				lxhr.withCredentials = true;
+				lxhr.crossDomain = true;
+				lxhr.onreadystatechange = function () {
+				    var testurl = 'http://192.168.79.51:8080/smartbase/getUser.action'
+					//开始请求
+					var xhr = new XMLHttpRequest();
+					xhr.open('get',testurl);
+	//				xhr.setRequestHeader('Set-Cookie', 'JSESSIONID=1B0D6F2FA19A6A2A533DE5A995184F6C');
+					xhr.withCredentials = true;
+					xhr.crossDomain = true;
+					xhr.onreadystatechange = function () {
+					   
+					}
+					xhr.send();
+				}
+				lxhr.send();
+//				
+//				mui.ajax({
+//					url:loginurl,
+//					type:'post',
+//					dataType:'json',
+//					beforeSend:function(xhr){
+//						xhr.withCredentials = true;
+//						xhr.crossDomain = true;
+//					},
+//					success:function(res){
+//						console.log(res)
+//					}
+//				})
+
+				
+				
+//				return false;
+				
+				return false;
+				
+			    mui.ajax({
+                  type:"post",
+                  dataType:"json", 
+                  url:"http://192.168.79.203:8080/smartbase/login.action?account="+u+"&password="+p+"&token=111&type=1",
+                  error: function(){
+                         alert("here");
+                         alert(XMLHttpRequest.status);
+                         alert(XMLHttpRequest.readyState);
+                         alert(textStatus);
+                         alert(errorThrown);
+                  }, 
+                  beforeSend:function(){ 
+                        //notice.empty().html("系统登录中，请稍候...");
+                        //notice.fadeIn("slow");
+                  },
+                  success:function(response){
+                    
+	                    //开始请求
+					mui.ajax({
+						url:'http://192.168.79.203:8080/smartbase/user/getUser.action',
+						success:function(status){
+							console.log(xhr)
+						}
+					})
+                
+                    alert("suc");
+                    if(response[0].record=="1"){
+                       alert("用户名或密码错误！");
+                    }else if(response[0].record=="111111"){
+                       alert("服务器繁忙！请联系管理员！");
+                    }else if(response[0].record=="2"){
+                       alert("终端验证不通过，请联系管理员审批"); 
+                    }else if(response[0].record=="0"){
+                       window.location.href="html/Layout.html";
+                    }
+                
+                 }
+                });
+=======
+/*				setTimeout(function() {
+					//模拟成功后跳转
+					mui('.btn-login').button('reset');
+					setTimeout(function() {
+						location.href = 'Layout.html';
+					}, 200)
+				}, 1500)*/
+
+				var loginurl = "http://192.168.79.51:8080/smartbase/login.action?account=admin&password=1234&token=111&type=1";
+				var lxhr = new XMLHttpRequest();
+				lxhr.open('post', loginurl)
+				lxhr.withCredentials = true;
+				lxhr.crossDomain = true;
+				lxhr.send();
+
+				mui.ajax({
+					type: "post",
+					dataType: "json",
+					beforeSend: function(xhr) {
+						xhr.withCredentials = true;
+						xhr.crossDomain = true;
+						_mask.show();
+					},
+					url: loginurl,
+					error: function() {
+						alert("here");
+//						alert(XMLHttpRequest.status);
+//						alert(XMLHttpRequest.readyState);
+//						alert(textStatus);
+//						alert(errorThrown);
+					},
+					beforeSend: function() {
+						//notice.empty().html("系统登录中，请稍候...");
+						//notice.fadeIn("slow");
+
+					},
+					success: function(response) {
+
+						alert("suc");
+						if(response[0].record == "1") {
+							alert("用户名或密码错误！");
+						} else if(response[0].record == "111111") {
+							alert("服务器繁忙！请联系管理员！");
+						} else if(response[0].record == "2") {
+							alert("终端验证不通过，请联系管理员审批");
+						} else if(response[0].record == "0") {
+							window.location.href = "html/Layout.html";
+						}
+
+					}
+				});
+>>>>>>> .r355
+			}
+
+			/*
+			 * init and bindings
+			 */
+			mui.init()
+			mui('.ju-login-wrap')
+				.on('tap', '.pwd-visible', togglePwdVisible)
+				.on('tap', '.pwd-clear', clearPwd)
+				.on('input', '.input-pwd', showPwdClear)
+				.on('submit', 'form', function(e) {
+					e.preventDefault()
+					actionLogin()
+				})
+		</script>
+	</body>
+
+</html>

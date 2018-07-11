@@ -1,0 +1,230 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">我的</h1>
+		</header>
+		<div class="mui-content ju-home-wrap">
+			<script type="text/html" id='tpl-home'>
+				<ul class="mui-table-view baseinfo">
+					<li class="mui-table-view-cell mui-media">
+						<a>
+							<div class="mui-pull-left">
+								<span class="manager-avatar">
+								{{if ism}}
+								<i class="iconfont icon-manager"></i>
+								{{else}}
+								<i class="iconfont icon-user"></i>
+								{{/if}}
+							</span>
+							</div>
+							<div class="mui-media-body">
+								{{name}}
+								<p>账号：{{username}}</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view manage-list">
+					{{if ism}}
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="permissions.html">
+							审批
+							<span class="cont"></span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="records.html">查询控制记录</a>
+					</li>
+					<li class="mui-table-view-cell cell-bottom">
+						<a class="mui-navigate-right" href="alarmQueryAndDispose.html">查询与处理报警信息</a>
+					</li>
+					{{else}}
+					<li class="mui-table-view-cell cell-bottom">
+						<a class="mui-navigate-right" href="records.html">
+							我的记录
+							<span class="cont"></span>
+						</a>
+					</li>
+					{{/if}}
+					<li class="mui-table-view-cell" id="update">
+						<a class="mui-navigate-right fn-update">
+							版本更新
+							<span class="cont"></span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell cell-bottom">
+						<a class="mui-navigate-right" href="qrCode.html">
+							二维码下载
+							<span class="cont"></span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell logout-cell">
+						<a>退出登录</a>
+					</li>
+				</ul>
+			</script>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+
+		<script type="text/javascript">
+			/*
+			 * init and bindings
+			 */
+			mui.init();
+			getInit();
+			var _mianPage = true;
+		    
+			var versionId = 0;
+			var type = 2;
+
+			var isIphone = (/iPhone/).test(navigator.userAgent);
+            var isAndroid = (/Android/).test(navigator.userAgent);
+
+            if(isIphone){
+                type = 1;
+            }else if(isAndroid) {
+                type = 0;
+            }
+//             function setVersion(vId) {
+//                 versionId = decodeURI(vId);
+//                 mui.toast(versionId);
+                
+//             }
+// 			if(localStorage.getItem('versionId') == null){
+// 				versionId = 0;
+// 			}
+			
+// 			if(localStorage.getItem('type') == null){                       //防止localstrorage失效
+// 				type = 2;    
+// 			}
+			
+			versionId = window.androidShare.getVersion();
+// 			alert(versionId);
+// 			mui.toast(versionId);
+			mui.ajax({
+				type: "post",
+				dataType: "json",
+				url: parent._baseuri + "version_checkVersion.action?version=" + versionId + "&type=" + type,
+				error: function() {
+					mui.toast('请求失败，请重试或联系管理员')
+				},
+				beforeSend: function() {},
+				success: function(response) {
+					if(response.status == "118") {
+						mui.toast(response.data.error);
+					} else if(response.status == "0") {
+						if(response.data.latest == "0") {
+							document.getElementById("update").classList.add("z-new");
+						}
+					}
+				}
+			});
+
+			function actionUpdate() {
+				window.androidShare.check_update();
+			}
+			function actionLogout() {
+				parent.mui.confirm('退出？', ' ', ['确定', '取消'], function(e) {
+					switch(e.index) {
+						case 0:
+							//logout
+							mui.ajax({
+								type: "post",
+								dataType: "json",
+								url: "logout.action",
+								error: function() {
+									mui.toast('请求失败，请重试或联系管理员')
+								},
+								beforeSend: function() {},
+								success: function(response) {
+									if(response.status == "1") {
+										mui.toast(response.error);
+									} else if(response.status == "0") {
+										window.localStorage.clear();
+										window.androidShare.app_logout();
+										mui.toast(response.data);
+										mui.openWindow({url:"Login.html"});
+									}
+
+								}
+							});
+
+							break;
+						case 1: //do nothing
+						default:
+							break;
+					}
+				})
+			}
+
+			function getInit() {
+
+				var isManager;
+				var data;
+////
+				var isManager = 1;
+				var data = {
+					name:'用户名',
+					username:'账号',
+					ism : isManager
+				} 
+				var html = template('tpl-home', data);
+				mui('.ju-home-wrap')[0].innerHTML = html;
+
+				mui('.version-cell').on('tap', '.fn-update', actionUpdate);
+				mui('.logout-cell').on('tap', 'a', actionLogout);
+////
+				mui.ajax({
+					type: "post",
+					dataType: "json",
+					url: parent._baseuri + "getUser.action",
+					error: function() {
+						mui.toast('请求失败，请重试或联系管理员')
+					},
+					beforeSend: function() {},
+					success: function(response) {
+						if(response.status == "1") {
+							mui.toast(response.error);
+						} else if(response.status == "0") {
+
+							if(response.data.isAdmin == "true") {
+								isManager = 1;
+								mui('.mui-title')[0].innerHTML = '我的管理';
+							} else {
+								isManager = 0;
+								mui('.mui-title')[0].innerHTML = '我的';
+							}
+
+							data = {
+								name: response.data.name,
+								username: response.data.account,
+								ism: isManager
+							}
+
+							var html = template('tpl-home', data);
+							mui('.ju-home-wrap')[0].innerHTML = html;
+
+							mui('#update').on('tap', '.fn-update', actionUpdate);
+							mui('.logout-cell').on('tap', 'a', actionLogout);
+
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

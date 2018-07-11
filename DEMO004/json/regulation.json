@@ -1,0 +1,46 @@
+[
+	{
+		"id": "regulation-001",
+		"title": "XXXXXXXXXXXXXXX",
+		"cate": "XXXXXXXXXXXXXX",
+		"date": "2013-10-14",
+		"blockclass":"type4",
+		"content":{
+			"article":"XXXXXXXXXXXXXX",
+			"attaches":[]
+		}
+	},
+	{
+		"id": "regulation-002",
+		"title": "XXXXXXXXXXXXXXX",
+		"cate": "XXXXXXXXXXXXXX",
+		"date": "2013-10-14",
+		"blockclass":"type4",
+		"content":{
+			"article":"XXXXXXXXXXXXXX",
+			"attaches":[]
+		}
+	},
+	{
+		"id": "regulation-003",
+		"title": "XXXXXXXXXXXXXXX",
+		"cate": "XXXXXXXXXXXXXX",
+		"date": "2013-10-14",
+		"blockclass":"type4",
+		"content":{
+			"article":"XXXXXXXXXXXXXX",
+			"attaches":[]
+		}
+	},
+	{
+		"id": "regulation-004",
+		"title": "XXXXXXXXXXXXXXX",
+		"cate": "XXXXXXXXXXXXXX",
+		"date": "2013-10-14",
+		"blockclass":"type4",
+		"content":{
+			"article":"XXXXXXXXXXXXXX",
+			"attaches":[]
+		}
+	}
+]

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>报警查询和处理</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <link rel="stylesheet" href="../css/mui.min.css" />
+        <link rel="stylesheet" href="../css/custom.july.css" />
+        <link rel="stylesheet" href="../fonts/iconfont.css" />
+        <link rel="stylesheet" href="../css/custom.dw.css" />
+        <script src="../fonts/iconfont.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">报警查询和处理</h1>
+        </header>
+        <nav class="mui-bar mui-bar-tab dw-alarm-tap">
+            <a class="mui-tab-item" data="alarm">
+                <span class="mui-tab-label dw-tab-active">待确认</span>
+            </a>
+            <a class="mui-tab-item" data="dispose">
+                <span class="mui-tab-label">已确认</span>
+            </a>
+        </nav>
+        <div id="refreshContainer" class="mui-scroll-wrapper dw-alarm-scroll ">
+            <div class="mui-scroll">
+                <div class="mui-content dw-alarm-wrap mui-hidden">
+                    <div class="dw-alarm-query">
+                        <div class="ju-card-list">
+                            <div class="mui-card" id="alarmQuery" tpl-type="repeat" alarmid="{{alarmId}}">
+                                <div class="mui-card-header">
+                                    <i class="iconfont icon-pin"></i>
+                                    <span class="title">待确认</span>
+                                </div>
+                                <div class="mui-card-content">
+                                    <dl class="infolist">
+                                        <dt>时间：</dt>
+                                        <dd dw-bind="{{alarmTime}}"></dd>
+                                        <dt>位置：</dt>
+                                        <dd dw-bind="{{objectName}}"></dd>
+                                        <dt>内容：</dt>
+                                        <dd dw-bind="{{alarmContent}}"></dd>
+                                    </dl>
+                                </div>
+                                <button type="button" class="mui-btn mui-btn-block">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="checkContent" class="mui-scroll-wrapper dw-alarm-scroll mui-hidden">
+            <div class="mui-scroll">
+                <div class="mui-content dw-alarm-wrap">
+                    <div class="dw-alarm-dispose">
+                        <div class="ju-card-list">
+                            <div class="mui-card" id="alarmDispose" tpl-type="repeat">
+                                <div class="mui-card-header">
+                                    <i class="iconfont icon-pin"></i>
+                                    <span class="title alarm-title">已确认</span>
+                                </div>
+                                <div class="mui-card-content alarm-part1">
+                                    <dl class="infolist">
+                                        <dt>确认<span class="char1"></span>人：</dt>
+                                        <dd dw-bind="{{checkUser}}"></dd>
+                                        <dt>确认时间：</dt>
+                                        <dd dw-bind="{{checkTime}}"></dd>
+                                    </dl>
+                                </div>
+                                <div class="mui-card-content alarm-part2">
+                                    <dl class="infolist">
+                                        <dt>时<span class="char2"></span>间：</dt>
+                                        <dd dw-bind="{{alarmTime}}"></dd>
+                                        <dt>位<span class="char2"></span>置：</dt>
+                                        <dd dw-bind="{{objectName}}"></dd>
+                                        <dt>内<span class="char2"></span>容：</dt>
+                                        <dd dw-bind="{{alarmContent}}"></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="../js/mui.min.js"></script>
+        <script type="text/javascript" src="../js/dw-wheel.js"></script>
+        <script>
+            var check,
+                uncheck,
+                //              flag = 1,
+                //              checkFlag = 1,
+                //              _refresh = false,
+                //              _checkRefresh = false,
+                //              pages = 6,
+                _mask = mui.createMask(),
+                baseUrl = /*(/127.0.0.1/).test(location) ? 'http://192.168.1.105:8080' :*/ '';
+
+            function pullInitAjax(option) {
+                /*var opt = {
+                    url: option.url,
+                    type: option.type,
+                    beforeSend: _mask.show,
+                    success: option.fn,
+                    endFn: _mask.close
+                };
+
+                if(option.type == 'post') {
+                    opt.data = option.data || {};
+                }
+
+                dw.dwajax(opt);*/
+
+                var opt = {
+                    type: option.type,
+                    dataType: "json",
+                    beforeSend: function(xhr) {
+                        xhr.withCredentials = true;
+                        xhr.crossDomain = true;
+                        _mask.show();
+                    },
+                    success: option.fn,
+                    complete: _mask.close
+                };
+
+                if(option.type == 'post') {
+                    opt.data = option.data || {};
+                }
+
+                mui.ajax(option.url, opt);
+
+            }
+
+            //渲染未确认
+            function setUnCheck(res) {
+
+                //var slicePage = (flag * pages) > uncheck.length ? uncheck.length : flag * pages;
+
+                var uncheck = res.filter(function(val) {
+                    return(val.checkStatus == 0);
+                });
+
+                var html = dw.dwTemplate('alarmQuery', uncheck);
+                mui('.ju-card-list')[0].innerHTML = html;
+                if(mui('.mui-tab-item span').hasClass('dw-tab-active')) {
+                    mui('.dw-alarm-query').parent('.dw-alarm-wrap').removeClass('mui-hidden');
+                }
+
+            }
+
+            //渲染已确认
+            function setCheck(res) {
+
+                //var slicePage = (checkFlag * pages) > check.length ? check.length : checkFlag * pages;
+
+                var check = res.filter(function(val) {
+                    return(val.checkStatus == 1);
+                });
+
+                var html = dw.dwTemplate('alarmDispose', check);
+                mui('.ju-card-list')[1].innerHTML = html;
+
+            }
+
+            //下拉刷新
+            function pulldownRefresh(ele) {
+                return function() {
+                    setTimeout(function() {
+
+                        pullInitAjax({
+                            'url': baseUrl+'/smartbase/user!getAlarms.action',
+                            'type': 'post',
+                            'fn': function(res) {
+
+                                /*if(flag > 1) {
+                                    flag = 1;
+                                    _refresh = true;
+                                    //重置上拉加载
+                                    mui('#refreshContainer').pullRefresh().refresh(true);
+                                }
+
+                                if(checkFlag > 1) {
+                                    checkFlag = 1;
+                                    _checkRefresh = true;
+                                    //重置上拉加载
+                                    mui('#checkContent').pullRefresh().refresh(true);
+                                }*/
+
+                                var _res = dw.parseJson(res);
+
+                                dw.dwTemplate('alarmDispose', '', true);
+
+                                if(_res.data instanceof Array && _res.data.length > 0) {
+
+                                    setUnCheck(_res.data);
+                                    setCheck(_res.data);
+
+                                } else {
+                                    mui('.ju-card-list')[0].innerHTML = dw.dwTemplate('alarmQuery', '', true);
+                                    mui('#refreshContainer .infolist')[0].innerHTML = _res.data;
+                                    mui('#refreshContainer .infolist')[0].style.textAlign = 'center';
+                                    mui('#refreshContainer .infolist')[0].style.fontSize = '16px';
+                                    mui('#refreshContainer button').addClass('mui-hidden');
+                                    mui('.dw-alarm-query').parent('.dw-alarm-wrap').removeClass('mui-hidden');
+                                }
+
+                                if(ele) {
+                                    mui('#' + ele).pullRefresh().endPulldownToRefresh();
+                                } else {
+                                    mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+                                    mui('#checkContent').pullRefresh().endPulldownToRefresh();
+                                }
+                            }
+
+                        });
+                    }, 1000);
+
+                }
+            }
+
+            //上拉加载
+            /*function pullupRefresh(ele) {
+                return function() {
+                    if(ele == 'refreshContainer' && _refresh === true) {
+                        _refresh = false;
+                        mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+                        return;
+                    } else if(ele == 'checkContent' && _checkRefresh === true) {
+                        _checkRefresh = false;
+                        mui('#checkContent').pullRefresh().endPullupToRefresh(false);
+                        return;
+                    }
+
+                    setTimeout(function() {
+                        pullInitAjax({
+                            'url': '/smartbase/user!getAlarms.action',
+                            'type': 'post',
+                            'fn': function(res) {
+
+                                if(ele && ele == 'refreshContainer') {
+                                    flag++;
+                                    var _res = dw.parseJson(res);
+
+                                    var uncheck = _res.data.filter(function(val) {
+                                        return(val.checkStatus == 0);
+                                    });
+
+                                    setUnCheck(uncheck);
+                                    if(flag * pages >= uncheck.length) {
+
+                                        mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+                                        return;
+                                    }
+                                } else if(ele && ele == 'checkContent') {
+                                    checkFlag++;
+                                    var _res = dw.parseJson(res);
+
+                                    var check = _res.data.filter(function(val) {
+                                        return(val.checkStatus == 1);
+                                    });
+
+                                    setCheck(check);
+                                    if(flag * pages >= uncheck.length) {
+
+                                        mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+                                        return;
+                                    }
+                                }
+
+                                mui('#' + ele).pullRefresh().endPullupToRefresh(false);
+                            }
+                        });
+
+                    }, 1000);
+                }
+
+            }*/
+
+            //切换未确认与已确认页面
+            function alarmTab() {
+                if(mui(this.children)[0].matches('.dw-tab-active')) {
+                    return;
+                }
+
+                mui('.dw-tab-active').removeClass('dw-tab-active');
+                mui(this.children).addClass('dw-tab-active');
+
+                var tapData = this.getAttribute('data');
+                if(tapData == 'alarm') {
+                    mui('#refreshContainer').removeClass('mui-hidden');
+                    mui('#checkContent').addClass('mui-hidden');
+                } else {
+                    mui('#checkContent').removeClass('mui-hidden');
+                    mui('#refreshContainer').addClass('mui-hidden');
+                }
+            }
+
+            //点击确认事件
+            function checkOut(even) {
+                var alarmid = this.parentElement.getAttribute('alarmid');
+                pullInitAjax({
+                    'url': baseUrl + '/smartbase/user!CheckAlarm.action?alarmId=' + alarmid,
+                    'type': 'post',
+                    'fn': function(res) {
+                        var _res = dw.parseJson(res);
+                        if(_res.status != 0) {
+                            mui.toast(_res.error);
+                        } else {
+                            pulldownRefresh()();
+                        }
+                    }
+                });
+                mui('button').toggleClass('mui-btn');
+            }
+
+            mui.init();
+
+            pulldownRefresh()();
+
+            mui('#refreshContainer').pullRefresh({
+                container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+                down: {
+                    height: 50,
+                    auto: false, //可选,默认false.首次加载自动下拉刷新一次
+                    contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+                    contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+                    contentrefresh: "正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+                    callback: pulldownRefresh('refreshContainer') //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+                },
+                /*up: {
+                    height: 50, //可选.默认50.触发上拉加载拖动距离
+                    auto: false,
+                    contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                    contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+                    callback: pullupRefresh
+                }*/
+
+            });
+
+            mui('#checkContent').pullRefresh({
+                container: "#checkContent", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+                down: {
+                    height: 50,
+                    auto: false, //可选,默认false.首次加载自动下拉刷新一次
+                    contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+                    contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+                    contentrefresh: "正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+                    callback: pulldownRefresh('checkContent') //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+                },
+                /*up: {
+                    height: 50, //可选.默认50.触发上拉加载拖动距离
+                    auto: false,
+                    contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                    contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+                    callback: pullupRefresh
+                }*/
+            });
+
+            mui('.dw-alarm-tap').on('tap', '.mui-tab-item', alarmTab);
+            mui('.dw-alarm-query').on('tap', 'button', checkOut);
+        </script>
+    </body>
+
+</html>

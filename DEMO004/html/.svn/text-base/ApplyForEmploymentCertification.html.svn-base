@@ -1,0 +1,324 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>在职证明申请</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/mui.picker.all.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="mui-content ju-form-wrap ju-apply-form-wrap">
+			<div class="cont">
+				<script type="text/html" id="tpl-form-employment-certification">
+					<form class="mui-input-group ju-form">
+						<div class="mui-input-row">
+							<label>员工姓名<i class="z-required">*</i></label>
+							<input type="text" class="mui-input-clear" name="name" placeholder="请输入" value="{{name}}">
+						</div>
+						<div class="mui-input-row">
+							<label>身份证号<i class="z-required">*</i></label>
+							<input type="text" class="mui-input-clear" name="id" placeholder="请输入" value="{{id}}">
+						</div>
+						<div class="mui-input-row">
+							<label>所属部门</label>
+							<input type="text" class="mui-input-clear" name="department" placeholder="请输入" value="{{department}}" disabled>
+						</div>
+						<div class="mui-input-row">
+							<label>员工编号</label>
+							<input type="text" class="mui-input-clear" name="no" placeholder="请输入" value="{{no}}" disabled>
+						</div>
+						<div class="mui-input-row">
+							<label>申请日期</label>
+							<input type="text" class="mui-input-clear" name="date" placeholder="请输入" value="{{date}}" disabled>
+						</div>
+						<div class="mui-input-row">
+							<label>打印盖章份数<i class="z-required">*</i></label>
+							<a class="link fn-copy-picker">
+								<span class="copy-num">{{quality}}</span>
+								<input type="hidden" name="quality" value="{{quality}}" />
+								<i class="iconfont icon-arrow-right"></i>
+							</a>
+						</div>
+						<div class="mui-input-row">
+							<label>在职情况<i class="z-required">*</i></label>
+							<div class="date-wrap">
+								<input type="number" placeholder="时间" name="startYear" value="{{startYear}}" />年<input type="number" placeholder="时间" name="startMonth" value="{{startMonth}}" />月至今在本司工作
+							</div>
+						</div>
+						<div class="mui-input-row">
+							<label>申请原因<i class="z-required">*</i></label>
+							<textarea class="fn-textarea-reason" cols="12" rows="2" name="reason" placeholder="请输入">{{reason}}</textarea>
+							<div class="textarea-count"><span class="counting">0</span>/200</div>
+						</div>
+					</form>
+					<form class="mui-input-group ju-form">
+						<div class="mui-input-row">
+							<label>管理员意见</label>
+							<input type="hidden" value="{{reviewContent}}">
+							<div class="cont">
+				            	<span>{{reviewContent}}</span>
+				            </div>
+						</div>
+						<div class="mui-input-row">
+							<label>审核日期</label>
+							<input type="hidden" value="{{reviewDate}}">
+							<div class="cont">
+				            	<span>{{reviewDate}}</span>
+				            </div>
+						</div>
+					</form>
+					<p class="tip mui-clearfix"><span class="title">温馨提示：</span><span>申请在人力资源部审核通过并打印盖章后，将发送短信通知后到33楼人力资源服务台领取证明。</span></p>
+				</script>
+			</div>
+			<div class="opts">
+				<button type="button" class="mui-btn u-btn-bottom mui-btn-block fn-submit" data-loading-text="提交中">提交</button>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/apply.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script type="text/javascript">
+			var _initData = {},
+				postData = {},
+				inputData = {},
+				submitData = {},
+				_urlparams = {},
+				_picker = null,
+				testData = {};
+
+			//获取页面初始化信息
+			function getInfo() {
+				if(_urlparams.state) {
+					var data = {
+						type: _urlparams.type,
+						id: _urlparams.ID
+					}
+					publicApi.getApplyForEC.change({
+						data: data,
+						success: resdata
+					})
+				} else {
+					publicApi.getApplyForEC.get({
+						success: resdata
+					})
+				}
+			}
+
+			//获取初始化时返回的参数
+			function resdata(res) {
+				var data = res.data;
+				_initData = {
+					"name": data.returnObject.name,
+					"id": data.returnObject.Idcard,
+					"no": data.returnWebForm.apply_filed_9,
+					"department": data.returnObject.deptName,
+					"date": data.returnWebForm.apply_time,
+					"quality": data.returnWebForm.apply_filed_10,
+					"startYear": data.returnObject.year,
+					"startMonth": data.returnObject.month,
+					"reason": data.returnWebForm.apply_reason,
+					"reviewContent": data.returnWebForm.hr_audit_opinion,
+					"reviewDate": data.returnWebForm.hr_audit_time
+				};
+				postData = {
+					"TEMPLATE_ID": data.returnWebForm.template_id,
+					"CHILD_CATEGORY_ID": data.returnWebForm.child_category_id,
+					"CATEGORY_ID": data.returnWebForm.category_id,
+					"APPLY_EMPLOYEE_CODE": data.returnWebForm.apply_employee_code,
+					"APPLY_CONTENT": data.returnWebForm.apply_content,
+					"ORG_ID": data.returnWebForm.org_id,
+					"DEPT_ONE_ID": data.returnWebForm.dept_one_id,
+					"APPLY_FIELD_3": data.returnWebForm.apply_filed_3,
+					"APPLY_FIELD_9": data.returnWebForm.apply_filed_9,
+					"APPLY_TIME": data.returnWebForm.apply_time,
+					"HR_AUDIT_OPINION": "",
+					"HR_AUDIT_TIME": "",
+					"ID": data.returnWebForm.id
+				};
+				fillPage(_initData)
+			}
+
+			//获取url中的参数部分；
+			function getparams() {
+				var params = location.search;
+				if(params != "") {
+					params = params.substr(1).split("&");
+					params.forEach(function(val, ind) {
+						var arrval = val.split("=");
+						_urlparams[arrval[0]] = arrval[1];
+					});
+				};
+			}
+
+			function fillPage(data) {
+				var html = template('tpl-form-employment-certification', data);
+				mui('.ju-form-wrap .cont')[0].innerHTML = html;
+				applyPublicMethods.initTextareaCounting(mui('.fn-textarea-reason')[0], mui('.counting')[0], 200)
+				setInputData();
+			}
+
+			function setInputData() {
+				inputData = {
+					"APPLY_FIELD_1": mui('input[name="name"]')[0].value,
+					"APPLY_FIELD_2": mui('input[name="id"]')[0].value,
+					"APPLY_FIELD_4": mui('input[name="startYear"]')[0].value,
+					"APPLY_FIELD_5": mui('input[name="startMonth"]')[0].value,
+					"APPLY_FIELD_10": mui('input[name="quality"]')[0].value,
+					"APPLY_REASON": mui('textarea[name="reason"]')[0].value,
+					"_FORM_UUID_TOKEN": (new Date()).getTime()
+				};
+			}
+
+			function getFormData() {
+				var tdata = {};
+				var doms = document.querySelector('.ju-apply-form-wrap').querySelectorAll('input[name],textarea[name]');
+				doms.forEach(function(ele, index) {
+					tdata[ele.getAttribute('name')] = ele.value;
+				})
+				return tdata;
+			}
+
+			function actionSubmit() {
+				document.activeElement.blur();
+
+				var tdata = getFormData();
+				//提交前数据验证(暂未特殊处理~)
+				var vflag = true;
+				for(i in tdata) {
+					if(!tdata[i] || _.trim(tdata[i]) == "") {
+						vflag = false;
+						break;
+					}
+				}
+				if(!vflag) {
+					mui.toast('请将信息填写完整')
+					return false;
+				}
+				setInputData();
+				//开始提交
+				mui('.fn-submit').button('loading');
+				submitData = dw.cloneObj(postData, inputData);
+				publicApi.getApplyForEC.post({
+					data: submitData,
+					success: function(res) {
+						if(res.status == 0){
+							mui('.fn-submit').button('reset');
+							mui.oldback();
+						}
+						else{
+							mui.toast('提交失败，请重试')
+						}
+					}
+				})
+			}
+
+			function clearForm() {
+				//重置信息
+				fillPage(_initData)
+				mui('.mui-input-row input').input(); //dom已变，重新注册
+			}
+
+			/* picker */
+			function initPicker() {
+				if(_picker == null) {
+					_picker = new mui.PopPicker({
+						title: '份数'
+					});
+					var arr = new Array(20);
+					for(var i = 0; i < arr.length; i++) {
+						arr[i] = {
+							'value': i + 1,
+							'text': (i + 1) + '份'
+						}
+					}
+					_picker.setData(arr)
+				}
+			}
+
+			function showPicker() {
+				initPicker()
+				var cur = this.getAttribute('data-val');
+				_picker.pickers[0].setSelectedValue(cur)
+				_picker.show(function(item) {
+					mui('input[name="quality"]')[0].value = item[0].value;
+					mui('.copy-num')[0].innerHTML = item[0].text;
+				})
+			}
+
+			var _confirmBox = null;
+			function actionBack() {
+				if(_confirmBox) return;
+				if(_urlparams.state && _urlparams.state == 2) {
+					//无需弹出保存确认
+					mui.oldback();
+				}
+				else{
+					var curdata = getFormData();
+					_confirmBox = mui.confirm('您的内容尚未保存，是否保存', '提示', ['取消', '确认'], function(e) {
+						_confirmBox = null;
+						if(e.index == 0) {
+							//取消并返回
+							mui.oldback()
+						} else {
+							//保存并返回
+							var tdata = getFormData();
+							//提交前数据验证(暂未特殊处理~)
+							var vflag = true;
+							for(i in tdata) {
+								if(!tdata[i] || _.trim(tdata[i]) == "") {
+									vflag = false;
+									break;
+								}
+							}
+							if(!vflag) {
+								mui.toast('请将信息填写完整')
+							} else {
+								setInputData();
+								postData = dw.cloneObj(postData, inputData);
+								publicApi.getApplyForEC.save({
+									data: postData,
+									success: function(res) {
+										if(res.status == 0){
+											mui.oldback()
+										}
+										else{
+											mui.toast('保存失败，请重试')
+										}
+									}
+								})
+							}
+	
+						}
+					})
+				}
+			}
+			
+			/* init and bindings */
+			mui.init();
+			mui.initBackHeader({
+				title: '在职证明申请',
+				rightBtn: '清除',
+				leftCallback: actionBack,
+				rightCallback: clearForm
+			});
+			getparams();
+			getInfo();
+			mui('.ju-form-wrap')
+				.on('tap', '.fn-submit', actionSubmit)
+				.on('tap', '.fn-copy-picker', showPicker);
+			
+		</script>
+	</body>
+
+</html>

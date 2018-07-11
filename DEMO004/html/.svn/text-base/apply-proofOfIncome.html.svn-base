@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>收入证明</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/mui.picker.all.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+	</head>
+
+	<body style="background: #EAF0F3;">
+		<div class="dw-proof-of-income">
+			<div class="fn-cont">
+				<form class="mui-input-group ju-form dw-form" id="applyContent">
+					<div class="mui-input-row">
+						<label class="dw-title">员工姓名<span>*</span></label>
+						<input type="text" class="mui-input-clear" name="name" placeholder="请输入" dw-form="{{name}}" requireded/>
+					</div>
+					<div class="mui-input-row">
+						<label class="dw-title">
+								身份证号<span>*</span>
+							</label>
+						<input type="text" class="mui-input-clear" name="empIdNumber" placeholder="请输入" dw-form="{{empIdNumber}}" requireded/>
+					</div>
+					<div class="mui-input-row">
+						<label class="dw-title">
+								所属部门
+							</label>
+						<input type="text" name="dept" dw-form="{{dept}}" disabled/>
+					</div>
+					<div class="mui-input-row">
+						<label class="dw-title">
+								员工编号
+							</label>
+						<input type="text" name="empCode" dw-form="{{empCode}}" disabled/>
+					</div>
+					<div class="mui-input-row">
+						<label class="dw-title">
+								申请日期
+							</label>
+						<input type="text" class="mui-input-clear" name="applyTime" dw-form="{{applyTime}}" disabled/>
+					</div>
+					<div class="mui-input-row fn-select" select-type="num">
+						<label class="dw-title">
+								打印盖章份数<span>*</span>
+						</label>
+						<input type="text" class="" name="printNumber" disabled dw-form="{{printNumber}}" posttype="1" requireded style="pointer-events: none;" />
+						<i class="mui-icon mui-icon-arrowright"></i>
+					</div>
+					<div class="mui-input-row fn-select" select-type="bank">
+						<label class="dw-title">
+								银行种类选择<span>*</span>
+							</label>
+						<input type="text" name="banktType" dw-form="{{banktType}}" posttype="1" requireded disabled style="pointer-events: none;" />
+						<i class="mui-icon mui-icon-arrowright"></i>
+					</div>
+					<div class="mui-input-row dw-input-top">
+						<label class="dw-title">
+								月均收入<span>*</span>
+							</label>
+						<div class="mui-pull-left dw-part-right">
+							（￥<input type="number" class="mui-input-clear" id="monthIncome" placeholder="请输入数字" name="monthIncome" value="" dw-form="{{monthIncome}}" onblur="changeMoney(this)" requireded/>）
+						</div>
+					</div>
+					<div class="mui-input-row dw-exampl">
+						<input type="text" class="mui-input-clear" name="monthIncomeBig" value="" dw-form="{{monthIncomeBig}}" disabled/>
+					</div>
+					<div class="mui-pull-left dw-note">注：填写的收入不能超过实际收入，请填写正整数</div>
+					<div class="mui-input-row dw-input-last">
+						<label class="dw-title">
+								申请原因<span>*</span>
+						</label>
+						<textarea class="dw-apply-result" placeholder="请输入" rows="2" dw-bind="{{applyReason}}" onblur="resultBlur()" value="" name="applyReason" requireded></textarea>
+						<p class="dw-word-total"><span>0</span>/200</p>
+					</div>
+				</form>
+			</div>
+
+			<form class="mui-input-group ju-form dw-form dw-income-footer">
+				<div class="mui-input-row dw-input-top">
+					<label class="dw-title">
+						管理员审核<span>*</span>
+					</label>
+					<div class="mui-pull-left dw-part-right">
+						<input type="text" class="mui-input-clear" name="audit" value="(￥    )" disabled dw-form="{{auditCheckIncome}}" />
+					</div>
+				</div>
+				<div class="mui-input-row dw-input-bottom">
+					<label class="dw-title">收入</label>
+					<input type="text" class="mui-input-clear" name="auditCN" value="" disabled dw-form="{{auditCheckIncomeBig}}" />
+				</div>
+				<div class="mui-input-row">
+					<label class="dw-title">管理员意见</label>
+					<input type="text" class="mui-input-clear" name="suggestion" value="" disabled dw-form="{{auditOpinion}}" />
+				</div>
+				<div class="mui-input-row dw-li-last">
+					<label class="mui-pull-left dw-title">审核日期</label>
+					<input type="text" class="mui-input-clear" name="aduitDate" value="" disabled dw-form="{{auditTime}}" />
+				</div>
+				<div class="dw-tips dw-li-last">
+					<span class="mui-pull-left">温馨提示：</span> 申请在人力资源部审核通过并打印盖章后，将发送短信通知后到33楼人力资源服务台领取证明。
+				</div>
+			</form>
+			<footer class="dw-apply-submit">
+				<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">提交</button>
+			</footer>
+		</div>
+		<script src="../js/mui.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script src="../js/apply.js"></script>
+
+		<script type="text/javascript">
+			mui.init({
+				gestureConfig: {
+					tap: true, //默认为true
+					doubletap: true, //默认为false
+					longtap: true, //默认为false
+					swipe: true, //默认为true
+					drag: true, //默认为true
+					hold: false, //默认为false，不监听
+					release: false //默认为false，不监听
+				}
+			});
+
+			var applyObj = {
+				data: {
+					name: "DavidWen",
+					empIdNumber: "1234567489",
+					dept: "技术部",
+					empCode: "0000000",
+					applyTime: "",
+					printNumber: "1份",
+					printNumber: "",
+					monthIncome: "",
+					monthIncomeBig: "",
+					applyReason: "",
+
+					auditCheckIncome: "",
+					auditCheckIncomeBig: "",
+					auditOpinion: "",
+					auditTime: ""
+				},
+				IsPageEdit: true, //判断页面是否还是可以提交保存的
+				//GET请求的参数
+				params: {
+					id: getQueryString("id"),
+					type: getQueryString("type"),
+					option: getQueryString("option"),
+					state: getQueryString("state")
+				},
+				initdata: {},
+				postData: {},
+				isEdit: false,
+				getInfo: function() {
+					mui("[name=printNumber]")[0].blur()
+					var getObj = new FC_render().get('input[name=name]').get('[name=empIdNumber]').get('[name=banktType]', 'posttype').get('[name=printNumber]', 'posttype').get("[name=monthIncome]").get("[name=monthIncomeBig]").get("[name=applyReason]").end();
+					for(var i in getObj) {
+						this.ischeck = false;
+						break;
+
+					}
+					this.data = mui.extend(this.data, getObj);
+					return this;
+				},
+				//只能表单类型
+				isCheck: function(name) {
+					var isCheckState = true;
+					mui("[" + name + "]").each(function(item, index) {
+						(!this.value) ? (isCheckState = false) : "";
+					})
+					return isCheckState;
+				},
+				setInfo: function(Obj) {
+					var bankName = '';
+					switch(Obj.APPLY_FIELD_11) {
+						case "1":
+							bankName = "国内银行";
+							break;
+						case "2":
+							bankName = "外资银行";
+							break;
+						default:
+							break;
+					}
+
+					this.postData = Obj;
+
+					this.data.name = Obj.APPLY_FIELD_1;
+					this.data.empIdNumber = Obj.APPLY_FIELD_2;
+					this.data.dept = Obj.DEPT_NAME;
+					this.data.empCode = Obj.APPLY_FIELD_9;
+					this.data.applyTime = Obj.APPLY_TIME;
+					this.data.printNumber = (Obj.APPLY_FIELD_10 || 1) + "份";
+					this.data.banktType = bankName;
+					this.data.monthIncome = Obj.APPLY_FIELD_3;
+					this.data.monthIncomeBig = Obj.APPLY_FIELD_4;
+					this.data.applyReason = Obj.APPLY_REASON;
+					this.data.auditCheckIncome = Obj.APPLY_FIELD_19;
+					this.data.auditCheckIncomeBig = Obj.APPLY_FIELD_20;
+					this.data.auditOpinion = Obj.AUDIT_OPINION;
+					this.data.auditTime = Obj.AUDIT_TIME;
+
+					this.data.initdata = dw.cloneObj({}, this.data)
+				},
+				getPostInfo: function() {
+
+					this.getInfo();
+
+					var newObj = {
+						"APPLY_FIELD_1": this.data.name,
+						"APPLY_FIELD_2": this.data.empIdNumber,
+						"APPLY_REASON": this.data.applyReason,
+						"APPLY_FIELD_4": this.data.monthIncomeBig,
+						"APPLY_FIELD_3": this.data.monthIncome,
+						"APPLY_FIELD_11": this.data.banktType,
+						"APPLY_FIELD_10": this.data.printNumber,
+						"_FORM_UUID_TOKEN": Date.now()
+					}
+					this.postData = mui.extend(this.postData, newObj)
+					return this.postData;
+				}
+			}
+			//初始化页面参数
+			var _editDateInitPage = {
+
+				data: {
+					type: applyObj.params.type || null,
+					id: applyObj.params.id || null,
+				},
+				success: function(data) {
+					if(data.status == 0) {
+						applyObj.setInfo(data.data.content[0]);
+						addData(".fn-cont");
+						mui("[name =banktType]")[0].setAttribute("posttype", data.data.content[0].APPLY_FIELD_11)
+						mui("[name =printNumber]")[0].setAttribute("posttype", data.data.content[0].APPLY_FIELD_10)
+					} else {
+						mui.toast("数据请求失败")
+					}
+				}
+			}
+			var _getDateInitPage = {
+				success: function(data) {
+					if(data.status == 0) {
+						applyObj.setInfo(data.data);
+						addData(".fn-cont");
+					} else {
+						mui.toast("数据请求失败")
+					}
+				}
+			}
+			/*
+			 * 判断页面是新增还是修改
+			 */
+			if(applyObj.params.option == "modify") {
+				applyObj.IsPageEdit = (applyObj.params.state == "2") ? false : true;
+				publicApi.getProofOflncome.edit(_editDateInitPage)
+			} else {
+				publicApi.getProofOflncome.get(_getDateInitPage)
+			}
+
+			mui.initBackHeader({
+				title: '收入证明',
+				rightBtn: '清除',
+				leftCallback: actionBack,
+				rightCallback: function() {
+					mui(".fn-cont")[0].innerHTML = applyTemp;
+				}
+			})
+			var _confirmBox = null;
+			function actionBack(){
+				if(_confirmBox) return;
+				if(!applyObj.IsPageEdit) {
+					mui.oldback()
+				}
+				_confirmBox = mui.confirm("您的内容尚未保存，是否保存", "提示", ["取消", "确定"], function(e){
+					_confirmBox = null;
+					if(e.index == 1) {
+							var saveObj = applyObj.getPostInfo()
+							if(!applyObj.isCheck("requireded")) {
+								mui.toast('请填写完信息')
+								return;
+							}
+							publicApi.getProofOflncome.save({
+								data: saveObj,
+								success: function(data) {
+									if(data.status == "0") {
+										mui.oldback()
+										return;
+									}
+									mui.toast('数据保存失败')
+								}
+							})
+					} else {
+						mui.oldback()
+					}
+				});
+			}
+
+			var applyTemp = "";
+			//自动生成数组
+			function numArr(num) {
+				var arr = [];
+				for(var i = 0, len = num; i < len; i++) {
+					var obj = {
+						text: (i + 1) + "份",
+						value: (i + 1)
+					}
+					arr.push(obj)
+				}
+				return arr;
+			};
+
+			//文本框失去焦点重置
+			function resultBlur() {
+				if(mui(".dw-apply-result")[0].value.replace(/\s*/, "") === "") {
+					mui(".dw-apply-result")[0].value = "";
+					mui(".dw-word-total span")[0].innerText = 0;
+					mui(".dw-apply-result")[0].style.height = 'auto';
+				}
+			};
+			var _picker1 = new mui.PopPicker({
+				title: '选择数量'
+			})
+			_picker1.setData(numArr(20))
+
+			var _picker2 = new mui.PopPicker({
+				title: '选择银行'
+			})
+			_picker2.setData([{
+				value: 2,
+				text: '外资银行',
+			}, {
+				value: 1,
+				text: "国内银行"
+			}])
+			//显示申请原因输入框已输入文字数量
+			function resultInput(e) {
+				var count = this.value.length;
+				if(count > 200) {
+					count = 200;
+					this.value = this.value.substr(0, 200);
+				}
+				mui(".dw-word-total span")[0].innerText = count;
+
+				//重置文本框高度
+				this.style.height = 'auto';
+				this.style.height = this.scrollHeight + 'px';
+			};
+
+			//初始化选择按钮弹框
+			function setSelect(ele, docELE) {
+				var that = ele;
+				console.log(that)
+				docELE.show(function(items) {
+					that.getElementsByTagName("input")[0].value = items[0].text
+					that.getElementsByTagName("input")[0].setAttribute("posttype", items[0].value)
+
+				});
+			};
+
+			mui(".fn-cont").on('tap', '.fn-select', function(event) {
+
+				var _pickEle, that = this;
+				switch(this.getAttribute("select-type")) {
+					case 'bank':
+						_pickEle = _picker2;
+						break;
+					case 'num':
+						_pickEle = _picker1;
+						break;
+					default:
+						break;
+				}
+				_pickEle.show(function(items) {
+					that.getElementsByTagName("input")[0].value = items[0].text
+					that.getElementsByTagName("input")[0].setAttribute("posttype", items[0].value)
+				});
+				return false;
+			}, false);
+
+			//动态加载员工信息
+			function addData(ele) {
+
+				applyTemp = mui().dwTemplate("applyContent", applyObj.data);
+				mui(ele)[0].innerHTML = applyTemp;
+				//mui("[name =banktType]")[0].setAttribute("posttype",applyObj.value)
+				//mui("[name=applyReason]")[0].innerText =applyObj.data.applyReason
+			};
+
+			//处理金额大小写转换
+			function changeMoney(dom) {
+				var $val = Number(dom.value),
+					$bigVal;
+				if(!$val) {
+					mui.toast("请正确填写金额");
+					return;
+				}
+				$bigVal = smalltoBIG($val)
+				mui("input[name=monthIncomeBig]")[0].value = $bigVal;
+
+			}
+
+			//绑定输入框事件
+			mui('.fn-cont').on('input', '.dw-apply-result', resultInput);
+
+			mui(".dw-apply-submit").on("tap", 'button', function() {
+				// 获取提交的数据
+
+				var _PostDate = applyObj.getPostInfo();
+				if(!applyObj.isCheck("requireded")) {
+					mui.toast("请填写完信息");
+					return;
+				}
+				publicApi.getProofOflncome.post({
+					data: _PostDate,
+					success: function(data) {
+						if(data.status == "0") {
+							mui.oldback()
+							return;
+						}
+						mui.toast("数据保存失败");
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

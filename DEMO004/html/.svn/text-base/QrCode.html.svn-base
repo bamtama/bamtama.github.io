@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+	</head>
+	<body>
+		<div class="mui-content">
+		    <div class="ju-qrcode">
+		    	<span class="cor-lt"></span>
+		    	<span class="cor-rt"></span>
+		    	<span class="cor-lb"></span>
+		    	<span class="cor-rb"></span>
+		    	<span class="txt-top">扫一扫</span>
+		    	<span class="txt-bottom">即刻下载</span>
+		    	<div class="bg">
+		    		<img src="../image/qr-code.png" />
+		    	</div>
+		    </div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.initBackHeader({
+				title:'二维码下载'
+			});
+		</script>
+	</body>
+
+</html>

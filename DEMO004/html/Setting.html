@@ -1,0 +1,207 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="mui-content dw-setting">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" type-data="update">
+						版本更新
+						<span class="mui-badge badge-new">NEW</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="QrCode.html">
+						二维码下载
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="Feedback.html">
+						反馈与帮助中心
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" type-data="clean">
+						清除缓存
+					</a>
+				</li>
+			</ul>
+			<button type="button" class="mui-btn mui-btn-block dw-logout">退出登录</button>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/setupWebViewJavascriptBridge.js"></script>
+		<script type="text/javascript">
+			function logout(e,bridge) {
+				//退出
+				if(e.index == 1) {
+					//确认退出
+					publicApi.actionLogout({
+						success: function(res) {
+							if(res.status === '0') {
+								window.localStorage.clear();
+								mui.toast('退出成功，返回登录页');
+								//注销成功，进入webview层的退出
+								if(mui.os.android) {
+									window.androidShare.app_logout();
+									setTimeout(function(){
+										mui.openWindow({
+											url: "../html/Login.html"
+										});
+									},500)
+								} else if(mui.os.ios) {
+									bridge.callHandler('CANCELLATION_USER_CALLBACK', function(response) {})
+									setTimeout(function(){
+										mui.openWindow({
+											url: "../html/Login.html"
+										});
+									},500)
+								} else {
+									mui.toast('客户端不明')
+								}
+							} else if(res.status === '124') {
+								mui.toast(res.error)
+							} else {
+								mui.toast('注销返回失败，请重试或联系管理员')
+							}
+						}
+					})
+				}
+			}
+
+			function clean(bridge) {
+				if(mui.os.android) {
+					window.androidShare.delete_cache();
+				} else if(mui.os.ios) {
+					bridge.callHandler('CLEAN_ALL_ATTACHMENTS', function(response) {})
+				} else {
+					mui.toast('客户端不明');
+				}
+			}
+
+			function update(bridge) {
+				//版本更新
+				if(mui.os.android) {
+					window.androidShare.check_update();
+				} else if(mui.os.ios) {
+					bridge.callHandler('UPDATA_IPA', function(response) {})
+				} else {
+					mui.toast('客户端不明');
+				}
+			}
+			
+			//android端初始化
+			function init() {
+				var version,
+					type;
+				if(mui.os.android) {
+					//获取是否有新版本
+					version = window.androidShare.getVersion();
+					type = 0;
+					getVersion(type, version);
+					
+					//注册方法
+					mui('.dw-setting')
+						.on('tap', '.dw-logout', function(e) {
+							mui.confirm("您将退出帐号并返回到首页", "退出登录", ["我再看看", "确认"], logout);
+						}).on('tap', 'a', function() {
+							var href = this.getAttribute('href'),
+								type = this.getAttribute('type-data');
+		
+							if(href) {
+								mui.openWindow({
+									url: href
+								});
+							} else if(type) {
+								switch(type) {
+									case 'update':
+										update();
+										break;
+									case 'clean':
+										clean();
+										break;
+								}
+							}
+						});
+				} 
+//				else if(mui.os.ios) {
+//					type = 1;
+//				}
+			}
+			
+			function getVersion(type, version){
+				publicApi.getVersion({
+					data: {
+						'type': type,
+						'version': version
+					},
+					success: function(res) {
+						var _res = dw.parseJson(res);
+
+						if(_res.status === '0') {
+							if(_res.data.latest === '0') {
+								mui('.badge-new').addClass('z-new');
+							}
+						}
+					}
+				});
+			}
+			
+			//iOS端初始化
+			setupWebViewJavascriptBridge(function(bridge) {
+				//初始化-获取版本号
+				bridge.callHandler('CHECK_NEW_VERSION', function(version) {
+                    getVersion(1, version)
+                })
+				
+				mui('.dw-setting')
+					.on('tap', '.dw-logout', function(e) {
+						mui.confirm("您将退出帐号并返回到首页", "退出登录", ["我再看看", "确认"], function(e){
+							logout(e, bridge)
+						});
+					}).on('tap', 'a', function() {
+						var href = this.getAttribute('href'),
+							type = this.getAttribute('type-data');
+	
+						if(href) {
+							mui.openWindow({
+								url: href
+							});
+						} else if(type) {
+							switch(type) {
+								case 'update':
+									update(bridge);
+									break;
+								case 'clean':
+									clean(bridge);
+									break;
+							}
+						}
+					});
+		    })
+			
+			/* init and bindings*/
+			mui.init();
+			mui.initBackHeader({
+				title:'设置'
+			});
+			
+			init()
+		</script>
+	</body>
+
+</html>

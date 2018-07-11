@@ -1,0 +1,43 @@
+{
+  "index.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ]
+  },
+  "html/Layout.html": {
+    "resources": [
+      "image/img-light2.png",
+      "fonts/iconfont.js",
+      "html/index.html",
+      "fonts/mui.ttf",
+      "image/bg-home.png",
+      "fonts/iconfont.css",
+      "html/controlLight.html",
+      "css/custom.july.css",
+      "js/mui.min.js",
+      "js/dw-wheel.js",
+      "css/mui.min.css",
+      "html/home.html",
+      "js/mui.extend.control.js",
+      "image/img-light1.png",
+      "html/controlTemperature.html",
+      "image/fan-frames.png",
+      "image/img-temper.png",
+      "image/door.png",
+      "image/img-acs.png",
+      "html/controlACS.html"
+    ],
+    "refer": [
+      "html/healthGuard.html"
+    ]
+  },
+  "html/healthGuard.html": {
+    "resources": [
+      "html/healthIndex.html"
+    ],
+    "refer": [
+      "html/healthIndex.html"
+    ]
+  }
+}

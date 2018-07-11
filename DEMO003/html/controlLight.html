@@ -1,0 +1,237 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">智能灯光控制</h1>
+		</header>
+		<div class="mui-content ju-ctrl-light">
+		    <ul class="ju-cards">
+		    	<li class="card" data-type="card-light1">
+		    		<div class="cont">
+		    			<div class="img-wrap img-light1"></div>
+		    		</div>
+		    		<div class="opt">
+		    			<span class="svg-icon-wrap">
+				        	<svg class="svg-icon">
+							    <use xlink:href="#icon-light-off"></use>
+							</svg>
+							<svg class="svg-icon active">
+							    <use xlink:href="#icon-light-on"></use>
+							</svg>
+				       </span>
+				        <span class="cont">
+					        <div class="mui-switch mui-switch-mini" data-type="light1">
+			    			  <div class="mui-switch-handle"></div>
+			    			</div>
+				        </span>
+		    		</div>
+		    	</li>
+		    	<li class="card" data-type="card-light2">
+		    		<div class="cont">
+		    			<div class="img-wrap img-light2"></div>
+		    		</div>
+		    		<div class="opt">
+		    			<span class="svg-icon-wrap">
+				        	<svg class="svg-icon">
+							    <use xlink:href="#icon-light-off"></use>
+							</svg>
+							<svg class="svg-icon active">
+							    <use xlink:href="#icon-light-on"></use>
+							</svg>
+				        </span>
+				        <span class="cont">
+					        <div class="mui-switch mui-switch-mini" data-type="light2">
+			    			  <div class="mui-switch-handle"></div>
+			    			</div>
+				        </span>
+		    		</div>
+		    	</li>
+		    </ul>
+		    <ul class="ju-ul-list">
+		    	<li>
+		    		<label>全开</label>
+		    		<span class="cont">
+				        <div class="mui-switch mui-switch-mini" data-type="lightson">
+		    			  <div class="mui-switch-handle"></div>
+		    			</div>
+		    		</span>
+		    	</li>
+		    	<li>
+		    		<label>全关</label>
+		    		<span class="cont">
+				        <div class="mui-switch mui-switch-mini" data-type="lightsoff">
+		    			  <div class="mui-switch-handle"></div>
+		    			</div>
+		    		</span>
+		    	</li>
+		    </ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script type="text/javascript">
+			var _oldLights = {light1:0, light2:0};
+			var _handlerGet = null, _isInit = true;
+			/*
+			 * 开关联动
+			 */
+			function lightOnOff(e){
+				var state = e.detail.isActive;
+				var targettype = mui(this)[0].getAttribute('data-type');
+				var reqData = {};
+				
+				var $sw1 = mui('.mui-switch[data-type="light1"]'),
+					$sw2 = mui('.mui-switch[data-type="light2"]'),
+					$sw3 = mui('.mui-switch[data-type="lightson"]'),
+					$sw4 = mui('.mui-switch[data-type="lightsoff"]');
+				
+				//数据构造
+				switch(targettype){
+					case 'light1':
+						reqData = {
+							light1: getSwitchState($sw1[0]) ? 1: 0,
+							light2: 999
+						}
+						break;
+					case 'light2':
+						reqData = {
+							light1: 999,
+							light2: getSwitchState($sw2[0]) ? 1: 0
+						}
+						break;
+					case 'lightson':
+						reqData = {
+							light1: getSwitchState($sw3[0]) ? 1: 0,
+							light2: getSwitchState($sw3[0]) ? 1: 0
+						}
+						break;
+					case 'lightsoff':
+						reqData = {
+							light1: getSwitchState($sw4[0]) ? 0: 1,
+							light2: getSwitchState($sw4[0]) ? 0: 1
+						}
+						break;
+					default:
+					break;
+				}
+				actionOnOrOff(reqData,_oldLights)
+			}
+			
+			function initLights(l1, l2){
+				//1-开，0-关
+				_oldLights = {light1:parseInt(l1), light2:parseInt(l2)};
+				var light1 = mui('[data-type=card-light1]'),
+					light2 = mui('[data-type=card-light2]');
+				//注意switch状态初始化
+				var $card1 = mui('[data-type=card-light1]'),
+					$sw1 = mui('[data-type=light1]'),
+					$card2 = mui('[data-type=card-light2]'),
+					$sw2 = mui('[data-type=light2]'),
+					$sw3 = mui('[data-type=lightson]'),
+					$sw4 = mui('[data-type=lightsoff]');
+					
+				if(_oldLights.light1){
+					$card1.addClass('active')
+					setSwitchStateStyle($sw1[0], true)
+					//$sw1.addClass('mui-active')
+				}
+				else{
+					$card1.removeClass('active')
+					setSwitchStateStyle($sw1[0], false)
+					//$sw1.removeClass('mui-active')
+				}
+				if(_oldLights.light2){
+					$card2.addClass('active')
+					setSwitchStateStyle($sw2[0], true)
+					//$sw2.addClass('mui-active')
+				}
+				else{
+					$card2.removeClass('active')
+					setSwitchStateStyle($sw2[0], false)
+					//$sw2.removeClass('mui-active')
+				}
+				if(_oldLights.light1 && _oldLights.light2){
+					setSwitchStateStyle($sw3[0], true)
+					//$sw3.addClass('mui-active')
+					setSwitchStateStyle($sw4[0], false)
+					//$sw4.removeClass('mui-active')
+				}
+				else if(!_oldLights.light1 && !_oldLights.light2){
+					setSwitchStateStyle($sw4[0], true)
+					//$sw4.addClass('mui-active')
+					setSwitchStateStyle($sw3[0], false)
+					//$sw3.removeClass('mui-active')
+				}
+				else{
+					setSwitchStateStyle($sw3[0], false)
+					//$sw3.removeClass('mui-active')
+					setSwitchStateStyle($sw4[0], false)
+					//$sw4.removeClass('mui-active')
+				}
+			}
+			
+			//获取页面初始化状态
+			function getInit(){
+				if(_isInit){
+					mui.LoadingMask().show();
+				}
+				setTimeout(function(){
+					_oldLights = {
+						light1:0,
+						light2:0
+					};
+					initLights(_oldLights.light1, _oldLights.light2);
+					if(_isInit){
+						mui.LoadingMask().close();
+						_isInit = false;
+					}
+				},500)
+			}
+			
+			function actionOnOrOff(reqestData,oldData){
+				console.log(reqestData)
+				
+//				mui.LoadingMask().show();
+				setTimeout(function(){
+					if(reqestData.light1 != 999){
+						_oldLights.light1 = reqestData.light1;
+					}
+					if(reqestData.light2 != 999){
+						_oldLights.light2 = reqestData.light2;
+					}
+					
+					initLights(_oldLights.light1, _oldLights.light2);
+					//mui.LoadingMask().close();
+				},0)
+			}
+			
+			function autoReq(s){
+				if(_handlerGet!=null){
+					clearTimeout(_handlerGet);
+					_handlerGet = null;
+				}
+				_handlerGet = setTimeout(getInit, s*1000);
+			}
+			
+			/*
+			 * init and bindings
+			 */
+			mui.init()
+			getInit()
+			mui.each(document.querySelectorAll('.mui-switch'),function(index,ele){
+				ele.addEventListener('toggle',lightOnOff)
+			})
+		</script>
+	</body>
+</html>

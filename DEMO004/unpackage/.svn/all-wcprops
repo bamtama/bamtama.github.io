@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/project/!svn/ver/178/gdhr/frontend/unpackage
+END
+.dependencies
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/project/!svn/ver/27/gdhr/frontend/unpackage/.dependencies
+END
+.confirmed_dependencies
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/project/!svn/ver/178/gdhr/frontend/unpackage/.confirmed_dependencies
+END

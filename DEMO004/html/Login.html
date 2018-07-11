@@ -1,0 +1,129 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="timoutTag" content="LOGIN_TIMEOUT"/>
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<script>
+		if(self != top){
+			window.top.location.replace('Login.html');
+		}
+	</script>
+	<body>
+		<div class="mui-content ju-login-wrap">
+			<div class="icon-wrap">
+			</div>
+		    <form class="mui-input-group ju-login-form">
+		        <div class="mui-input-row">
+		            <label>账号 :</label>
+		            <input autocomplete="off" type="text" class="mui-input-clear" name="username" placeholder="请输入账号">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>密码 :</label>
+		            <input autocomplete="off" type="password" class="mui-input-clear" name="password" placeholder="请输入密码">
+		        </div>
+		        <div class="opts">
+		        	<button type="submit" data-loading-text="登录中" class="mui-btn mui-btn-blue mui-btn-block btn-login">登录</button>
+		        </div>
+		    </form>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script src="../js/RSA/BigInt.js"></script>
+		<script src="../js/RSA/Barrett.js"></script>
+		<script src="../js/RSA/RSA.js"></script>
+		<script type="text/javascript">
+			var _isAuto = false,
+				_userinfo = {};
+			function setDevMes(unameApp, pwdApp) {
+                //webview外层设置自动登录数据
+				_isAuto = true;
+                _userinfo = {name:unameApp, pwd:pwdApp}
+            }
+			
+			var _RSAkey;
+			function bodyRSA() {
+				setMaxDigits(33);
+				_RSAkey = new RSAKeyPair("10001", "", "a6025ecd55ed1c6bf541a99cf092d0cf5018b77d89ba5849043ec114891de583")
+			}
+			function getRSAKey() {
+				if(!_RSAkey) {
+					bodyRSA()
+				}
+				return _RSAkey
+			};
+			
+			function actionLogin(){
+				document.activeElement.blur();	//收起键盘
+				
+				//是否自动登录
+				var uname,pwd;
+				if(!_isAuto){
+					uname = mui('input[name="username"]')[0].value === undefined ? '' : mui('input[name="username"]')[0].value;
+					pwd = mui('input[name="password"]')[0].value === undefined ? '' : mui('input[name="password"]')[0].value;
+				}
+				else{
+					uname = _userinfo.name;
+					pwd = _userinfo.pwd;
+				}
+				
+				//请求前判断
+				if(uname.length <=0 || pwd.length <= 0){
+					mui.toast('请输入账号和密码');
+					return false;
+				}
+				
+				//请求登录
+			    var reqdata = {
+					username: uname,
+					password: _isAuto ? pwd : encryptedString(getRSAKey(), encodeURIComponent(pwd))
+				}
+				publicApi.actionLogin({
+					type: 'get',
+					data: reqdata,
+                    beforeSend: function() {
+                        //通过前台验证，锁定登录操作
+                        mui('.btn-login').button('loading');    
+                    },
+                    success: function(response) {
+                        if(response.status == "121") {
+                            mui.toast(response.error);
+                        } else if(response.status == "0") {
+                        	window.sessionStorage.removeItem('OA_HOME_HREF');
+                        	window.sessionStorage.removeItem('HR_APP_USERNAME');
+                            mui.openWindow({url:"../html/Home.html"});
+                        }
+                        else{
+                        	mui.toast('登录异常，请重试');
+                        }
+                    },
+                    complete:function(xhr, status){
+                        mui('.btn-login').button('reset')
+                    }
+				})
+			}
+			
+			//5+环境下? 解决键盘弹出导致viewheight改变的问题
+			function resetHeight(){
+				var vh = document.body.clientHeight;
+				mui('.ju-login-wrap')[0].style.height = vh + 'px'
+			}
+			
+			/* init and bindings */
+			mui.init()
+			resetHeight()
+			document.body.addEventListener('resize', resetHeight)
+			mui('.ju-login-wrap').on('submit','form', function(ev){
+				ev.preventDefault();
+				actionLogin();
+			})
+			
+		</script>
+	</body>
+</html>

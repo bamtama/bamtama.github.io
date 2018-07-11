@@ -1,0 +1,18 @@
+{
+    "data": {
+        "applyTitle": "档案转递申请",
+        "content": [
+            {
+                "name": "蒋业",
+                "department": "南方基地",
+                "idNumber": "43112619920212082X",
+                "applyTime": "2017年12月20日",
+                "applyReason": "测试",
+                "auditOpinion": "",
+                "auditTime": ""
+            }
+        ]
+    },
+    "error": "",
+    "status": "0"
+}

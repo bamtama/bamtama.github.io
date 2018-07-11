@@ -1,0 +1,51 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="mui-content ju-feedback">
+		    <div class="icon-wrap">
+		    	<svg class="svg-icon">
+				    <use xlink:href="#icon-feedback"></use>
+				</svg>
+		    </div>
+		    <div class="tip-wrap">
+		    	<p class="tip">需要反馈？请打下方联系电话</p>
+		    	<span class="tel">XXXXXXXXXXXXXXXXX</span>
+		    </div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/setupWebViewJavascriptBridge.js"></script>
+		<script type="text/javascript">
+			var _telNumber = 'xxxxxxxxxxxxxxxxxxxx';
+			//android端初始化
+			function init(){
+				if(mui.os.android){
+					mui('.ju-feedback').on('tap','.tel',function(){
+						window.androidShare.call_phone(_telNumber);
+					})
+				}
+			}
+			//iOS端初始化
+			setupWebViewJavascriptBridge(function(bridge){
+				mui('.ju-feedback').on('tap','.tel',function(){
+					bridge.callHandler('CALL_PHONE',{'telNum': _telNumber})
+				})
+			})
+			
+			mui.init()
+			mui.initBackHeader({title:'反馈与帮助中心'});
+			init()
+		</script>
+	</body>
+</html>

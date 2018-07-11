@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>福利计税查询</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/mui.picker.all.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<script src="../fonts/iconfont.js"></script>
+	</head>
+	<body style="background: #EAF0F3;">
+		<div class="mui-content ju-query-wrap">
+			<ul class="mui-table-view ju-list">
+				<li class="mui-table-view-cell dw-welfare-tax-list">
+					<a class="btn-date-picker" data-type="checkDate">
+						<span>查询时间</span>
+						<span class="mui-pull-right">
+	                		<span class="dt-value dt-check"></span>
+						<i class="iconfont icon-arrow-right"></i>
+						</span>
+					</a>
+				</li>
+			</ul>
+			<div class="query-tip">
+				<div class="tip-cont">
+					<svg class="svg-icon">
+						<use xlink:href="#icon-certification"></use>
+					</svg>
+					<p>选择查询福利计税项的月份，点击“查询”即可</p>
+				</div>
+			</div>
+			<div class="ju-query-result mui-hidden">
+				<ul class="mui-list-unstyled">
+					<!--正常福利计税示例 / 合计福利计税-->
+					<script id="tpl-incomelist" type="text/html">
+						{{each $data}} {{if $value.content}}
+						<li class="ju-query-result-item fn-check-ok">
+							<div class="info">
+								<p>您的当月福利合计</p>
+								<div class="salary">￥{{$value.content.total}}</div>
+							</div>
+							<ul class="list mui-table-view">
+								{{each $value.content.list as cont}}
+								<li class="mui-table-view-cell">
+									<label>{{cont.title}}</label>
+									<span>{{cont.value}}</span>
+								</li>
+								{{/each}}
+							</ul>
+						</li>
+						{{else}}
+						<!--无结果福利计税查询示例-->
+						<li class="ju-query-result-item fn-check-null">
+							<div class="info">
+								<div class="tip">
+									抱歉！<br /> 未查询到您的该月福利
+								</div>
+							</div>
+						</li>
+						{{/if}} {{/each}}
+					</script>
+				</ul>
+				<div class="tips">
+					<div class="title">内容说明：</div>
+					<p>1、标“*”项为计税项目</p>
+					<p>2、异地任职-指异地任职人员在原公司发放的固定收入将并入任职所在公司当月发放的收入一并扣税</p>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script type="text/javascript">
+			var _dtPicker = null,
+				_taxDate = "",
+				_year,
+				_month;
+
+			
+			/* datepicker */
+			function initDatePicker(startdate, enddate) {
+				if(_dtPicker === null) {
+					_dtPicker = new mui.DtPicker({
+						type: 'month',
+						title: '查询时间',
+						beginDate: startdate === "" ? new Date(1990, 01) : new Date(startdate), //设置开始日期 
+						endDate: enddate === "" ? new Date() : new Date(enddate) //设置结束日期 
+					});
+				} else {
+					return _dtPicker;
+				}
+			}
+
+			function disposeDatePicker() {
+				_dtPicker.dispose();
+				_dtPicker = null;
+			}
+
+			/*显示选择的日期*/
+			function showDatePicker(type) {
+				_dtPicker.show(function(time) {
+					switch(type) {
+						case 'checkDate':
+							_taxDate = time.value;
+							_year = time.y.value;
+							_month = time.m.value;
+							mui('.dt-check')[0].innerHTML = _taxDate;
+							break;
+						default:
+							break;
+					}
+					queryIncome()
+				});
+			}
+
+			/* query income */
+			function queryIncome() {
+				//查询方法
+				publicApi.getWelfareTaxList({
+					//url: '../json/testlist.json', //本地测试json路径
+					data: {
+						startYear: _year,
+						startMonth: Number(_month)
+					},
+					success: function(res) {
+						var _res = dw.parseJson(res);
+
+						var incomehtml = template('tpl-incomelist', [_res.data]);
+						mui('.ju-query-result ul')[0].innerHTML = incomehtml;
+						
+						//页面显示
+						if(mui('.ju-query-result').hasClass('mui-hidden')) {
+							mui('.query-tip').addClass('mui-hidden');
+							mui('.ju-query-result').removeClass('mui-hidden');
+						}
+					}
+				});
+			}
+
+			function init(){
+				//第一次进入页面时，加载当月数据
+				if(!_taxDate){
+					var now = new Date();
+					_year = now.getFullYear();
+					_month = now.getMonth()+1 >= 10 ? (now.getMonth()+1) : '0'+(now.getMonth()+1) ;
+					_taxDate = _year + '-' + _month;
+				}
+				mui('.dt-check')[0].innerHTML = _taxDate;
+				queryIncome();
+				initDatePicker("", "");
+			}
+
+			/* init and bindings */
+			mui.init();
+			mui.initBackHeader({
+				title: '福利计税项查询',
+				//rightBtn: '<span style="color:#1b98e6">查询</span>',
+				rightCallback: function() {
+					if(_taxDate === "") {
+						return mui.alert('请选择查询时间');
+					}
+					queryIncome();
+				}
+			});
+			init();
+
+			mui(".mui-content").on("tap", ".btn-date-picker", function() {
+				var valspan = this.querySelector('.dt-value'),
+					type = this.getAttribute('data-type');
+
+				showDatePicker(type);
+			});
+		</script>
+	</body>
+
+</html>

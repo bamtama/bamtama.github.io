@@ -1,0 +1,24 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="../js/mui.min.js"></script>
+		<script>
+			var reurl = '';
+			if(mui.os.android){
+				reurl = '';
+			}
+			else if(mui.os.ios){
+				reurl = ''
+			}
+			else{
+				alert('无法判断您的客户端，请联系客服。')
+			}
+			window.location.href = reurl;
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

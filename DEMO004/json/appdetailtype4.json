@@ -1,0 +1,35 @@
+{
+  "data": {
+    "applyTitle": "出国在职收入证明申请",
+    "type": "1",
+    "contents": [
+      {
+        "Name": "董灿佳",
+        "Dept_Name": "南方基地",
+        "ID_Number": "440582199406260676",
+        "EmployId": "21016638",
+        "PrintsNumber": "1",
+        "ApplyTime": "2017年12月28日",
+        "ApplyReason": "1",
+        "EngName": "Mr.Dong",
+        "EngBirthday": "June 26th 1996",
+        "EngEmployTime": "July 10th 2017",
+        "EngBeforeTaxCount": "12000",
+        "CountryTime": "6-day-travel to Korea in September 2018",
+        "CHABirthday": "1994年06月26日",
+        "CHAEmployTime": "2017年07月10日",
+        "MrName": "董先生",
+        "CHABeforeTaxCount": "12000",
+        "AboardTime": "2018年9月",
+        "Country": "韩国",
+        "Time": "6",
+        "AUDIT_OPINION": "",
+        "AUDIT_TIME": "",
+        "HR_AUDIT_OPINION": "",
+        "HR_AUDIT_TIME": ""
+      }
+    ]
+  },
+  "error": "",
+  "status": "0"
+}

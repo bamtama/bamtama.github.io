@@ -1,0 +1,560 @@
+{
+	"index.html": {
+		"resources": [
+			"Guide.html",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"IncomeQuery.html",
+			"css/custom-july.css",
+			"Home.html",
+			"newIncomeQuery.html"
+		],
+		"refer": [
+			"Guide.html",
+			"IncomeQuery.html",
+			"Home.html",
+			"newIncomeQuery.html"
+		]
+	},
+	"Guide.html": {
+		"resources": [
+			"index.html",
+			"guideList.html",
+			"css/mui.min.css",
+			"css/iconfont.css",
+			"js/mui.js",
+			"fonts/iconfont.css",
+			"css/custom-july.css",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js"
+		],
+		"refer": [
+			"index.html",
+			"guideList.html"
+		]
+	},
+	"guideList.html": {
+		"resources": [
+			"css/mui.min.css",
+			"testlist.json",
+			"css/iconfont.css",
+			"js/mui.js",
+			"js/mui.min.js",
+			"fonts/iconfont.css",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"pullup.json",
+			"css/custom-july.css",
+			"json/testlist.json",
+			"json/pullup.json"
+		]
+	},
+	"IncomeQuery.html": {
+		"resources": [
+			"index.html",
+			"js/mui.picker.min.js",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"js/iconfont.js",
+			"css/iconfont.css",
+			"js/mui.picker.js",
+			"js/mui.dtpicker.js",
+			"css/custom-july.css",
+			"css/mui.dtpicker.css",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/dw-wheel.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/template-web.js",
+			"IncomeDetail.html"
+		],
+		"refer": [
+			"index.html",
+			"IncomeDetail.html"
+		]
+	},
+	"Home.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"homePage.html",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/mui.min.css",
+			"index.html",
+			"css/custom-july.css",
+			"js/mui.min.js",
+			"homeBar.html",
+			"Login.html"
+		],
+		"refer": [
+			"homePage.html",
+			"index.html",
+			"homeBar.html",
+			"test.html",
+			"salaryPage.html",
+			"performancePage.html",
+			"attendencePage.html",
+			"applyPage.html",
+			"Login.html"
+		]
+	},
+	"homePage.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"newIncomeQuery.html",
+			"Guide.html",
+			"fonts/mui.ttf",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/custom-july.css"
+		],
+		"refer": [
+			"newIncomeQuery.html",
+			"Guide.html",
+			"IncomeQuery.html"
+		]
+	},
+	"homeBar.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/custom-july.css"
+		]
+	},
+	"test.html": {
+		"resources": [
+			"css/mui.min.css"
+		]
+	},
+	"newIncomeQuery.html": {
+		"resources": [
+			"index.html",
+			"js/mui.picker.js",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"css/mui.dtpicker.css",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/mui.picker.min.css",
+			"js/mui.dtpicker.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"index.html"
+		]
+	},
+	"salaryPage.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/custom-july.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"salaryList.html",
+			"css/custom-dw.css"
+		],
+		"refer": [
+			"salaryList.html"
+		]
+	},
+	"attendencePage.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/custom-july.css",
+			"fonts/iconfont.css"
+		]
+	},
+	"applyPage.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/custom-july.css"
+		]
+	},
+	"performancePage.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/custom-july.css",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js"
+		]
+	},
+	"Login.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/mui.min.css",
+			"image/logo@2x.png",
+			"image/bg-login.jpg",
+			"css/custom-july.css",
+			"fonts/mui.ttf",
+			"Home.html"
+		],
+		"refer": [
+			"Home.html"
+		]
+	},
+	"IncomeDetail.html": {
+		"resources": [
+			"css/mui.min.css",
+			"IncomeQuery.html",
+			"css/custom-july.css",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js"
+		],
+		"refer": [
+			"IncomeQuery.html"
+		]
+	},
+	"salaryList.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"js/mui.js",
+			"css/custom-july.css"
+		]
+	},
+	"html/Login.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/mui.min.css",
+			"image/logo@2x.png",
+			"image/bg-login.jpg",
+			"css/custom-july.css",
+			"fonts/mui.ttf",
+			"html/Home.html"
+		],
+		"refer": [
+			"html/Home.html"
+		]
+	},
+	"html/Home.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"html/homeBar.html",
+			"fonts/iconfont.js",
+			"css/mui.min.css",
+			"html/Login.html",
+			"css/custom-july.css",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"html/homePage.html",
+			"html/test.html"
+		],
+		"refer": [
+			"html/homeBar.html",
+			"html/homePage.html",
+			"html/Login.html",
+			"html/test.html",
+			"html/performancePage.html",
+			"html/salaryPage.html",
+			"html/attendencePage.html",
+			"html/applyPage.html"
+		]
+	},
+	"html/homePage.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/custom-july.css",
+			"fonts/mui.ttf",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js"
+		],
+		"refer": [
+			"html/IncomeQuery.html",
+			"html/Guide.html",
+			"html/performancePage.html"
+		]
+	},
+	"html/salaryPage.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/custom-july.css",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"html/headerBar.html",
+			"html/Annoucement.html",
+			"js/mui.extend.js"
+		],
+		"refer": [
+			"html/Setting.html",
+			"html/Annoucement.html",
+			"html/IncomeQuery.html"
+		]
+	},
+	"html/homeBar.html": {
+		"resources": [
+			"html/salaryPage.html",
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/custom-july.css"
+		],
+		"refer": [
+			"html/salaryPage.html"
+		]
+	},
+	"html/IncomeQuery.html": {
+		"resources": [
+			"js/mui.picker.js",
+			"fonts/iconfont.css",
+			"css/mui.dtpicker.css",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"js/mui.dtpicker.js",
+			"css/custom-july.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"js/mui.extend.js"
+		],
+		"refer": [
+			"html/IncomeDetail.html"
+		]
+	},
+	"html/guideList.html": {
+		"resources": [
+			"js/template-web.js",
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/custom-july.css",
+			"json/testlist.json"
+		]
+	},
+	"html/Guide.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"html/guideList.html",
+			"css/mui.min.css",
+			"js/mui.js",
+			"css/custom-july.css"
+		],
+		"refer": [
+			"html/guideList.html"
+		]
+	},
+	"html/performancePage.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/custom-july.css",
+			"js/mui.picker.js",
+			"css/mui.dtpicker.css",
+			"css/mui.picker.min.css",
+			"js/mui.dtpicker.js",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"html/headerBar.html",
+			"js/mui.extend.js",
+			"html/Annoucement.html"
+		],
+		"refer": [
+			"html/Setting.html",
+			"html/Annoucement.html"
+		]
+	},
+	"html/attendencePage.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/custom-july.css",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/custom-dw.css",
+			"html/headerBar.html",
+			"js/mui.extend.js"
+		],
+		"refer": [
+			"html/salaryTaxQuery.html",
+			"html/Setting.html"
+		]
+	},
+	"html/salaryTaxQuery.html": {
+		"resources": [
+			"js/mui.picker.js",
+			"css/mui.dtpicker.css",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"js/mui.dtpicker.js",
+			"css/custom-july.css",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js"
+		]
+	},
+	"html/ApplyForFileDelivery.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/custom-july.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"js/utils.js"
+		]
+	},
+	"html/applyPage.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/custom-july.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"html/headerBar.html"
+		],
+		"refer": [
+			"html/ApplyForFileDelivery.html",
+			"html/ApplyForEmploymentCertification.html",
+			"html/apply-proofOfIncome.html",
+			"html/salaryTaxQuery.html",
+			"html/ApplyForIncomeCertificationInChina.html",
+			"html/Setting.html"
+		]
+	},
+	"html/ApplyForEmploymentCertification.html": {
+		"resources": [
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"css/custom-july.css",
+			"js/mui.picker.js",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/custom-dw.css",
+			"js/apply.js",
+			"css/mui.poppicker.css",
+			"js/lodash.min.js"
+		]
+	},
+	"html/apply-proofOfIncome.html": {
+		"resources": [
+			"js/mui.picker.js",
+			"fonts/iconfont.css",
+			"js/mui.poppicker.js",
+			"css/mui.dtpicker.css",
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"css/custom-july.css",
+			"fonts/iconfont.js",
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"html/apply-proofOfIncome.html"
+		],
+		"refer": [
+			"html/apply-proofOfIncome.html"
+		]
+	},
+	"html/ApplyForIncomeCertificationInChina.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/custom-july.css",
+			"js/utils.js",
+			"js/apply.js",
+			"js/lodash.min.js"
+		]
+	},
+	"html/Setting.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/custom-july.css",
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js"
+		]
+	},
+	"html/Annoucement.html": {
+		"resources": [
+			"fonts/iconfont.css",
+			"fonts/iconfont.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/dw-wheel.js",
+			"js/template-web.js",
+			"css/mui.min.css",
+			"css/custom-dw.css",
+			"css/custom-july.css"
+		]
+	},
+	"html/IncomeDetail.html": {
+		"resources": [
+			"js/utils.js",
+			"fonts/iconfont.css",
+			"json/incomedetail.json",
+			"css/mui.min.css",
+			"css/custom-july.css"
+		]
+	}
+}

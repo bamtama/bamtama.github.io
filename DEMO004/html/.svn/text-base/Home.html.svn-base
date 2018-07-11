@@ -1,0 +1,254 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<!--底部导航-->
+		<nav class="mui-bar mui-bar-tab ju-bar-tab">
+		    <a class="mui-tab-item" href='salaryPage.html'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-salary"></use>
+					</svg>
+					<svg class="svg-icon active">
+					    <use xlink:href="#icon-salary-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">薪酬</span>
+		    </a>
+		    <a class="mui-tab-item" href='performancePage.html'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-performance"></use>
+					</svg>
+					<svg class="svg-icon active">
+					    <use xlink:href="#icon-performance-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">绩效</span>
+		    </a>
+		    <a class="mui-tab-item" href='homePage.html'>
+		        <span class="svg-icon-wrap svg-icon-home">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-home"></use>
+					</svg>
+		        	<svg class="svg-icon active">
+					    <use xlink:href="#icon-home-active"></use>
+					</svg>
+		        </span>
+				<div class="mask"></div>
+		        <span class="mui-tab-label">首页</span>
+		    </a>
+		    <a class="mui-tab-item" href='attendencePage.html'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-attendence"></use>
+					</svg>
+		        	<svg class="svg-icon active">
+					    <use xlink:href="#icon-attendence-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">考勤</span>
+		    </a>
+		    <a class="mui-tab-item" href='applyPage.html'>
+		         <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-apply"></use>
+					</svg>
+		        	<svg class="svg-icon active">
+					    <use xlink:href="#icon-apply-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">申请</span>
+		    </a>
+		</nav>
+		<div class="mui-content"></div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script type="text/javascript">
+			
+			var _tabIndex = 2;
+			var _tb ;
+			var _subPages = ['salaryPage.html','performancePage.html','homePage.html','attendencePage.html','applyPage.html'];
+			var _subpage_style = {
+				top: '0px',
+				bottom: '50px',
+				zindex:999
+			};
+			var _tabbar = "homeBar.html";
+			var _tabbar_style = {
+				height:"80px",
+				bottom:"0px",
+				background: "transparent",
+				zindex:9999
+			}
+			var _activeTab = _subPages[_tabIndex];
+			var _aniShow = {};
+			
+			function muiInit(){
+				if(!mui.os.plus){
+					//非5+环境，获取本地历史环境，加载对应历史页和样式，初始化各参数
+					var curp = window.sessionStorage.getItem('OA_HOME_HREF'),
+						initi = -1;
+					for(i in _subPages){
+						if(_subPages[i] == curp){
+							initi = i;
+						}
+					}
+					if(initi == -1){
+						initi = 2;
+					}
+					mui.init({
+						subpages:[{
+							url: _subPages[initi],
+							id:_subPages[initi],
+							styles:_subpage_style
+						}]
+					})
+				    mui('.ju-bar-tab a[href="'+ _subPages[initi] +'"]').addClass('mui-active');
+				    _tabIndex = initi;
+				    _activeTab = _subPages[_tabIndex];
+				}
+				else{
+					//5+环境
+					mui.init({})
+					mui.plusReady(function(){
+						//获取当前webview作为父webview
+						var self = plus.webview.currentWebview();
+						// 创建底部栏
+						_tb = plus.webview.create(_tabbar,_tabbar,_tabbar_style);
+						self.append(_tb);
+						// 创建当前指定子页
+						var tmpsub = plus.webview.create(_subPages[_tabIndex], _subPages[_tabIndex], _subpage_style);						
+						self.append(tmpsub);
+						plus.webview.show(tmpsub);
+					})
+				}
+			}
+			
+			/* 非5+环境下的处理 */
+			var createIframe = function (el, opt) {
+			    var elContainer = document.querySelector(el);
+			    var wrapper = document.querySelector(".mui-iframe-wrapper");
+			    if(!wrapper){
+			        // 创建wrapper 和 iframe
+			        wrapper = document.createElement('div');
+			        wrapper.className = 'mui-iframe-wrapper';
+			        for(var i in opt.style){
+			            wrapper.style[i] = opt.style[i];
+			        }
+			    }else{
+			    }
+			    
+			    //防止历史新增到history中，直接去除旧iframe，添加新iframe
+			    wrapper.querySelector('iframe').remove();
+			    var iframe = document.createElement('iframe');
+		        iframe.src = opt.url;
+		        iframe.id = opt.id || opt.url;
+		        iframe.name = opt.id;
+		        wrapper.appendChild(iframe);
+		        elContainer.appendChild(wrapper);
+		        
+		        //添加本地标记
+		        try{
+		        	window.sessionStorage.setItem('OA_HOME_HREF', opt.url);
+		        }catch(e){
+		        	console.log('未开启localStorage')
+		        }
+			    
+//			    if(!wrapper){
+//			        // 创建wrapper 和 iframe
+//			        wrapper = document.createElement('div');
+//			        wrapper.className = 'mui-iframe-wrapper';
+//			        for(var i in opt.style){
+//			            wrapper.style[i] = opt.style[i];
+//			        }
+//			        var iframe = document.createElement('iframe');
+//			        iframe.src = opt.url;
+//			        iframe.id = opt.id || opt.url;
+//			        iframe.name = opt.id;
+//			        wrapper.appendChild(iframe);
+//			        elContainer.appendChild(wrapper);
+//			    }else{
+//			        var iframe = wrapper.querySelector('iframe');
+//			        iframe.src = opt.url;
+//			        iframe.id = opt.id || opt.url;
+//			        iframe.name = iframe.id;
+//			    }
+			}
+			
+			//初始化页面
+			muiInit();
+			//切换事件注册
+			function tabChange(targetTab){
+				if (targetTab == _activeTab) {
+					return;
+				}
+				//显示目标选项卡
+				if(mui.os.plus){
+					//若为iOS平台或非首次显示，则直接显示
+					if(mui.os.ios||_aniShow[targetTab]){
+						plus.webview.show(targetTab);
+					}else{
+						//使用fade-in动画，且保存变量
+						var temp = {};
+						temp[targetTab] = "true";
+						mui.extend(_aniShow,temp);
+						if(plus.webview.getWebviewById(targetTab) == null){
+							var tmpsub = plus.webview.create(targetTab, targetTab, _subpage_style);
+							plus.webview.currentWebview().append(tmpsub)
+						}
+						plus.webview.show(targetTab,"fade-in",300);
+					}
+					//强制显示tabbar
+					//_tb.show();
+					//隐藏当前;
+					plus.webview.hide(_activeTab);
+				}
+				else{
+					//非5+环境
+					createIframe('.mui-content',{
+			            url: targetTab,
+			            style: _subpage_style
+			        });
+				}
+				//更改当前活跃的选项卡
+				_activeTab = targetTab;
+			}
+			mui('.ju-bar-tab').on('tap','.mui-tab-item',function(){
+				var targetTab = this.getAttribute('href');
+				tabChange(targetTab)
+			})
+			
+			//子页面触发tabbar样式更新
+			function tabChangeClass(targetTab){
+				if(mui.os.plus){
+					var barview = plus.webview.getWebviewById('homeBar.html');
+					barview.evalJS("console.log(mui('.mui-active'))")
+				}
+				else{
+					mui('.mui-active').removeClass('mui-active');
+					mui('a[href="'+ targetTab +'"]').addClass('mui-active');
+				}
+			}
+			
+			//自定义事件，子页面触发调用
+			document.addEventListener('tabChange', function(ev) {
+				//模拟首页点击
+				var tp = ev.detail.target;
+				tabChangeClass(tp)
+				tabChange(tp)
+				//mui.trigger(mui('a[href="'+ tp +'"]')[0], 'tap');
+			});
+		</script>
+	</body>
+</html>

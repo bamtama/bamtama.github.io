@@ -1,0 +1,173 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=834cf6c879759b728d2f3ad76b8185e5"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">智能电视控制</h1>
+		</header>
+		<div class="mui-content ju-ctrl-tv">
+		    <ul class="ju-cards">
+		    	<li class="card">
+		    		<div class="cont">
+		    			<div class="img-wrap img-tv"></div>
+		    		</div>
+		    	</li>
+		    </ul>
+		    <div class="tv-opts">
+		    	<div class="ctrl1">
+		    		<div class="power tv-btn" data-type="power">
+			    		<i class="iconfont icon-tv-switch"></i>
+			    	</div>
+			    	<div class="cancel tv-btn" data-type="cancel">
+			    		<i class="iconfont icon-tv-cancel"></i>
+			    	</div>
+		    	</div>
+		    	<div class="ctrl2">
+		    		<div class="left">
+		    			<div class="bg tv-btn" data-type="left"></div>
+		    			<span class="icon-wrap ">
+		    				<i class="iconfont icon-tv-arrow"></i>
+		    			</span>
+		    		</div>
+		    		<div class="right">
+		    			<div class="bg tv-btn" data-type="right"></div>
+		    			<span class="icon-wrap">
+		    				<i class="iconfont icon-tv-arrow"></i>
+		    			</span>
+		    		</div>
+		    		<div class="up">
+		    			<div class="bg tv-btn" data-type="up"></div>
+		    			<span class="icon-wrap">
+		    				<i class="iconfont icon-tv-arrow"></i>
+		    			</span>
+		    		</div>
+		    		<div class="down">
+		    			<div class="bg tv-btn" data-type="down"></div>
+		    			<span class="icon-wrap tv-btn">
+		    				<i class="iconfont icon-tv-arrow"></i>
+		    			</span>
+		    		</div>
+		    		<div class="confirm tv-btn" data-type="confirm">
+		    			OK
+		    		</div>
+		    	</div>
+		    </div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=834cf6c879759b728d2f3ad76b8185e5"></script>
+		<script type="text/javascript">
+			
+			var _keyframesStyle = null;
+			function actionTap(ev){
+				var cur = this;
+				if(cur.getAttribute('z-loading') === '1'){
+					return false;
+				}
+				var reqdata = {
+					power: 999,
+					confirm: 999,
+					cancel: 999,
+					left: 999,
+					right: 999, 
+					up: 999,
+					down: 999
+				}
+				var type = cur.getAttribute('data-type');
+				console.log(type)
+				
+				//动画写入
+				if(!_keyframesStyle){
+					var scaleParam = this.clientWidth / 1.7;
+					var rule = "@keyframes touching{0% { transform: scale(0);} 100% {transform: scale("+scaleParam+");}}";
+					_keyframesStyle = document.createElement('style');
+					_keyframesStyle.type = 'text/css';
+					_keyframesStyle.innerHTML = '';
+					document.getElementsByTagName('head')[0].appendChild(_keyframesStyle);
+					this.stylesheet = document.styleSheets[document.styleSheets.length-1];
+					this.stylesheet.insertRule( rule , this.stylesheet.rules.length);
+				}
+				
+				var tdom = null;
+				tdom = cur;
+				
+//				if(type === 'confirm' || type === 'cancel' || type === 'power'){
+//					tdom = cur;
+//				}
+//				else if(type === 'left' || type === 'right' || type === 'up' || type === 'down'){
+//					tdom = cur.parentNode.querySelector('.bg');
+//				}
+				
+				tdom.classList.add('z-touch');
+				setTimeout(function(){
+					tdom.classList.remove('z-touch');
+				},500)
+				
+				reqdata[type] = 1;
+				
+				//开始网络请求
+				actionChangeTv(reqdata,type,cur)
+			}
+			
+			function actionChangeTv(reqdata,type,cur){
+				mui.LoadingMask().show();
+				mui.getCoord(function(args){
+					reqdata.latitude = args.latitude;
+					reqdata.longitude = args.longitude;
+					mui.ajax({
+						url:parent._baseuri + 'object_setTV.action',
+						type: 'post',
+						dataType: 'json',
+						data: reqdata,
+						beforeSend:function(xhr){
+							cur.setAttribute('z-loading','true');
+						},
+						success:function(res){
+							if(res.status === '0'){
+								if(res.data[type] === 'true'){
+									mui.toast('操作成功')
+								}
+								else{
+									mui.toast('操作失败')
+								}
+							}
+							else if(res.status === '110'){
+								mui.toast(res.error)
+							}
+							else{
+								mui.toast('操作出错，请重试或联系管理员')
+							}
+						},
+						error:function(xhr){
+							mui.toast('error')
+						},
+						complete:function(xhr){
+							mui.LoadingMask().close()
+							cur.removeAttribute('z-loading');
+						}
+					})
+				}, function(){
+					mui.LoadingMask().close()
+				})
+			}
+			
+			/*
+			 * init and bindings 
+			 */
+			mui.init()
+			mui('.tv-opts').on('tap','.tv-btn',actionTap)
+		</script>
+	</body>
+</html>

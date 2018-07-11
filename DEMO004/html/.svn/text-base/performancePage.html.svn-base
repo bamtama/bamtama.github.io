@@ -1,0 +1,200 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/mui.picker.all.css" />
+	</head>
+	<body>
+		<div class="mui-content ju-performance-wrap">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="baseinfo">
+						<div class="mui-text-center date-selection">
+							<div class="mui-pull-left">
+								<span class="start btn-date-picker">
+									<span class="dt-start"></span>年
+									<i class="mui-icon mui-icon-arrowdown"></i>
+								</span>
+								<span>至</span>
+								<span class="end btn-date-picker">
+									<span class="dt-end"></span>年
+									<i class="mui-icon mui-icon-arrowdown"></i>
+								</span>
+							</div>
+		    				<a href="javascript:;" class="mui-btn-link mui-pull-right fn-query">查询</a>
+						</div>
+						<ul class="mui-table-view person-info">
+						<!-- tpl-baseinfo -->
+						</ul>
+					</div>
+					<div class="ju-performance-list">
+						<div class="mui-slider">
+							<div class="mui-slider-group list">
+								<!-- tpl-perfromance-list -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/html" id="tpl-baseinfo">
+			<li class="mui-table-view-cell">
+				<label class="mui-pull-left">员工姓名</label>
+				<span class="mui-pull-right">{{name}}</span>
+			</li>
+			<li class="mui-table-view-cell">
+				<label class="mui-pull-left">员工编号</label>
+				<span class="mui-pull-right">{{id}}</span>
+			</li>
+		</script>
+		<script type="text/html" id="tpl-performance-list">
+			{{each $data.list}}
+			<div class="mui-slider-item">
+				<div class="performance-item">
+					<ul class="mui-list-unstyled">
+						<li class="mui-table-view-cell title">
+							{{$value.date}}年绩效考核
+						</li>
+						<li class="mui-table-view-cell">
+							<label class="mui-pull-left">季度1考核</label>
+							<span class="mui-pull-right">{{$value.s1}}</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<label class="mui-pull-left">季度2考核</label>
+							<span class="mui-pull-right">{{$value.s2}}</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<label class="mui-pull-left">季度3考核</label>
+							<span class="mui-pull-right">{{$value.s3}}</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<label class="mui-pull-left">季度4考核</label>
+							<span class="mui-pull-right">{{$value.s4}}</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<label class="mui-pull-left">年考核</label>
+							<span class="mui-pull-right">{{$value.year}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			{{/each}}
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script>
+			var _dtPicker = null,
+				_startDate = '';
+				_endDate = new Date().now;
+				
+			mui.init()
+			mui.initMainHeader({
+				title:'绩效查询'
+			});
+			
+			mui('.mui-scroll-wrapper').scroll({
+				indicators: false
+			});
+			
+			/* datepicker */
+			function initDatePicker(startdate,enddate){
+				if(_dtPicker === null){
+					_dtPicker = new mui.DtPicker({
+						type:'year',
+						title:'查询时间',
+						beginDate: startdate === "" ? new Date(1900) : new Date(startdate),//设置开始日期 
+    					endDate: enddate === "" ? new Date() : new Date(enddate)//设置结束日期 
+					});
+				}
+				else{
+					return _dtPicker;
+				}
+				
+				//初始化为当年
+				_startDate = new Date().getFullYear();
+				_endDate = _startDate;
+				mui('.dt-start')[0].innerHTML = _startDate;
+				mui('.dt-end')[0].innerHTML = _endDate;
+				//填充初始数据
+				queryPerformance()
+			}
+			function disposeDatePicker(){
+				_dtPicker.dispose();
+				_dtPicker = null;
+			}
+			function showDatePicker() {
+				var type = mui(this).hasClass('start') ? 'startDate' : 'endDate';
+				_dtPicker.show(function(time) {
+					switch(type){
+						case 'startDate':
+							_startDate = time.value;
+							mui('.dt-start')[0].innerHTML = _startDate;
+							break;
+						case 'endDate':
+							_endDate = time.value;
+							mui('.dt-end')[0].innerHTML = _endDate;
+							break;
+						default:
+							break;
+					}
+				});
+			}
+			
+			function queryPerformance(){
+				if(_startDate > _endDate){
+					mui.toast('请选择正确的起止时间');
+					return false;
+				}
+//				else if(_endDate - _startDate > 5){
+//					mui.toast('抱歉！只能选择5年内的绩效');
+//					return false;
+//				}
+				
+				//查询薪酬
+				var rd = {
+					startYear: _startDate,
+					endYear: _endDate
+				}
+				publicApi.getPerformanceList({
+					data: rd,
+					success:function(res){
+						if(res.status === '0'){
+							//页面渲染
+							var tmpdata = res.data;
+							var baseinfohtml = template('tpl-baseinfo', tmpdata),
+								listhtml = template('tpl-performance-list', tmpdata);
+							mui('.person-info')[0].innerHTML = baseinfohtml;
+							mui('.ju-performance-list .list')[0].innerHTML = listhtml;
+							//注册slider事件
+							mui(".mui-slider").slider();
+						}
+						else if(res.status === '100'){
+							mui.toast(res.error)
+						}
+						else{
+							mui.toast('获取绩效列表失败，请重试或联系管理员');
+						}
+					}
+				})
+			}
+			
+			/* init and bindings */
+			initDatePicker('','')
+			mui('.date-selection')
+				.on('tap','.btn-date-picker', showDatePicker)
+				.on('tap','.fn-query', queryPerformance)
+		</script>
+	</body>
+
+</html>

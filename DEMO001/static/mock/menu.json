@@ -1,0 +1,100 @@
+{
+  "status": 200,
+  "data": [{
+    "myMenu": {
+      "funcId": 27,
+      "funcType": 1,
+      "funcName": "好友信息",
+      "menuUrl": "/FriendList",
+      "menuIcon": "friends",
+      "description": null,
+      "status": 1
+    },
+    "type": 1
+  },
+    {
+    "myMenu": {
+      "funcId": 28,
+      "funcType": 1,
+      "funcName": "通讯录",
+      "menuUrl": "/ContactList",
+      "menuIcon": "contact",
+      "description": null,
+      "status": 1
+    },
+    "type": 1
+  },
+    {
+    "myMenu": {
+      "funcId": 33,
+      "funcType": 1,
+      "funcName": "我的评论",
+      "menuUrl": "/AnnouncementList",
+      "menuIcon": "recommend",
+      "description": null,
+      "status": 1
+    },
+    "type": 1
+  },
+    {
+    "myMenu": {
+      "funcId": 40,
+      "funcType": 1,
+      "funcName": "收藏评鉴",
+      "menuUrl": "/FavList",
+      "menuIcon": "fav",
+      "description": null,
+      "status": 1
+    },
+    "type": 1
+  },
+    {
+    "myMenu": {
+      "funcId": 41,
+      "funcType": 1,
+      "funcName": "位置分享",
+      "menuUrl": "/LocShare",
+      "menuIcon": "share",
+      "description": null,
+      "status": 1
+    },
+    "type": 1
+  },
+    {
+      "myMenu": {
+        "funcId": 41,
+        "funcType": 1,
+        "funcName": "备忘录",
+        "menuUrl": "/MemoryList",
+        "menuIcon": "memory",
+        "description": null,
+        "status": 1
+      },
+    "type": 1
+  },
+    {
+      "myMenu": {
+        "funcId": 41,
+        "funcType": 1,
+        "funcName": "消费记录",
+        "menuUrl": "/PayList",
+        "menuIcon": "paylist",
+        "description": null,
+        "status": 1
+      },
+      "type": 1
+    },
+    {
+      "myMenu": {
+        "funcId": 41,
+        "funcType": 1,
+        "funcName": "统计分析",
+        "menuUrl": "/ChartIndex",
+        "menuIcon": "charts",
+        "description": null,
+        "status": 1
+      },
+      "type": 0
+    }],
+  "message": "操作成功"
+}

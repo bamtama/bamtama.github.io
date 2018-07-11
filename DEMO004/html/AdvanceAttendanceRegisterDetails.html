@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>考勤休假申报详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="details-content"></div>
+		</div>
+
+		<script type="text/html" id="tpl-list-item">
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					审批正文
+				</li>
+				<li class="mui-table-view-cell">
+					申请人姓名<span>{{proposer}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					申请时间<span>{{date}}</span>
+				</li>
+				{{if dataType == 1}}
+				<li class="mui-table-view-cell">
+					申报起始日期<span>{{startDate}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					申报截止日期<span>{{endDate}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					申报类型<span>{{applyType}}</span>
+				</li>
+				{{else if dataType == 0}}
+				<li class="mui-table-view-cell">
+					休假类型<span>{{type}}</span>
+				</li>
+				<li class="mui-table-view-cell fn-approvedDate">
+					假期核定
+					<p>{{approvedDate}}</p>
+				</li>
+				<li class="mui-table-view-cell">
+					剩余天数<span>{{leftDays}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					已休天数<span>{{takenDays}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					申请中天数<span>{{applyingDays}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					开始日期<span>{{startDate}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					结束日期<span>{{endDate}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					休假天数<span>{{applyDays}}</span>
+				</li>
+				{{/if}}
+				<li class="mui-table-view-cell">
+					申请人部门<span>{{department}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					申请人编号<span>{{id}}</span>
+				</li>
+				<li class="mui-table-view-cell fn-reason">
+					申请原因
+					<p>{{reason}}</p>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					审批轨迹
+				</li>
+				<li class="mui-table-view-cell">
+					审判步骤<span>{{process.procedure}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					状态<span>{{process.status}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					审批人<span>{{process.approver}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					审批时间<span>{{process.date}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					审批动作<span>{{process.act}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					审批意见<span>{{process.opinion}}</span>
+				</li>
+			</ul>
+
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script type="text/javascript">
+			function getList() {
+				var _type = paramObj.type;
+				//根据参数获取数据
+
+				//mui.toast('类型：'+_filter + '关键词：'+ _keyword)
+				//伪数据
+				var data = _type == '1' ? {
+					dataType: '1',
+					proposer: 'X',
+					date: '2018-01-09 19:00:00',
+					startDate: '2018-01-09 19:00:00',
+					endDate: '2018-01-10 17:00:00',
+					applyType: 'X',
+					department: 'X',
+					id: '21016611',
+					reason: 'XXX',
+					process: {
+						procedure: "XXXXXXXXXX",
+						status: "XXXXXXXXXX",
+						approver: "X",
+						date: "2018-01-09 16:00:00",
+						act: "XXXX",
+						opinion: "XXX"
+					}
+				} : {
+					dataType: '0',
+					proposer: 'HHHHHHHHHHHH',
+					date: '2018-01-09 19:00:00',
+					type: '0',
+					approvedDate: "2018-01-10 至 2018-01-11（1天）",
+					takenDays: "-1天",
+					leftDays: "1天",
+					applyingDays: '0天',
+					startDate: '2018-01-10 全天',
+					endDate: '2018-01-11 全天',
+					applyDays: '2天',
+					department: 'HHHHH',
+					id: '21016611',
+					reason: 'HHHHHHHHHHHHHHHHHHHHHHHH',
+					process: {
+						procedure: "H",
+						status: "HHHH",
+						approver: "XXXXXXXXXXXXXXXXXXXXX",
+						date: "2018-01-09 16:00:00",
+						act: "",
+						opinion: "同意"
+					}
+				};
+				
+				if(data.type) data.type = checkType(data.type);
+
+				//数据渲染
+				var html = template('tpl-list-item', data);
+				mui('.details-content')[0].innerHTML = html;
+				var scrolldom = document.querySelector('.ju-leave-list-wrap');
+				setReasonHeight('.fn-reason');
+				if(_type == '0') setReasonHeight('.fn-approvedDate');
+			}
+
+			//自适应内容调节父元素高度
+			function setReasonHeight(ele) {
+				var _ele = ele,
+					reasonDom = mui(_ele)[0],
+					pDom = mui(_ele + ' p')[0];
+
+				reasonDom.style.height = (pDom.clientHeight + 22) + 'px';
+			}
+
+			//判断休假类型
+			function checkType(val) {
+				var _val = val,
+					type;
+
+				switch(_val) {
+					case '0':
+						type = '年休假';
+						break;
+					case '1':
+						type = '婚假';
+						break;
+					case '2':
+						type = '计划生育假';
+						break;
+					case '3':
+						type = '产假';
+						break;
+					default:
+						break;
+				}
+
+				return type;
+			}
+
+			//获取地址栏的参数
+			function getParams() {
+				var obj = {},
+					params = window.location.search.substr(1),
+					paramsArr = params.split('&');
+
+				paramsArr.forEach(function(val) {
+					var valarr = val.split('=');
+					obj[valarr[0]] = valarr[1];
+				});
+
+				return obj;
+			}
+
+			//判断显示的页面类型
+			function pageType(_type) {
+				var type;
+				switch(Number(_type)) {
+					case 0:
+						type = '休假申请';
+						break;
+					case 1:
+						type = '考勤申报';
+						break;
+				}
+
+				return type;
+			}
+
+			var paramObj = getParams(),
+				paramType = pageType(paramObj.type);
+
+			/*
+			 * init and bindings
+			 */
+			mui.init();
+			mui.initBackHeader({
+				title: paramType + '详情',
+				loadCallback:function(){//特殊处理
+					mui('.mui-title')[0].style = 'right:22px'; 
+				}
+			});
+
+			getList();
+		</script>
+	</body>
+
+</html>

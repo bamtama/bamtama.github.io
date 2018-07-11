@@ -1,0 +1,47 @@
+{
+  "status": 200,
+  "data": {
+    "list": [{
+      "fixnumber": "1064819704962",
+      "fixsite": "广东省广州市天河区林和中路靠近宜家家居(广州商场店)",
+      "fixtime": "2018-06-13 16:11:00",
+      "fixx": 113.319221,
+      "fixy": 23.140631,
+      "inputtime": "2018-06-13",
+      "personname": "Fenny",
+      "personid": "1101",
+      "source": 1
+    }, {
+      "fixnumber": "1064819705467",
+      "fixsite": "广东省广州市天河区紫荆路靠近宜家家居(广州商场店)",
+      "fixtime": "2018-06-13 16:08:00",
+      "fixx": 113.320462,
+      "fixy": 23.139824,
+      "inputtime": "2018-06-13",
+      "personname": "Tonny",
+      "personid": "1102",
+      "source": 1
+    }, {
+      "fixnumber": "1064750122601",
+      "fixsite": "广东省广州市天河区黄猄坳路靠近新苗幼儿园(黄猄坳路)",
+      "fixtime": "2018-06-13 16:05:00",
+      "fixx": 113.312031,
+      "fixy": 23.169524,
+      "inputtime": "2018-06-13",
+      "personname": "Anna",
+      "personid": "1103",
+      "source": 1
+    }, {
+      "fixnumber": "1064819701489",
+      "fixsite": "广东省广州市天河区燕岭路靠近广州胜康医院",
+      "fixtime": "2018-03-05 04:24:00",
+      "fixx": 113.331332,
+      "fixy": 23.16241,
+      "inputtime": "2018-03-05",
+      "personname": "Bunny",
+      "personid": "1105",
+      "source": 1
+    }]
+  },
+  "message": "操作成功"
+}

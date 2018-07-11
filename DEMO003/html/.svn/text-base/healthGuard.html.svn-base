@@ -1,0 +1,555 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>健康卫士</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom.dw.css" />
+		<script src="../fonts/iconfont.js"></script>
+	</head>
+
+	<body class="dw-health">
+		<header class="mui-bar mui-bar-nav dw-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">健康卫士</h1>
+		</header>
+		<div class="dw-health-wrap">
+			<div class="mui-content dw-health-index" id="healthIndex">
+				<div class="dw-health-left">
+					<p dw-bind="{{grade}}"></p>
+					<span>健康指数</span>
+				</div>
+				<div class="dw-health-right">
+					<div>
+						<p>
+							<i class="iconfont icon-humidity"></i>
+							<span>湿度</span>
+						</p>
+						<p dw-bind="{{humidity}}%"></p>
+					</div>
+					<div>
+						<p>
+							<i class="iconfont icon-temperature"></i>
+							<span>温度</span>
+						</p>
+						<p dw-bind="{{temperature}}℃"></p>
+					</div>
+				</div>
+				<div class="dw-health-down">
+					<div class="mui-row">
+						<div class="mui-popover">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell fn-unit">13ug/m</li>
+								<li class="mui-table-view-cell fn-indexgrade">PM2.5指标优良</li>
+							</ul>
+						</div>
+						<a class="mui-col-sm-6" data="pm25">
+							<p class="dw-index">PM2.5</p>
+							<p class="dw-index-level">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-good"></use>
+								</svg>
+								<span dw-bind="{{pm25_grade}}"></span>
+							</p>
+						</a>
+						<a class="mui-col-sm-6" data="hcho">
+							<p class="dw-index">甲醛含量</p>
+							<p class="dw-index-level">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-good"></use>
+								</svg>
+								<span dw-bind="{{hcho_grade}}"></span>
+							</p>
+						</a>
+						<a class="mui-col-sm-6" data="co2">
+							<p class="dw-index">CO2含量</p>
+							<p class="dw-index-level">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-good"></use>
+								</svg>
+								<span dw-bind="{{co2_grade}}"></span>
+							</p>
+						</a>
+						<a class="mui-col-sm-6" data="gas">
+							<p class="dw-index">煤气浓度</p>
+							<p class="dw-index-level">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-good"></use>
+								</svg>
+								<span dw-bind="{{gas_grade}}"></span>
+							</p>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="mui-content dw-health-trend">
+				<nav class="dw-trend-tap">
+					<div class="mui-row">
+						<!--<a class="mui-col-sm-6" data="temp">
+							<span>温度</span>
+						</a>
+						<a class="mui-col-sm-6" data="humi">
+							<span>湿度</span>
+						</a>-->
+						<a class="mui-col-sm-6 dw-trend-active" data="pm25">
+							<span>PM2.5</span>
+						</a>
+						<a class="mui-col-sm-6" data="hcho">
+							<span>甲醛</span>
+						</a>
+						<a class="mui-col-sm-6" data="co2">
+							<span>CO2</span>
+						</a>
+						<a class="mui-col-sm-6" data="gas">
+							<span>煤气</span>
+						</a>
+					</div>
+				</nav>
+				<nav class="dw-trend-date">
+					<div class="mui-row">
+						<a class="mui-col-sm-6 dw-trend-active" time="hour">
+							<span>时</span>
+						</a>
+						<a class="mui-col-sm-6" time="day">
+							<span>日</span>
+						</a>
+						<a class="mui-col-sm-6" time="week">
+							<span>周</span>
+						</a>
+					</div>
+				</nav>
+				<div class="chart" id="lineChart"></div>
+				<div class="dw-trend-unit">
+					<span>g/m</span>
+				</div>
+				<div class="dw-trend-title">
+					PM2.5
+				</div>
+			</div>
+		</div>
+		<nav class="mui-bar mui-bar-tab dw-nav-tap">
+			<a class="mui-tab-item dw-active" data-type="Index">
+				<span class="mui-tab-label">健康指数</span>
+			</a>
+			<a class="mui-tab-item" data-type="trend">
+				<span class="mui-tab-label">趋势分析</span>
+			</a>
+		</nav>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<!--<script type="text/javascript" src="../libs/echarts.simple.min.js"></script>-->
+		<script type="text/javascript" src="../libs/echarts.min.js"></script>
+
+		<script type="text/javascript" charset="utf-8">
+			var inde,
+				show,
+				lineChart,
+				chartOption,
+				indexRes,
+				indexType = 'pm25',
+				indexDate = 'hour',
+				hourIndex = [],
+				dayIndex = [],
+				weekIndex = ['前三周', '前两周', '前一周', '本周'],
+				theDate = new Date(),
+				unit = ['ug/m', 'mg/m³', 'ppm'],
+				_mask = mui.createMask(),
+				move = '100vw*0.24',
+				typeName = {
+					'pm25': 'PM2.5',
+					'hcho': '甲醛',
+					'gas': '煤气',
+					'co2': 'CO2'
+				},
+				typeObj = {
+					'pm25': 0,
+					'hcho': 1,
+					'gas': 2,
+					'co2': 3
+				},
+				timeObj = {
+					'hour': 0,
+					'day': 1,
+					'week': 2
+				},
+				init = 1;
+
+			//移动指数冒泡框
+			function showIndex(index) {
+				inde = index;
+
+				var movepop = function(opt) {
+					mui('.mui-popover')[0].style.left = opt.l;
+					mui('.mui-popover')[0].style.right = opt.r;
+					mui('.fn-unit')[0].innerText = opt.unit || "";
+					mui('.fn-indexgrade')[0].innerText = opt.grade || "";
+				}
+
+				switch(inde) {
+					case 'pm25':
+						movepop({
+							'l': '0',
+							'r': '',
+							'unit': indexRes.pm25 + unit[0],
+							'grade': 'pm2.5指标' + indexRes.pm25_grade
+						});
+						break;
+					case 'hcho':
+						movepop({
+							'l': 'calc((' + move + ')*1)',
+							'r': '',
+							'unit': indexRes.hcho + unit[1],
+							'grade': '甲醛含量指标' + indexRes.hcho_grade
+						});
+						break;
+					case 'co2':
+						movepop({
+							'l': 'calc((' + move + ')*2)',
+							'r': '',
+							'unit': indexRes.co2 + unit[2],
+							'grade': 'co2含量指标' + indexRes.co2_grade
+						});
+						break;
+					case 'gas':
+						movepop({
+							'l': '',
+							'r': '2px',
+							'unit': indexRes.gas + unit[2],
+							'grade': '煤气浓度指标' + indexRes.gas_grade
+						});
+						break;
+					default:
+						break;
+				}
+
+				if(!mui('.mui-popover').hasClass('dw-showpopover')) {
+					mui('.mui-popover').addClass('dw-showpopover');
+				}
+			}
+
+			//健康指数和趋势分析的页面切换
+			function pagetab(e) {
+				var targetTab = this.getAttribute('data-type');
+
+				if(targetTab == mui('.dw-active')[0].getAttribute('data-type')) {
+					return;
+				}
+
+				if(targetTab == 'trend') {
+					mui('.dw-health')[0].style.backgroundImage = 'url(../image/banner02.png)';
+					mui('.dw-health-trend').removeClass('mui-hidden');
+					mui('.dw-health-index').addClass('mui-hidden');
+				} else {
+					mui('.dw-health')[0].style.backgroundImage = 'url(../image/banner01.png)';
+					mui('.dw-health-trend').addClass('mui-hidden');
+					mui('.dw-health-index').removeClass('mui-hidden');
+				}
+
+				mui('.dw-active').removeClass('dw-active');
+				mui(this).addClass('dw-active');
+			}
+
+			//显示指数冒泡框并定时隐藏
+			function showPop(e) {
+				var dataInd = this.getAttribute('data');
+				clearTimeout(show);
+				if(dataInd == inde) {
+					mui('.mui-popover').toggleClass('dw-showpopover');
+					if(mui('.mui-popover').hasClass('dw-showpopover')) {
+						show = setTimeout(function() {
+							mui('.mui-popover').removeClass('dw-showpopover');
+						}, 3000);
+					}
+				} else {
+					showIndex(dataInd);
+					show = setTimeout(function() {
+						mui('.mui-popover').removeClass('dw-showpopover');
+					}, 3000);
+				}
+			}
+
+			//小时数组
+			function setHourIndex() {
+				var _date = new Date();
+				if(_date.getHours() !== theDate.getHours()) {
+					return;
+				}
+				var hourArr = function(hour) {
+					var _hour = [],
+						tohour = hour;
+					for(var i = 0; i < 12; i++) {
+						tohour--;
+						if(tohour == 0) {
+							tohour = 24;
+						}
+						_hour.push(tohour == 0 ? 24 : tohour);
+
+					}
+					_hour.reverse();
+					return _hour;
+				}
+				if(dayIndex.length == 0) {
+					hourIndex = hourArr(theDate.getHours());
+
+				} else if(_date.getHours() !== theDate.getHours()) {
+					hourIndex = hourArr(_date.getHours());
+				}
+			}
+
+			//日期数组
+			function setDayIndex() {
+				var startDate = new Date(),
+					endDate = new Date(),
+					dayArr = [];
+				startDate.setDate(endDate.getDate() - 29);
+				while((endDate.getTime() - startDate.getTime()) >= 0) {
+					var month = (startDate.getMonth() + 1).toString().length == 1 ? '0' + (startDate.getMonth() + 1).toString() : (startDate.getMonth() + 1);
+					var day = startDate.getDate().toString().length == 1 ? '0' + startDate.getDate().toString() : startDate.getDate();
+					dayArr.push(month + '.' + day);
+					startDate.setDate(startDate.getDate() + 1);
+				}
+
+				dayIndex = dayArr;
+			}
+
+			//初始化分析图表
+			function setChart(eleid, obj) {
+				lineChart = echarts.init(mui(eleid)[0]);
+				lineChart.setOption(obj);
+			}
+
+			//重设分析图表
+			function resetChart(opt) {
+				lineChart.setOption(opt, {
+					notMerge: true
+					//lazyUpdate: ...,
+					//silent: ...
+				});
+			}
+
+			//赋值chartOption图表数据
+			function setTrend(res) {
+				var _res = dw.parseJson(res);
+				switch(indexDate) {
+					case 'hour':
+						setHourIndex();
+						chartOption.xAxis[0].data = hourIndex;
+						break;
+					case 'day':
+						chartOption.xAxis[0].data = dayIndex;
+						break;
+					case 'week':
+						chartOption.xAxis[0].data = weekIndex;
+						break;
+					default:
+						break;
+				}
+
+				var filArr = _res.data.filter(function(ele, index, self) {
+					return self.indexOf(ele) === index;
+				});
+
+				chartOption.yAxis[0].data = filArr.sort(function(a, b) {
+					return a - b;
+				});
+				chartOption.series[0].data = _res.data;
+
+				if(init) {
+					//初始化图表后隐藏趋势分析页面
+					init = 0;
+					setChart('#lineChart', chartOption);
+					mui('.dw-health-trend').addClass('mui-hidden');
+				} else {
+					//重设图表
+					resetChart(chartOption);
+				}
+			}
+
+			//切换分析按钮
+			function trendTab(e) {
+				var targetTab = this.parentNode.parentNode,
+					self = this;
+
+				var resetActive = function() {
+					if(mui(targetTab).hasClass('dw-trend-tap')) {
+						indexType = self.getAttribute('data');
+						mui('.dw-trend-tap .dw-trend-active').removeClass('dw-trend-active');
+						mui(self).addClass('dw-trend-active');
+					} else {
+						indexDate = self.getAttribute('time');
+						mui('.dw-trend-date .dw-trend-active').removeClass('dw-trend-active');
+						mui(self).addClass('dw-trend-active');
+					}
+
+					resetUnit();
+				}
+
+				var resetUnit = function() {
+					mui('.dw-trend-title')[0].innerHTML = typeName[indexType];
+					switch(indexType) {
+						case 'pm25':
+							mui('.dw-trend-unit')[0].innerHTML = '<span>' + unit[0] + '</span>'
+							break;
+						case 'hcho':
+							mui('.dw-trend-unit')[0].innerHTML = '含量<span>' + unit[1] + '</span>'
+							break;
+						case 'co2':
+							mui('.dw-trend-unit')[0].innerHTML = '含量<span>' + unit[2] + '</span>'
+							break;
+						case 'gas':
+							mui('.dw-trend-unit')[0].innerHTML = '浓度<span>' + unit[2] + '</span>'
+							break;
+						default:
+							break;
+					}
+				}
+
+				if((this.hasAttribute('data') && indexType != this.getAttribute('data')) || (this.hasAttribute('time') && indexDate != this.getAttribute('time'))) {
+					resetActive();
+
+					getAjax({
+						'url': '/smartbase/object_getEnvironmentPoint.action?Type=' + typeObj[indexType] + '&TimeScale=' + timeObj[indexDate],
+						'type': 'post',
+						'fn': setTrend
+					});
+				}
+
+			}
+
+			//生成健康指数的模版
+			function setIndex(res) {
+				var _res = dw.parseJson(res);
+				_res.data.temperature = Number(_res.data.temperature).toFixed(2);
+				_res.data.humidity = Number(_res.data.humidity).toFixed(2);
+				indexRes = _res.data;
+				var html = dw.dwTemplate('healthIndex', indexRes);
+				mui('.dw-health-index')[0].outerHTML = html;
+
+				//绑定健康指数显示冒泡框事件
+				mui('.dw-health-down').on('tap', 'a', showPop);
+			}
+
+			function getAjax(option) {
+				mui.ajax(option.url, {
+					type: option.type,
+					dataType: "json",
+					beforeSend: function(xhr) {
+						xhr.withCredentials = true;
+						xhr.crossDomain = true;
+						_mask.show();
+					},
+					success: option.fn,
+					complete: _mask.close
+				});
+			}
+
+			//生成分析曲线
+			chartOption = {
+				grid: {
+					x: 50,
+					//x2: 10,
+					y: 20,
+					//y2: 25,
+					right: '20px'
+				},
+				toolbox: {
+					show: false,
+					feature: {
+						mark: {
+							show: true
+						},
+						dataView: {
+							show: true,
+							readOnly: false
+						},
+						magicType: {
+							show: true,
+							type: ['line']
+						},
+						restore: {
+							show: true
+						},
+						saveAsImage: {
+							show: true
+						}
+					}
+				},
+				calculable: false,
+				xAxis: [{
+					boundaryGap: false,
+					type: 'category',
+					data: []
+				}],
+				yAxis: [{
+					splitArea: {
+						show: false
+					},
+					boundaryGap: false,
+					//name:30,
+					//nameLocation:'middle',
+					type: 'category',
+					data: []
+				}],
+				series: [{
+					//animation:true,
+					//name: '蒸发量',
+					type: 'line',
+					sampling: 'average',
+					itemStyle: {
+						normal: {
+							color: 'rgb(19, 96, 205)'
+						}
+					},
+					areaStyle: {
+						normal: {
+							color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+								offset: 0,
+								color: 'rgb(149, 220, 255)'
+							}, {
+								offset: 1,
+								color: 'rgb(0, 98, 204)'
+							}])
+						}
+					},
+					data: []
+				}]
+			};
+
+			//获取并渲染健康指数页面
+			getAjax({
+				'url': '/smartbase/object_getEnvironment.action',
+				'type': 'get',
+				'fn': setIndex
+			});
+
+			setHourIndex();
+			setDayIndex();
+
+			//初始化趋势分析页
+			getAjax({
+				'url': '/smartbase/object_getEnvironmentPoint.action?Type=' + typeObj[indexType] + '&TimeScale=' + timeObj[indexDate],
+				'type': 'post',
+				'fn': setTrend
+			});
+
+			//切换健康指数或趋势分析
+			mui('.mui-bar-tab').on('tap', '.mui-tab-item', pagetab);
+
+			//改变手机放置状态（横放或竖放）时，重新生成图表
+			window.onresize = function() {
+				lineChart.resize({
+					width: 'auto',
+					height: 'auto'
+				});
+			};
+
+			//各数据趋势按钮点击
+			mui('.dw-health-trend').on('tap', '.mui-col-sm-6', trendTab);
+		</script>
+	</body>
+
+</html>

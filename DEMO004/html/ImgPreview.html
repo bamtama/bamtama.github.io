@@ -1,0 +1,56 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="mui-content">
+		    <div class='mui-zoom-wrapper'>
+				<div class='mui-zoom-scroller'>
+					
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script type="text/javascript">
+			function init(){
+				var uri = window.sessionStorage.getItem('HR_IMG_SRC');
+				if(uri){
+					mui('.mui-zoom-scroller')[0].innerHTML = "<img class='mui-zoom' src='"+ uri +"' style='width: 100%;' />"
+					mui('.mui-zoom-wrapper').zoom();
+				}else{
+					mui.alert('未找到图片，即将返回上一页',null,null,function(){
+						window.history.go(-1)
+					})
+				}
+			}
+			
+			mui.Zoom.defaults = {
+				speed: 300,
+				maxZoom: 6,
+				minZoom: 1,
+			};
+			mui.init({
+				gestureConfig: {
+				pinch: true,
+				doubletap: true
+				}
+			});
+			mui.initBackHeader({
+				title: '图片预览'
+			});
+			
+			init()
+		</script>
+	</body>
+
+</html>

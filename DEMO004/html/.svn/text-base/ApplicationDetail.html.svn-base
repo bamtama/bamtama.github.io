@@ -1,0 +1,408 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="mui-content ju-form-wrap ju-app-detail-wrap">
+			<!--tpl-detail-->
+		</div>
+		<script type="text/html" id="tpl-detail">
+			{{if type === '5001'}}
+			<!--在职证明-->
+			{{each data.content}}
+		    <div class="mui-input-group ju-form">
+		        <div class="mui-input-row">
+		            <label>员工姓名<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.name}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>身份证号<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.idNumber}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>所属部门</label>
+		            <div class="cont">
+		            	<span>{{$value.department}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>员工编号</label>
+		            <div class="cont">
+		            	<span>{{$value.empID}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>打印盖章份数<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.printNumber}}份</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>申请日期</label>
+		            <div class="cont">
+		            	<span>{{$value.applyTime}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>在职情况<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.inServiceYear}}年{{$value.inServiceMonth}}月</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>申请原因<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.applyReason}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>管理员意见<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.hrOpinion}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>审核日期</label>
+		            <div class="cont">
+		            	<span>{{$value.hrTime}}</span>
+		            </div>
+		        </div>
+		    </div>
+		    {{/each}}
+		    {{else if type === '5003'}}
+			<!--档案专递申请-->
+			{{each data.content}}
+			<div class="mui-input-group ju-form">
+		        <div class="mui-input-row">
+		            <label>员工姓名<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.name}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>身份证号<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.idNumber}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>所属部门<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.department}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>申请原因<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.applyReason}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>申请日期</label>
+		            <div class="cont">
+		            	<span>{{$value.applyTime}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>管理员意见<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.auditOpinion}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>审核日期</label>
+		            <div class="cont">
+		            	<span>{{$value.auditTime}}</span>
+		            </div>
+		        </div>
+			</div>
+			{{/each}}
+			{{else if type === '5000'}}
+			<!--收入证明-->
+			{{each data.content}}
+			<div class="mui-input-group ju-form">
+		        <div class="mui-input-row">
+		            <label>员工姓名<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.name}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>身份证号<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.empIdNumber}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>所属部门</label>
+		            <div class="cont">
+		            	<span>{{$value.dept}}</span>
+		            </div>
+		        </div>
+		        {{if $value.empCode}}
+		        <div class="mui-input-row">
+		            <label>员工编号</label>
+		            <div class="cont">
+		            	<span>{{$value.empCode}}</span>
+		            </div>
+		        </div>
+		        {{/if}}
+		        {{if $value.printNumber}}
+		        <div class="mui-input-row">
+		            <label>打印盖章份数<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.printNumber}}份</span>
+		            </div>
+		        </div>
+		        {{/if}}
+		        <div class="mui-input-row">
+		            <label>申请日期</label>
+		            <div class="cont">
+		            	<span>{{$value.applyTime}}</span>
+		            </div>
+		        </div>
+		        {{if $value.banktType}}
+		        <div class="mui-input-row">
+		            <label>银行种类选择<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.bankType | bankTypeText}}</span>
+		            </div>
+		        </div>
+		        {{/if}}
+		        <div class="mui-input-row">
+		            <label>月均收入<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>(￥{{$value.monthIncome}})</span>
+		            	<span>{{$value.monthIncome | toBig}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>申请原因<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.applyReason}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>管理员审核收入<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.auditCheckIncome}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>管理员意见<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.auditOpinion}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>审核日期<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.auditTime}}</span>
+		            </div>
+		        </div>
+			</div>
+			{{/each}}
+			{{else if type === '5007'}}
+			<!--出国收入证明-->
+			<div class="mui-input-group ju-form">
+				{{each data.contents}}
+				<div class="mui-input-row">
+		            <label>员工姓名<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.Name}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>身份证号<i class="z-required">*</i></label>
+		            <div class="cont">
+		        	{{if data.type == 1}}
+		            	<span>{{$value.ID_Number}}</span>
+		        	{{else}}
+		            	<span>{{$value.ID_Number_1}}</span>
+		        	{{/if}}
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>所属部门</label>
+		            <div class="cont">
+		            	<span>{{$value.Dept_Name}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>员工编号</label>
+		            <div class="cont">
+		            	<span>{{$value.EmployId}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>打印盖章份数<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.PrintsNumber}}份</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>申请日期</label>
+		            <div class="cont">
+		            	<span>{{$value.ApplyTime}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>申请原因</label>
+		            <div class="cont">
+		            	<span>{{$value.ApplyReason}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>证明内容<i class="z-required">*</i></label>
+		        </div>
+		        <div class="mui-input-row">
+		        	{{if data.type == 1}}
+		            <div class="es-doc">
+		            	<article class="ju-cert-article" data-type="es">
+		        			<h4>Statement of Employment and Income</h4>
+		        			<p>To whom it may concern,</p>
+		        			<p>This is to certify that <span>{{$value.EngName}}</span>
+		        				(born on <span>{{$value.EngBirthday}}</span>),
+		        				has been employed by China Mobile Group Guangdong Company since
+		        				<span>{{$value.EngEmployTime}}</span>.</p>
+	        				<p>China Mobile Group Guangdong is a state-owned company in telecommunication industry.
+	        					We offer her a legal and stable monthly income with a number of RMB
+	        					<span>{{$value.EngBeforeTaxCount}}</span>(before tax) in total, including salary and bonus.
+	        					We understand that she will have a <span>{{$value.CountryTime}}</span>.</p>
+	        				<p class="mui-text-right">HR Dep.China Mobile Group Guangdong Co. Ltd</p>
+	        				<p>Contact No. -86-18818812301</p>
+	        				<p>Add: Global Access Building, No.11 Zhuajiang West Road, Zhujiang New City, Guangzhou, P.R.China</p>
+	        			</article>
+	        			<div class="ju-border-bottom"></div>
+	        			<article class="ju-cert-article" data-type="zhcn">
+	        				<h4>在职及收入证明</h4>
+	        				<p>有关负责人：</p>
+	        				<p>兹证明<span>{{$value.MrName}}</span>（<span>{{$value.CHABirthday}}</span>出生），是中国移动通信集团广东有限公司员工，<span>{{$value.CHAEmployTime}}</span>至今在本公司工作。</p>
+	        				<p>中国移动通信集团广东有限公司是一家从事电信业务的国有企业。<span>{{$value.MrName}}</span>在我司的收入合法而且稳定，月收入为税前<span>{{$value.CHABeforeTaxCount}}</span>元。
+	        				他将于<span>{{$value.AboardTime}}</span>前往<span>{{$value.Country}}</span>旅游，度过<span>{{$value.Time}}</span>天左右的假期。</p>
+	        				<p class="mui-text-right">中国移动通信集团广东有限公司 人力资源部</p>
+	        				<p>单位联系电话：-86-18818812301</p>
+	        				<p>单位地址：广东省广州市天河区珠江新城珠江西路11号广东全球通大厦</p>
+	        			</article>
+		            </div>
+		            {{else}}
+		            <div class="tw-doc">
+		            	<article class="ju-cert-article" data-type="zhtw">
+	        				<h4>在职及收入证明</h4>
+	        				<p>有关负责人：</p>
+	        				<p>兹证明<span>姓名</span><span>性别</span>（<span>出生日期</span>出生，
+	        				身份证<span>身份证号</span>），
+	        				是中国移动通信集团广东有限公司员工，<span>入职时间</span>至今在本公司工作。</p>
+							<p>中国移动通信集团广东有限公司是一家从事电信业务的国有企业。<span>称呼</span>在我司的收入合法而且稳定，
+								月收入为税前<span>税前收入</span>元。
+								他将于<span>日期</span>前往台湾旅游，
+								度过<span>时长</span>天左右的假期。</p>
+							<p class="mui-text-right">中国移动通信集团广东有限公司 人力资源部</p>
+							<p>单位联系电话：18818812301</p>
+							<p>单位地址：广东省广州市天河区珠江新城珠江西路11号广东全球通大厦</p>
+	        			</article>
+		            </div>
+		            {{/if}}
+		        </div>
+		        <div class="mui-input-row">
+		            <label>收入管理员意见<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.AUDIT_OPINION}}</span>
+		            </div>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>人力资源服务台意见<i class="z-required">*</i></label>
+		            <div class="cont">
+		            	<span>{{$value.HR_AUDIT_OPINION}}</span>
+		            </div>
+		        </div>
+		        {{/each}}
+			</div>
+			{{/if}}
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script src="../js/utils.js"></script>
+		<script src="../js/public.js"></script>
+		<script type="text/javascript">
+			function getData(){
+				//获取数据
+				var url = window.location.href;
+				var mtype = url.getUrlParam('type');
+				var mid = url.getUrlParam('id');
+				var rd = {
+					id: mid,
+					type: mtype
+				}
+				
+				publicApi.getApplicationDetail({
+//					url:'../json/appdetailtype4.json',
+//					type:'get',
+					data:rd,
+					success:function(res){
+						if(res.status == 0){
+							if(mtype == 5007){
+								var tmptitle = res.data.applyTitle;
+								if(res.data.type == 1){
+									tmptitle +='(中英文)';
+								}
+								else{
+									tmptitle +='(台湾)';
+								}
+								mui.initBackHeader({
+									title: tmptitle,
+									loadCallback:function(){
+										mui('.mui-title')[0].style = 'right:22px';//特殊处理
+										mui('.mui-title')[0].classList.add('z-resize');
+									}
+								})
+							}else{
+								mui.initBackHeader({
+									title: res.data.applyTitle
+								})
+							}
+							//渲染列表
+							template.defaults.imports.bankTypeText = function(data,format){
+								var bt = '';
+								if(data==1){
+									bt = '国内银行';
+								}
+								else{
+									bt = '外资银行';
+								}
+								return bt;
+							}
+							template.defaults.imports.toBig = function(data,format){
+								return smalltoBIG(data)
+							}
+							var html = template('tpl-detail', {type: mtype, data: res.data});
+							console.log(html);
+							mui('.ju-app-detail-wrap')[0].innerHTML = html;
+						}
+						else{
+							mui.toast('获取申请详情出错')
+						}
+					}
+				})
+			}
+			
+			mui.init()
+			getData();
+		</script>
+	</body>
+
+</html>

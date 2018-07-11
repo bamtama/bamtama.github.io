@@ -1,0 +1,103 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>申请</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+	</head>
+	<body>
+		<!--标题栏-->
+		<!--内容-->
+		<div id="refreshContainer" class="mui-scroll-wrapper dw-homebarpage-list dw-apply-page">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<div class="mui-card" tpl-type="repeat" id="apply">
+					<ul class="mui-table-view">
+						<i class="iconfont icon-pin"></i>
+						<li class="mui-table-view-cell dw-li-text dw-attendence-li">
+							<label class="mui-pull-left" dw-bind="{{title}}"></label>
+						</li>
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right dw-plus" href="{{href}}" dw-bind="{{apply}}"></a>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-card">
+					<ul class="mui-table-view">
+						<i class="iconfont icon-pin"></i>
+						<li class="mui-table-view-cell dw-li-text dw-attendence-li">
+							<label class="mui-pull-left">我的申请</label>
+						</li>
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right" href="MyApplication.html">查看申请流程</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<script src="../js/mui.min.js"></script>
+			<!--<script src="../fonts/iconfont.js"></script>-->
+			<script src="../js/template-web.js"></script>
+			<script src="../js/dw-wheel.js"></script>
+			<script src="../js/mui.extend.js"></script>
+			<script type="text/javascript">
+				mui.init();
+				mui.initMainHeader({
+					title:'申请'
+				});
+				
+				mui(".mui-scroll-wrapper").scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: false, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					bounce: true //是否启用回弹
+				});
+
+				//创建模版
+				var templ = mui().dwTemplate("apply", [{
+					"href": "apply-proofOfIncome.html",
+					"apply": "创建申请",
+					"title": "收入证明"
+				},{
+					"href": "ApplyForEmploymentCertification.html",
+					"apply": "创建申请",
+					"title": "在职证明"
+				}, {
+					"href": "ApplyForIncomeCertificationInChina.html",
+					"apply": "创建申请",
+					"title": "出国在职收入证明"
+				}, {
+					"href": "ApplyForFileDelivery.html",
+					"apply": "创建申请",
+					"title": "档案转递"
+				}]);
+
+				//渲染模版内容
+				mui("#apply")[0].outerHTML = templ;
+				
+				mui(".mui-scroll").on('tap', 'a', function(e) {
+					var href = this.getAttribute('href');
+					if(href){
+						mui.openWindow({
+							url: href,
+							id: href
+						});
+					}
+					else{
+						mui.toast('页面建设中...');
+					}
+				});
+				
+			</script>
+		</div>
+	</body>
+
+</html>

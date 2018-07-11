@@ -1,0 +1,91 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<!--背景透明-->
+	<!--此子页面只用于5+环境-->
+	<body style="background: transparent;">
+		<!--底部导航-->
+		<nav class="mui-bar mui-bar-tab ju-bar-tab">
+		    <a class="mui-tab-item" href='salaryPage.html'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-salary"></use>
+					</svg>
+					<svg class="svg-icon active">
+					    <use xlink:href="#icon-salary-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">薪酬</span>
+		    </a>
+		    <a class="mui-tab-item" href='performancePage.html'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-performance"></use>
+					</svg>
+					<svg class="svg-icon active">
+					    <use xlink:href="#icon-performance-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">绩效</span>
+		    </a>
+		    <a class="mui-tab-item mui-active" href='homePage.html'>
+		        <span class="svg-icon-wrap svg-icon-home">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-home"></use>
+					</svg>
+		        	<svg class="svg-icon active">
+					    <use xlink:href="#icon-home-active"></use>
+					</svg>
+		        </span>
+				<div class="mask"></div>
+		        <span class="mui-tab-label">首页</span>
+		    </a>
+		    <a class="mui-tab-item" href='attendencePage.html'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-attendence"></use>
+					</svg>
+		        	<svg class="svg-icon active">
+					    <use xlink:href="#icon-attendence-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">考勤</span>
+		    </a>
+		    <a class="mui-tab-item" href='applyPage.html'>
+		         <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-apply"></use>
+					</svg>
+		        	<svg class="svg-icon active">
+					    <use xlink:href="#icon-apply-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">申请</span>
+		    </a>
+		</nav>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script>
+			mui.init()
+			mui('.ju-bar-tab').on('tap','.mui-tab-item',function(){
+				var targeturl = this.getAttribute('href');
+				//获得主页面的webview
+				var main = plus.webview.currentWebview().parent();
+				//触发主页面的gohome事件
+				mui.fire(main, 'tabChange', {target: targeturl});
+			})
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,91 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="ju-index-wrap">
+			<div class="bg"></div>
+			<div class="baseinfo">
+				<p class="name">姓名</p>
+				<p class="wel">欢迎进入智能助手</p>
+			</div>
+			<ul class="mui-list-unstyled enters ju-enters-list">
+				<li>
+					<a class="link" name="light" href="controlLight.html" data-state="-1">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-light"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-light-invalid"></use>
+						</svg>
+						<span>智能灯光控制</span>
+					</a>
+				</li>
+				<li>
+					<a class="link" name="tv" href="controlTV.html" data-state="-1">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-tv"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-tv-invalid"></use>
+						</svg>
+						<span>智能电视控制</span>
+					</a>
+				</li>
+				<li>
+					<a class="link" name="door" href="controlACS.html" data-state="-1">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-acs"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-acs-invalid"></use>
+						</svg>
+						<span>智能门禁控制</span>
+					</a>
+				</li>
+				<li>
+					<a class="link" name="fans" href="controlTemperature.html" data-state="-1">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-temperature"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-temperature-invalid"></use>
+						</svg>
+						<span>实时温度调节</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var _mianPage = true;
+		    
+			mui('.enters').on('tap','a',function(){
+				var ids = {
+					light:1,
+					door:2,
+					fans:3,
+					healthguard:4
+				}
+				var curdom = this;
+				if(curdom.getAttribute('data-pagenew')){
+					mui.openWindow({
+						url: curdom.getAttribute('href')
+					})
+				}
+				else{
+					//内容页替换 调用layout中相关方法
+					parent.tabChange(curdom.getAttribute('href'),true)
+				}
+			})
+		</script>
+	</body>
+</html>

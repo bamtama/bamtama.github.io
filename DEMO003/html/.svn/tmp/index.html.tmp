@@ -1,0 +1,202 @@
+﻿<!doctype html>
+
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="ju-index-wrap">
+			<div class="bg"></div>
+			<div class="baseinfo">
+				<p class="name" id = "name"></p>
+				<p class="wel">欢迎进入智能办公助手</p>
+			</div>
+			<ul class="mui-list-unstyled enters">
+				<li>
+<<<<<<< .mine
+					<a class="link light" href="controlLight.html">
+=======
+					<a class="link" name = "light" href="controlLight.html">
+>>>>>>> .r379
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-light"></use>
+						</svg>
+						<span>智能灯光控制</span>
+					</a>
+				</li>
+				<li>
+<<<<<<< .mine
+					<a class="link door" href="controlACS.html">
+=======
+					<a class="link" name = "door" href="controlACS.html">
+>>>>>>> .r379
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-acs"></use>
+						</svg>
+						<span>智能门禁控制</span>
+					</a>
+				</li>
+				<li>
+<<<<<<< .mine
+					<a class="link temperature" href="controlTemperature.html">
+=======
+					<a class="link" name = "fans" href="controlTemperature.html">
+>>>>>>> .r379
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-temperature"></use>
+						</svg>
+						<span>实时温度调节</span>
+					</a>
+				</li>
+				<li>
+<<<<<<< .mine
+					<a class="link healthguard" href="healthGuard.html" data-pagenew="1">
+=======
+					<a class="link"  name = "healthguard" href="healthGuard.html" data-pagenew="1">
+>>>>>>> .r379
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-health"></use>
+						</svg>
+						<span>办公健康卫士</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			
+		    mui.ajax({
+	                  type:"post",
+	                  dataType:"json", 
+	                  url:"/smartbase/user/getUser.action",
+	                  error: function(){
+	                         alert("here");
+	                         alert(XMLHttpRequest.status);
+	                         alert(XMLHttpRequest.readyState);
+	                         alert(textStatus);
+	                         alert(errorThrown);
+	                  }, 
+	                  beforeSend:function(){ 
+	                  },
+	                  success:function(response){
+	                    //alert("success");
+	                    if(response.status=="1"){
+	                       alert("用户名或密码错误！");
+	                    }else if(response.status=="0"){
+	                       //alert(response.data.name);
+	                       document.getElementById("name").innerHTML = response.data.name;
+	                    }
+	                
+	                 }
+	        });
+			
+			mui.ajax({
+                type:"post",
+                dataType:"json", 
+                url:"/smartbase/permission/getPermissions.action",
+                error: function(){
+                       alert("here");
+                       alert(XMLHttpRequest.status);
+                       alert(XMLHttpRequest.readyState);
+                       alert(textStatus);
+                       alert(errorThrown);
+                }, 
+                beforeSend:function(){ 
+                },
+                success:function(response){
+                  //alert("success");
+                  if(response.status=="103"){
+                     alert(response.error);
+                  }else if(response.status=="0"){
+                  // alert(response.data.light+" "+response.data.door+" "+response.data.fans);
+                     window.localStorage.setItem("light",response.data.light);
+                     window.localStorage.setItem("door",response.data.door);
+                     window.localStorage.setItem("fans",response.data.fans);
+                     window.localStorage.setItem("healthguard",response.data.healthguard);
+                  }
+              
+               }
+            });
+			
+			mui('.enters').on('tap','a',function(){
+				var flag = window.localStorage.getItem(this.getAttribute("name"));
+				//alert(flag);
+				var id;
+				
+				switch(this.getAttribute("name")){
+				  case "light" : id =1;
+				  break;
+				  case "door" : id = 2;
+				  break;
+				  case "fans" : id=3;
+				  break;
+				  case "healthguard" : id = 4;
+				  break;
+				}
+				switch(flag){
+				   
+				   case "1": 
+					       //parent.tabChange(this.getAttribute('href'),true);
+ 					      if(this.getAttribute('data-pagenew')){
+							mui.openWindow({
+								url: this.getAttribute('href')
+							})
+						  }
+						  else{
+							//内容页替换 调用layout中相关方法
+							parent.tabChange(this.getAttribute('href'),true)
+						  }
+
+					       break;
+				   
+				   case "0": mui.toast("权限申请中");
+				           break;
+				   
+				   case "-1": mui.confirm("确认申请权限吗？","您没有该权限",["确定","取消"],function(e){
+					        if(e.index == 0){
+					        	
+					        	mui.ajax({
+					                type:"post",
+					                dataType:"json", 
+					                url:"user!applyPermission.action?permissionId="+id,
+					                error: function(){
+					                       alert("here");
+					                       alert(XMLHttpRequest.status);
+					                       alert(XMLHttpRequest.readyState);
+					                       alert(textStatus);
+					                       alert(errorThrown);
+					                }, 
+					                beforeSend:function(){ 
+					                },
+					                success:function(response){
+					                  //alert("success");
+					                  if(response.status=="103"){
+					                     alert(response.error);
+					                  }else if(response.status=="0"){
+					                     mui.toast("申请成功！");
+					                  }
+					              
+					               }
+					            });
+					        	
+					        } 
+				   });
+				            break;
+				            
+				   default:break;
+				   
+				}
+				//调用layout中相关方法
+				
+			})
+		</script>
+	</body>
+</html>

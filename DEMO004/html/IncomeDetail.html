@@ -1,0 +1,262 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div data-cate="income" class="mui-content mui-hidden">
+		    <ul class="mui-list-unstyled ju-income-detail-list">
+		    	<script type="text/html" id="tpl-income-detail">
+		    	<li>
+					<div class="caption">
+						<span class="date">{{date}}</span>
+						<span class="name">{{name}}</span>
+						<span class="no">{{no}}</span>
+					</div>
+		    		<ul class="mui-table-view">
+	    		        <li class="mui-table-view-cell">
+	    		            <label>套入职级</label>
+	    		            <span>{{classLevel}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell">
+	    		            <label>分位值</label>
+	    		            <span>{{quantile}}</span>
+	    		        </li>
+	    		    </ul>
+		    	</li>
+		    	{{each detail}}
+		    	<li>
+		    		<h5>{{$index}}</h5>
+	    			{{if ($value.length===undefined)}}
+		    			<ul class="mui-table-view">
+			    			{{each $value val name}}
+			    			{{if (name.indexOf("合计")!=-1)}}
+			    			<li class="mui-table-view-cell point">
+			    				<label>{{name}}</label>
+			    				<span>{{val | amountFormat}}</span>
+			    			</li>
+			    			{{else}}
+			    			<li class="mui-table-view-cell">
+			    				<label>{{name}}</label>
+			    				<span>{{val}}</span>
+			    			</li>
+			    			{{/if}}
+			    			{{/each}}
+		    			</ul>
+	    			{{else}}
+	    				{{each $value obj index}}
+	    				<ul class="mui-table-view">
+			    			{{each obj}}
+			    			<li class="mui-table-view-cell">
+			    				<label>{{$index}}</label>
+			    				<span>{{$value}}</span>
+			    			</li>
+			    			{{/each}}
+		    			</ul>
+	    				{{/each}}
+	    			{{/if}}
+		    	</li>
+		    	{{/each}}
+		    	<li class="summary">
+		    		<label>实际到账总额</label>
+		    		<span class="mui-pull-right">¥ {{actualAmount | amountFormat}}</span>
+		    	</li>
+		    	</script>
+		    </ul>
+		    <div class="ju-bottom-tips">
+    			<div class="title">内容说明</div>
+    			<p>1、企业缴纳-企业为员工缴纳的5种社会保险和住房公积金</p>
+    			<p>2、工资实发=工资应发-工资应扣</p>
+    			<p>3、实际到账总额=工资实发+所有奖金的实发金额</p>
+    			<p>4、税金的计算方法请查看“月税表明细查询”</p>
+    			<p>5、季度奖预发=（基本工资+职位工资）×绩效工资C对应比例×季度奖调节系数</p>
+    			<p>6、半年奖预发=（基本工资+职位工资）×绩效工资C对应比例×季度奖调节系数</p>
+    			<p>7、年终奖预发=（基本工资+职位工资）×绩效工资C对应比例×季度奖调节系数</p>
+    		</div>
+		</div>
+		<div data-cate="tax" class="mui-content mui-hidden">
+		    <ul class="mui-list-unstyled ju-income-detail-list">
+		    	<script type="text/html" id="tpl-tax-detail">
+		    	<li>
+					<div class="caption">
+						<span class="date">{{date}}</span>
+						<span class="name">{{name}}</span>
+					</div>
+		    	</li>
+		    	<li>
+		    		<ul class="mui-table-view">
+	    		        <li class="mui-table-view-cell">
+	    		            <label>工资收入</label>
+	    		            <span>{{detail.income}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>奖金收入</label>
+	    		            <span>{{detail.bonus}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>福利收入</label>
+	    		            <span>{{detail.benifit}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>公积金计税额</label>
+	    		            <span>{{detail.fundTax}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>综合收入</label>
+	    		            <span>{{detail.incomeTotal}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>费用扣除</label>
+	    		            <span>{{detail.deducted}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>个人应税收入</label>
+	    		            <span>{{detail.incomeWithTax}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>使用税率</label>
+	    		            <span>{{detail.taxRate}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>速算扣除</label>
+	    		            <span>{{detail.quickSub}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>个人应纳税</label>
+	    		            <span>{{detail.personalIncomeTax}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>纳税调整</label>
+	    		            <span>{{detail.taxAdjustment}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>单独计税项税金</label>
+	    		            <span>{{detail.seperateTax}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>实际纳税</label>
+	    		            <span>{{detail.actualTax}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>企业代缴收入</label>
+	    		            <span>{{detail.companyPaid}}</span>
+	    		        </li>
+	    		        <li class="mui-table-view-cell ">
+	    		            <label>企业代缴纳税</label>
+	    		            <span>{{detail.withholdingTax}}</span>
+	    		        </li>
+	    		    </ul>
+		    	</li>
+		    	</script>
+		    </ul>
+		    <div class="ju-bottom-tips">
+    			<div class="title">内容说明</div>
+    			<p>1、综合收入=工资收入+奖金收入+福利收入+公积金计税额</p>
+    			<p>2、个人应税收入=综合收入-费用扣除</p>
+    			<p>3、个人应纳税=个人应税收入×使用税率-速算扣除</p>
+    			<p>4、实际纳税=个人应纳税+税额调整+单独计税项税金</p>
+    		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/utils.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script type="text/javascript">
+			var _cate;
+			
+			function getIncomeDetail(){
+				//初始化类型
+				var thishref = window.location.href;
+				_cate = thishref.getUrlParam('cate');
+				if(_cate === 'tax'){
+					mui.initBackHeader({title:'明细'})
+				}
+				else{
+					mui.initBackHeader({title:'更多'})
+				}
+				
+				//获取参数
+				var qd, ccode, uid;
+				qd = thishref.getUrlParam('querydate');
+				ccode = thishref.getUrlParam('ccode');
+				uid = thishref.getUrlParam('uid');
+				var reqdata = {
+					choicestr: qd,
+					userid: uid,
+					com_code: ccode
+				}
+				var $tplIncome = mui('[data-cate="income"]');
+					$tplTax = mui('[data-cate="tax"]');
+				if(qd != null && ccode != null && uid != null){
+					if(_cate === 'tax'){
+						//获取月税详情
+						publicApi.getSalaryTax({
+							data:reqdata,
+							success:function(res){
+								if(res.status === '0'){
+									var tmpdata = res.data;
+									
+									$tplTax.removeClass('mui-hidden');
+									$tplIncome[0].parentNode.removeChild($tplIncome[0]);
+									
+									var html = template('tpl-tax-detail', tmpdata);
+									mui('.ju-income-detail-list')[0].innerHTML = html;
+								}
+								else if(res.status === '132' || res.status === '134'){
+									mui.toast(res.error)
+								}
+								else{
+									mui.toast('获取月税详情失败，请重试或联系管理员')
+								}
+							}
+						})
+					}
+					else{
+						//获取月收入详情
+						publicApi.getIncome({
+							data: reqdata,
+							success:function(res){
+								if(res.status === '0'){
+									var data = res.data;
+									
+									$tplIncome.removeClass('mui-hidden');
+									$tplTax[0].parentNode.removeChild($tplTax[0]);
+									
+									template.defaults.imports.amountFormat = function(data,format){
+										return parseFloat(data);
+									}
+									var html = template('tpl-income-detail', data);
+									mui('.ju-income-detail-list')[0].innerHTML = html;
+								}
+								else if(res.status === '100'){
+									mui.toast(res.error)
+								}
+								else{
+									mui.toast('获取月收入详情失败，请重试或联系管理员')
+								}
+							}
+						})
+					}
+				}
+				else{
+					mui.alert('缺少查询数据，请返回上一页',null,null,function(){
+						window.history.go(-1)
+					})
+				}
+			}
+			
+			/* init and bindings */
+			mui.init()
+			getIncomeDetail();
+		</script>
+	</body>
+
+</html>

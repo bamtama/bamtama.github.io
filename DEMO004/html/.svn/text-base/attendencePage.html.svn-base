@@ -1,0 +1,93 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>考勤</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+	</head>
+	<body>
+		<!--内容-->
+		<div id="refreshContainer" class="mui-scroll-wrapper dw-homebarpage-list dw-attendence-page">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<div class="mui-card" tpl-type="repeat" id="attendence">
+					<ul class="mui-table-view">
+						<i class="iconfont icon-pin"></i>
+						<li class="mui-table-view-cell dw-li-text dw-attendence-li">
+							<label class="mui-pull-left" dw-bind="{{title}}"></label>
+						</li>
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right dw-plus" href="{{href}}" dw-bind="{{apply}}"></a>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-card">
+					<ul class="mui-table-view">
+						<i class="iconfont icon-pin"></i>
+						<li class="mui-table-view-cell dw-li-text dw-attendence-li">
+							<label class="mui-pull-left">我的申请</label>
+						</li>
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right" href="LeaveApplicationList.html">查看申请</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/template-web.js"></script>
+			<script src="../js/dw-wheel.js"></script>
+			<script src="../js/mui.extend.js"></script>
+			<script type="text/javascript">
+				mui.init();
+				mui.initMainHeader({title:'考勤'});
+
+				mui(".mui-scroll-wrapper").scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: false, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					bounce: true //是否启用回弹
+				});
+
+				//创建模版
+				var templ = mui().dwTemplate("attendence", [{
+					"apply": "添加申报",
+					"title": "考勤异常申报"
+				},{
+					"href": "ApplyForLeave.html",
+					"apply": "添加申请",
+					"title": "休假申请"
+				}, {
+					"href": "AdvanceAttendanceRegister.html",
+					"apply": "添加申报",
+					"title": "考勤提前申报"
+				}]);
+
+				//渲染模版内容
+				mui("#attendence")[0].outerHTML = templ;
+				
+				mui(".mui-scroll").on('tap', 'a', function(e) {
+					var href = this.getAttribute('href');
+					if(href){
+						mui.openWindow({
+							url: href,
+							id: href
+						});
+					}
+					else{
+						mui.toast('页面建设中...')
+					}
+				});
+			</script>
+		</div>
+	</body>
+
+</html>

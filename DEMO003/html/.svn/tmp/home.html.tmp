@@ -1,0 +1,273 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">我的管理</h1>
+		</header>
+		<div class="mui-content ju-home-wrap">
+			<script type="text/html" id='tpl-home'>
+		    <ul class="mui-table-view baseinfo">
+				<li class="mui-table-view-cell mui-media">
+					<a>
+						<div class="mui-pull-left">
+							<span class="manager-avatar">
+								{{if ism}}
+								<i class="iconfont icon-manager"></i>
+								{{else}}
+								<i class="iconfont icon-user"></i>
+								{{/if}}
+							</span>
+						</div>
+						<div class="mui-media-body">
+							{{name}}
+							<p>账号：{{username}}</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view manage-list">
+				{{if ism}}
+		        <li class="mui-table-view-cell z-new">
+		            <a class="mui-navigate-right" href="permissions.html">
+		            	审批
+		            	<span class="cont"></span>
+		            </a>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <a class="mui-navigate-right" href="records.html">查询控制记录</a>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <a class="mui-navigate-right" href="alarmQueryAndDispose.html">查询与处理报警信息</a>
+		        </li>
+		        {{else}}
+		        <li class="mui-table-view-cell z-new">
+		            <a class="mui-navigate-right" href="records.html">
+		            	我的记录
+		            	<span class="cont"></span>
+		            </a>
+		        </li>
+		        <li class="mui-table-view-cell">
+		            <a class="mui-navigate-right">我的权限</a>
+		        </li>
+		        {{/if}}
+		        <li class="mui-table-view-cell version-cell" id="update">
+		            <a class="mui-navigate-right fn-update">
+		            	版本更新
+		            	<span class="cont"></span>
+		            </a>
+		        </li>
+		        <li class="mui-table-view-cell logout-cell">
+		            <a>退出登录</a>
+		        </li>
+		    </ul>
+		    </script>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		
+		<script type="text/javascript">
+		
+		/*
+		 * init and bindings
+		 */
+		 mui.init();
+		 getInit();
+		 var _mianPage = true;
+		 
+		 var versionId = 0;
+		 var type =0;
+		 
+		 var isIphone = (/iphone/).test(navigator.userAgent);
+	     var isAndroid = (/Android/).test(navigator.userAgent);
+			
+		 if(isIphone == "true"){
+				type = 1;
+		 }else if(isAndroid == "true"){
+				type = 0;
+		 }
+		 
+		  mui.ajax({
+	          type:"post",
+				  dataType:"json", 
+				  url:"/smartbase/version_checkVersion.action?version="+versionId+"&type="+type,
+				  error: function(){
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+                alert(errorThrown);
+         }, 
+               beforeSend:function(){ 
+         },
+              success:function(response){
+       				 if(response.status=="118"){
+        				 alert(response.data.error);
+        			 }else if(response.status=="0"){
+                         if(response.data.latest == "0"){
+                        	 //alert(response.data.version);
+                        	 document.getElementById("update").classList.add("z-new");
+                         }
+                     }
+
+              }
+   });	 
+
+		 
+		 
+		 function actionUpdate(){
+<<<<<<< .mine
+				window.androidShare.check_upadate();
+//				parent.mui.confirm('是否更新到最新版本？',' ',['确定','取消'],function(e){
+//					switch(e.index){
+//						case 0:
+//							//进入更新流程
+//						break;
+//						case 1://do nothing
+//						default:
+//						break;
+//					}
+//				})
+=======
+				parent.mui.confirm('是否更新到最新版本？',' ',['确定','取消'],function(e){
+					switch(e.index){
+						case 0:
+							//进入更新流程
+							
+						break;
+						case 1://do nothing
+						default:
+						break;
+					}
+				})
+>>>>>>> .r392
+			}
+			
+			function actionLogout(){
+<<<<<<< .mine
+				window.androidShare.app_logout();
+//				parent.mui.confirm('退出？',' ',['确定','取消'],function(e){
+//					switch(e.index){
+//						case 0:
+//							//logout
+//						break;
+//						case 1://do nothing
+//						default:
+//						break;
+//					}
+//				})
+=======
+				parent.mui.confirm('退出？',' ',['确定','取消'],function(e){
+					switch(e.index){
+						case 0:
+							//logout
+								  mui.ajax({
+	        					          type:"post",
+	                  					  dataType:"json", 
+	                  					  url:"logout.action",
+	                  					  error: function(){
+	                                        alert(XMLHttpRequest.status);
+	                                        alert(XMLHttpRequest.readyState);
+	                                        alert(textStatus);
+	                                        alert(errorThrown);
+	                             }, 
+	                             beforeSend:function(){ 
+	                             },
+	                             success:function(response){
+	                                if(response.status=="118"){
+	                                  alert(response.error);
+	                                }else if(response.status=="0"){
+	                                  window.localStorage.clear();
+	                                  mui.toast(response.data);
+	                                  window.top.location.href= "Login.html";
+	                                }
+	                
+	                             }
+	                           });	 
+			
+						break;
+						case 1://do nothing
+						default:
+						break;
+					}
+				})
+>>>>>>> .r392
+			}
+			
+			function getInit(){
+				 
+				 var isManager;
+				 var data;
+				 
+				 mui.ajax({
+	                  type:"post",
+	                  dataType:"json", 
+	                  url:"/smartbase/getUser.action",
+	                  error: function(){
+	                         alert("here");
+	                         alert(XMLHttpRequest.status);
+	                         alert(XMLHttpRequest.readyState);
+	                         alert(textStatus);
+	                         alert(errorThrown);
+	                  }, 
+	                  beforeSend:function(){ 
+	                  },
+	                  success:function(response){
+	                    //alert("success");
+	                    if(response.status=="1"){
+	                       alert(response.error);
+	                    }else if(response.status=="0"){
+	                    
+	                       if(response.data.isAdmin == "true"){
+	                    	   isManager = 1;
+	                       }else{
+	                    	   isManager = 0;
+	                       }
+	                      
+	                       data = {
+	                    		   name: response.data.name,
+	                    		   username: response.data.account,
+	                    		   ism : isManager
+	                       }
+	                       
+	                       //alert(isManager+data.name+data.username+data.ism);
+	                   	
+	       				var html = template('tpl-home', data);
+	       				mui('.ju-home-wrap')[0].innerHTML = html;              
+
+	       				mui('.version-cell').on('tap', '.fn-update', actionUpdate);
+	       				mui('.logout-cell').on('tap','a', actionLogout);
+	       				
+	                      }
+				    }
+	               });
+				//根据用户权限显示不同的界面
+<<<<<<< .mine
+				var isManager = 0;
+=======
+			 	/* var isManager = 1;
+>>>>>>> .r392
+				var data = {
+					name:'用户名',
+					username:'账号',
+					ism : isManager
+				} */
+			
+			}
+			
+			 
+			 
+			  
+			 
+		</script>
+	</body>
+
+</html>

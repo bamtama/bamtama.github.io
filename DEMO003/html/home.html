@@ -1,0 +1,123 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">我的</h1>
+		</header>
+		<div class="mui-content ju-home-wrap">
+			<script type="text/html" id='tpl-home'>
+				<ul class="mui-table-view baseinfo">
+					<li class="mui-table-view-cell mui-media">
+						<a>
+							<div class="mui-pull-left">
+								<span class="manager-avatar">
+								{{if ism}}
+								<i class="iconfont icon-manager"></i>
+								{{else}}
+								<i class="iconfont icon-user"></i>
+								{{/if}}
+							</span>
+							</div>
+							<div class="mui-media-body">
+								{{name}}
+								<p>账号：{{username}}</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view manage-list">
+					{{if ism}}
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="records.html">查询控制记录</a>
+					</li>
+					{{else}}
+					<li class="mui-table-view-cell cell-bottom">
+						<a class="mui-navigate-right" href="records.html">
+							我的记录
+							<span class="cont"></span>
+						</a>
+					</li>
+					{{/if}}
+					<li class="mui-table-view-cell" id="update">
+						<a class="mui-navigate-right fn-update">
+							版本更新
+							<span class="cont"></span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell cell-bottom">
+						<a class="mui-navigate-right" href="qrCode.html">
+							二维码下载
+							<span class="cont"></span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell logout-cell cell-bottom">
+						<a>退出登录</a>
+					</li>
+				</ul>
+			</script>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+
+		<script type="text/javascript">
+			
+			var _mianPage = true;
+		    
+			var _versionId = 0;
+			var _type = 2;	//0-android, 1-ios
+
+			function actionLogout(bridge) {
+				parent.mui.confirm('退出？', ' ', ['确定', '取消'], function(e) {
+					switch(e.index) {
+						case 0:
+							mui.toast('退出中，请稍后...');
+							setTimeout(function(){
+								mui.openWindow({url:"Login.html"});
+							},500)	
+							break;
+						case 1: //do nothing
+						default:
+							break;
+					}
+				})
+			}
+
+			function getInit() {
+
+				var isManager;
+				var data;
+				
+				var isManager = 1;
+				var data = {
+					name:'用户名',
+					username:'账号',
+					ism : isManager
+				} 
+				var html = template('tpl-home', data);
+				mui('.ju-home-wrap')[0].innerHTML = html;
+	
+				mui('#update').on('tap', '.fn-update', function(){
+					actionUpdate()
+				});
+				mui('.logout-cell').on('tap', 'a', function(){
+					actionLogout()
+				});
+			}
+
+			/*
+			 * init and bindings
+			 */
+			mui.init();
+			getInit();
+		</script>
+	</body>
+</html>

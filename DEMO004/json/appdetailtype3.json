@@ -1,0 +1,22 @@
+{
+    "data": {
+        "applyTitle": "在职证明申请",
+        "content": [
+            {
+                "name": "蒋业",
+                "department": "南方基地",
+                "idNumber": "43112619920212082X",
+                "empID": "21016611",
+                "printNumber": "1",
+                "applyTime": "2017年12月21日",
+                "inServiceYear": "2017",
+                "inServiceMonth": "07",
+                "applyReason": "测试5",
+                "hrOpinion": "",
+                "hrTime": ""
+            }
+        ]
+    },
+    "error": "",
+    "status": "0"
+}

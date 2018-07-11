@@ -1,0 +1,123 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body style="background: #fff;">
+		<div class="ju-reg-wrap">
+			<h2>智能办公助手注册</h2>
+			<form class="ju-form ju-reg-form">
+		        <div class="mui-input-row">
+		            <label>姓<span class="char2"></span>名 :</label>
+		            <input type="text" name="name" placeholder="请输入姓名">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>账<span class="char2"></span>号 :</label>
+		            <input type="text" name="account" placeholder="请输入账号">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>手<span class="charhalf"></span>机<span class="charhalf"></span>号 :</label>
+		            <input type="tel" name="phone" placeholder="请输入手机号">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>密<span class="char2"></span>码 :</label>
+		            <input type="password" name="password" placeholder="请输入密码">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>密码确认 :</label>
+		            <input type="password" name="passwordRepeat" placeholder="请再次输入密码">
+		        </div>
+		        <div class="opts">
+		        	<button type="submit" data-loading-text="提交中" class="mui-btn mui-btn-grad-blue mui-btn-block fn-reg">提交</button>
+		        </div>
+		    </form>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/utils.js"></script>
+		<script type="text/javascript">
+			
+			function actionReg(e){
+				e.preventDefault();
+				//序列化键值名和input name相同
+				var reqdata = {};
+				var checkflag = true;
+				mui.each(document.querySelectorAll('input'), function(index, ele){
+					if(ele.value == '' || ele.value.trim() == ''){
+						mui.toast('请填写完整的注册信息');
+						checkflag = false;
+						return false;
+					}
+					reqdata[ele.getAttribute('name')] = ele.value.trim();
+				})
+				
+				//reqdata.token = localStorage.getItem('devId');
+				//reqdata.type = localStorage.getItem('type');
+				reqdata.token = "1231";
+				reqdata.type = "1";
+				
+				if(!checkflag){
+					return false;
+				}
+				//其他验证
+				 if(!reqdata.phone.isTelphone()){
+					mui.toast('请填写正确的手机号码');
+					return false;
+				} 
+				if(reqdata.password != reqdata.passwordRepeat){
+					mui.toast('密码和确认密码不一致');
+					return false;
+				}
+				
+				mui.ajax({
+	                  type:"post",
+	                  data: reqdata,
+	                  dataType:"json", 
+	                  url:"/smartbase/register.action",
+	                  error: function(){
+	                         alert("here");
+	                         alert(XMLHttpRequest.status);
+	                         alert(XMLHttpRequest.readyState);
+	                         alert(textStatus);
+	                         alert(errorThrown);
+	                  }, 
+	                  beforeSend:function(){
+	                  	mui('.fn-reg').button('loading');
+	                  },
+	                  success:function(response){
+	                    alert("success");
+	                    if(response.status=="1"){
+	                       alert("注册失败！");
+	                    }else if(response.status=="0"){
+	                    	/* var $btn = mui(this);
+	           			    $btn.button('loading'); */
+	           			    mui.openWindow({url:'/smartbase/html/Layout.html'});
+	           			    
+	           			    setTimeout(function(){
+	           			    	//$btn.button('reset');
+	           					mui.toast('注册成功后跳转');
+	           					
+	           			    },500)              
+	                    }
+	                 },
+	                 complete:function(xhr, status){
+	                 	mui('.fn-reg').button('reset')
+	                 }
+	             });
+			}
+			
+			/*
+			 * init and bindings 
+			 */
+			mui.init()
+			mui('.ju-form')
+				.on('tap','button[type=submit]', actionReg)
+		</script>
+	</body>
+</html>

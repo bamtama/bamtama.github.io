@@ -1,0 +1,84 @@
+{
+  "status": 200,
+  "data": {
+    "list": [{
+      "fixnumber": "1064750123054",
+      "fixsite": "广东省广州市天河区水荫横路靠近中国工商银行(广州东城支行)",
+      "fixtime": "2018-06-13 15:25:00",
+      "fixx": 113.30532,
+      "fixy": 23.137888,
+      "inputtime": "2018-06-13",
+      "orgname": "总部",
+      "personname": "涂山",
+      "personid":"0005",
+      "source": 2
+    }, {
+      "fixnumber": "14576380307",
+      "fixsite": "广东省广州市天河区中山大道中靠近汇勤商业大厦",
+      "fixtime": "2018-06-13 15:25:00",
+      "fixx": 113.394156,
+      "fixy": 23.117898,
+      "inputtime": "2018-06-13",
+      "orgname": "总部",
+      "personname": "Ada",
+      "personid":"0001",
+      "source": 2
+    }, {
+      "fixnumber": "1064680917939",
+      "fixsite": "广东省广州市海珠区暄悦西街靠近保利·天悦",
+      "fixtime": "2018-06-13 15:19:00",
+      "fixx": 113.374378,
+      "fixy": 23.096765,
+      "inputtime": "2018-06-13",
+      "orgname": "总部",
+      "personname": "Sep",
+      "personid":"0002",
+      "source": 1
+    }, {
+      "fixnumber": "1064750121195",
+      "fixsite": "广东省广州市天河区金穗路靠近中国银行(广州海安路支行)",
+      "fixtime": "2018-06-13 15:17:00",
+      "fixx": 113.329171,
+      "fixy": 23.117564,
+      "inputtime": "2018-06-13",
+      "orgname": "总部",
+      "personname": "Trace",
+      "personid":"0003",
+      "source": 2
+    }, {
+      "fixnumber": "14550383364",
+      "fixsite": "广东省广州市番禺区如意二马路靠近中国邮政储蓄银行(广州大石洛溪支行)",
+      "fixtime": "2018-06-13 15:32:00",
+      "fixx": 113.295875,
+      "fixy": 23.036411,
+      "inputtime": "2018-06-13",
+      "orgname": "总部",
+      "personname": "Hills",
+      "personid":"0004",
+      "source": 2
+    }, {
+      "fixnumber": "14576380574",
+      "fixsite": "广东省广州市天河区体育西路靠近中国农业银行(体育西路支行)",
+      "fixtime": "2018-06-13 14:05:00",
+      "fixx": 113.314732,
+      "fixy": 23.125152,
+      "inputtime": "2018-06-13",
+      "orgname": "总部",
+      "personname": "Sharah",
+      "personid":"0006",
+      "source": 2
+    }, {
+      "fixnumber": "15813070304",
+      "fixsite": "广东省广州市番禺区沿江东路靠近必胜客",
+      "fixtime": "2018-06-13 15:25:00",
+      "fixx": 113.322866,
+      "fixy": 23.023335,
+      "inputtime": "2018-06-13",
+      "orgname": "总部",
+      "personname": "Koran",
+      "personid":"0011",
+      "source": 2
+    }]
+  },
+  "message": "操作成功"
+}

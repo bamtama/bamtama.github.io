@@ -1,0 +1,389 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">记录查询</h1>
+			<a class="mui-pull-right mui-btn-link fn-query">查询</a>
+		</header>
+		<div class="mui-content ju-records-wrap">
+			<div class="ju-records-opts">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right fn-dtpicker">
+							<label>开始时间</label>
+							<span data-value="-1" class="dt-start">请选择</span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell fn-dtpicker">
+						<a class="mui-navigate-right">
+							<label>结束时间</label>
+							<span data-value="-1" class="dt-end">请选择</span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell fn-poppicker">
+						<a class="mui-navigate-right">
+							<label>设备类型</label>
+							<span data-value="" class="query-type">请选择</span>
+						</a>
+					</li>
+					<li class="input-cell fn-query-user mui-hidden">
+						<label>查询用户名</label>
+						<span class="cont">
+	    	        		<input type="text" name="username" placeholder="请输入查询用户名称"/>
+	    	        	</span>
+					</li>
+				</ul>
+			</div>
+			<div class="ju-records-empty">
+		    	<div class="cont">
+			    	<svg class="svg-icon">
+					    <use xlink:href="#icon-empty-list"></use>
+					</svg>
+					<p>选择需要查询的时间和类型<br />点击右上角的“查询”按钮即可</p>
+		    	</div>
+		    </div>
+			<div class="ju-records-pull-wrap mui-hidden">
+				<div class="ju-records-pull-list">
+					<div class="ju-card-list">
+						<!--渲染数据列表-->
+					</div>
+					<script type="text/html" id="tpl-record">
+						{{each}}
+						<div class="mui-card">
+							<div class="mui-card-header">
+								<i class="iconfont icon-pin"></i>
+								<span class="title">{{$value.formatDate }}</span>
+							</div>
+							<div class="mui-card-content">
+								<dl class="infolist">
+									<dt>用户名：</dt>
+									<dd>{{$value.userName}}</dd>
+									<dt>控<span class="char1"></span>制：</dt>
+									<dd>{{$value.formatOperation}}</dd>
+								</dl>
+							</div>
+						</div>
+						{{/each}}
+					</script>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script type="text/javascript">
+			var _pageSize = 20,
+				_pageIndex = 0,
+				_totalNum = 0;
+			var _dtPicker = null,
+				_popPicker = null,
+				_popPickerData = [{
+					'text':'灯光',
+					'value':'1'
+				},{
+					'text':'智能电视',
+					'value':'4'
+				},{
+					'text':'门禁',
+					'value':'0'
+				},{
+					'text':'风扇',
+					'value':'2'
+				}];
+			var _curName = false;
+			
+			function getList(index,dom) {
+				//测试用的
+				if(index==0){
+					_pageIndex = 0;
+				}
+				if(dom && dom.classList.contains('fn-query')){
+//					mui('.ju-records-pull-wrap').pullRefresh().endPulldownToRefresh();
+//					mui('.ju-records-pull-wrap').pullRefresh().refresh(true);
+				}
+				queryRecords(dom)
+			}
+
+			function queryRecords(dom){
+				//检查是否能查询
+				var qd = {
+					startDate: mui('.dt-start')[0].getAttribute('data-value'),
+					endDate: mui('.dt-end')[0].getAttribute('data-value'),
+					type: mui('.query-type')[0].getAttribute('data-value'),
+					userName: mui('input[name="username"]')[0] ? mui('input[name="username"]')[0].value : '',
+					pageSize: _pageSize, 
+					pageIndex: _pageIndex+1
+				}
+				
+				if(_curName==false){
+					//是管理员
+				}
+				else{
+					//是普通用户
+					qd.userName = _curName;
+				}
+				
+				if(qd.startDate == -1
+				|| qd.endDate == -1
+//				|| qd.type == -1
+//				|| (mui('input[name="username"]')[0]&&qd.userName.trim().length <= 0)
+				){
+					mui.toast('请填写完整的查询条件')
+					return false;
+				}
+				
+				if(new Date(qd.endDate) - new Date(qd.startDate) < 0){
+					mui.toast('开始时间不能早于结束时间')
+					return false;
+				}
+				
+				///测试部分
+//				setTimeout(function(){
+//					testtime++;
+//				var $pullrefresh = mui('.ju-records-pull-wrap').pullRefresh();
+//				var res;
+//				console.log(testtime)
+//				if(testtime == 1){
+//					res = {"cursor":"","data":{"resultList":[],"total":"0"},"error":"无符合以上条件的操作记录","status":"302"}
+//				}
+//				else{
+//					res = {"cursor":"","data":{"resultList":[{"newPropertyValue":"1","objectName":"门禁控制","oldPropertyValue":"1","operateTime":{"date":"14","day":"2","hours":"9","minutes":"0","month":"10","nanos":"0","seconds":"34","time":"1510621234000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"风扇控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"15","minutes":"43","month":"10","nanos":"0","seconds":"29","time":"1510559009000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"门禁控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"15","minutes":"42","month":"10","nanos":"0","seconds":"55","time":"1510558975000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"门禁控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"15","minutes":"40","month":"10","nanos":"0","seconds":"56","time":"1510558856000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"门禁控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"15","minutes":"37","month":"10","nanos":"0","seconds":"41","time":"1510558661000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"风扇控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"15","minutes":"37","month":"10","nanos":"0","seconds":"22","time":"1510558642000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"风扇控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"15","minutes":"36","month":"10","nanos":"0","seconds":"26","time":"1510558586000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"门禁控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"15","minutes":"35","month":"10","nanos":"0","seconds":"54","time":"1510558554000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"},{"newPropertyValue":"1","objectName":"门禁控制","oldPropertyValue":"1","operateTime":{"date":"13","day":"1","hours":"14","minutes":"44","month":"10","nanos":"0","seconds":"50","time":"1510555490000","timezoneOffset":"-480","year":"117"},"operateType":"修改","userName":"管理员"}],"total":"9"},"error":"","status":"0"}
+//				}
+//				if(res.status == 0){
+//					if(mui('.ju-records-pull-wrap')[0].classList.contains('mui-hidden')){
+//						mui('.ju-records-empty')[0].classList.add('mui-hidden');
+//						mui('.ju-records-pull-wrap')[0].classList.remove('mui-hidden');
+//					}
+//					_totalNum = parseInt(res.data.total);
+//					var list = res.data.resultList;
+//					if(_pageIndex == 0){
+//						//当前是第一页
+//						mui('.ju-card-list')[0].innerHTML = '';
+//					}
+//					for(var i in list){
+//						list[i].formatDate = (new Date(parseInt(list[i].operateTime.time))).toLocaleString();
+//						list[i].formatOperation = list[i].operateType + list[i].objectName;
+//					}
+//					var newhtml = template('tpl-record', list),
+//						html = mui('.ju-card-list')[0].innerHTML;
+//					mui('.ju-card-list')[0].innerHTML = html + newhtml;
+//					
+//					if(_pageIndex == 0){
+//						//数据刷新后结束刷新状态
+//						console.log('end down')
+//						$pullrefresh.endPulldownToRefresh();
+//						$pullrefresh.enablePullupToRefresh();
+//						$pullrefresh.scrollTo(0,0,0);
+//					}
+//					//是否还能上拉刷新
+//					if(_totalNum / _pageSize <= _pageIndex +1) {
+//						$pullrefresh.endPullupToRefresh(true);
+//					} else {
+//						$pullrefresh.endPullupToRefresh(false);
+//					}
+//				}
+//				else if(res.status == 302){
+//					if(res.data.total == 0 && res.data.resultList.length == 0){
+//						mui.toast(res.error)
+//						mui('.ju-records-empty')[0].classList.remove('mui-hidden');
+//						mui('.ju-records-pull-wrap')[0].classList.add('mui-hidden');
+//						mui('.ju-card-list')[0].innerHTML = '';
+//					}
+//				}
+//				else{
+//					mui.toast(res.error)
+//					$pullrefresh.endPulldownToRefresh();
+//					$pullrefresh.enablePullupToRefresh();
+//					$pullrefresh.scrollTo(0,0,0);
+//					console.log(res)
+//				}
+//				},1500)
+//				return false;
+				///
+				//网络请求
+				mui.ajax({
+					url: parent._baseuri + 'object_getObjectLog.action',
+					type:'post',
+					dataType:'json',
+					data:qd,
+					beforeSend:function(xhr){
+						xhr.withCredentials = true;
+						xhr.crossDomain = true;
+						if(dom){
+							mui.LoadingMask().show();
+						}
+					},
+					success:function(res){
+						var $pullrefresh = mui('.ju-records-pull-wrap').pullRefresh();
+						if(res.status == 0){
+							if(mui('.ju-records-pull-wrap')[0].classList.contains('mui-hidden')){
+								mui('.ju-records-empty')[0].classList.add('mui-hidden');
+								mui('.ju-records-pull-wrap')[0].classList.remove('mui-hidden');
+							}
+							_totalNum = parseInt(res.data.total);
+							var list = res.data.resultList;
+							if(_pageIndex == 0){
+								//当前是第一页
+								mui('.ju-card-list')[0].innerHTML = '';
+							}
+							for(var i in list){
+								list[i].formatDate = (new Date(parseInt(list[i].operateTime.time))).toLocaleString();
+								list[i].formatOperation = list[i].operateType + list[i].objectName;
+							}
+							var newhtml = template('tpl-record', list),
+								html = mui('.ju-card-list')[0].innerHTML;
+							mui('.ju-card-list')[0].innerHTML = html + newhtml;
+							
+							if(_pageIndex == 0){
+								//数据刷新后结束刷新状态
+								console.log('end down')
+								$pullrefresh.endPulldownToRefresh();
+								$pullrefresh.enablePullupToRefresh();
+								$pullrefresh.scrollTo(0,0,0);
+							}
+							//是否还能上拉刷新
+							if(_totalNum / _pageSize <= _pageIndex +1) {
+								$pullrefresh.endPullupToRefresh(true);
+							} else {
+								$pullrefresh.endPullupToRefresh(false);
+							}
+						}
+						else if(res.status == 302){
+							mui.toast(res.error)
+							mui('.ju-records-empty')[0].classList.remove('mui-hidden');
+							mui('.ju-records-pull-wrap')[0].classList.add('mui-hidden');
+							mui('.ju-card-list')[0].innerHTML = '';
+						}
+						else{
+							mui.toast(res.error)
+							$pullrefresh.endPulldownToRefresh();
+							$pullrefresh.enablePullupToRefresh();
+							$pullrefresh.scrollTo(0,0,0);
+							console.log(res)
+						}
+					},
+					complete:function(){
+						if(dom){
+							mui.LoadingMask().close();
+						}
+					}
+				})
+			}
+			
+			var _pullRefreshConfig = {
+				container: ".ju-records-pull-wrap",
+				down: {
+					//单webview模式
+					auto: false,
+					callback: function() {
+						console.log('down')
+						getList(0);
+					}
+				},
+				up: {
+					contentrefresh: "正在加载...",
+					contentnomore: '没有更多数据了',
+					auto:false,
+					callback: function() {
+						console.log('up')
+						var cur = this;
+						//请求数据
+						_pageIndex++;
+						getList(_pageIndex);
+					}
+				}
+			}
+			
+			function showDtPicker(){
+				var dom = this;
+				if(_dtPicker){
+					_dtPicker.dispose()
+				}
+				_dtPicker = new parent.mui.DtPicker({
+					type:'date',
+					beginDate:new Date(1990,01,01),
+					endDate:new Date(),
+					title: '选择' + dom.querySelector('label').innerHTML
+				})
+				_dtPicker.show(function(res){
+					dom.querySelector('span').innerHTML = res.text;
+					dom.querySelector('span').setAttribute('data-value', res.value);
+				})
+			}
+			function showPopPicker(){
+				var dom = this;
+				if(!_popPicker){
+					_popPicker = new parent.mui.PopPicker({title:'选择设备类型'});
+					_popPicker.setData(_popPickerData)
+				}
+				_popPicker.show(function(res){
+					dom.querySelector('span').innerHTML = res[0].text;
+					dom.querySelector('span').setAttribute('data-value', res[0].value);
+				})
+			}
+			function disposePicker(){
+				_dtPicker.dispose()
+				_popPicker.dispose()
+			}
+			
+			function getInit(){
+				//网络请求
+				mui.ajax({
+					url: parent._baseuri + 'getUser.action',
+					beforeSend:function(xhr){
+						xhr.withCredentials = true;
+						xhr.crossDomain = true;
+						mui.LoadingMask().show();
+					},
+					success:function(res){
+						var resjson = JSON.parse(res)
+						if(resjson.status == "0"){
+							var dom = mui('.fn-query-user')[0];
+							if(resjson.data.isAdmin == "true"){
+								dom.classList.remove('mui-hidden')
+							}
+							else if(resjson.data.isAdmin == "false"){
+								dom.parentNode.removeChild(dom);
+								_curName = resjson.data.name;
+							}
+						}
+						else{
+							console.log(resjson)
+						}
+					},
+					complete:function(){
+						mui.LoadingMask().close();
+					}
+				})
+			}
+			
+			/*
+			 * init and bindings
+			 */
+			mui.init({
+				pullRefresh: _pullRefreshConfig
+			})
+			getInit()
+			mui('header').on('tap','.fn-query',function(){
+				getList(0,this)
+			})
+		 	mui('.ju-records-opts')
+		 		.on('tap', '.fn-dtpicker', showDtPicker)
+		 		.on('tap', '.fn-poppicker', showPopPicker)
+		</script>
+	</body>
+
+</html>

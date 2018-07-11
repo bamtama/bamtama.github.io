@@ -1,0 +1,224 @@
+/*
+ * 全局mui配置
+ */
+//window._baseUri = '';
+//mui.ajaxSettings.beforeSend = function(xhr){
+//	console.log('do sth beforeSend')
+//}
+//mui.ajaxSettings.complete = function(xhr){
+//	console.log('complete:::')
+////	console.log(xhr)
+//}
+//mui.ajaxSettings.error = function(xhr){
+//	console.log('error:::')
+////	console.log(xhr)
+//}
+
+/*
+ * 全局接口集合
+ * 页面调用方法：
+ * publicApi.funcName({
+ * 	success:function(res){}
+ * })
+ * 回调正常情况下只关注success，因为直接对dom操作过多，写在页面中更直观
+ * 其他回调方法特殊处理可自行添加，参数目前和mui.ajax相同
+ */
+publicApi = (function($, window){
+	
+	/*
+	 * api地址
+	 */
+	var BASEURI = '';//'/hrapis/hr/';
+	var REQ_INCOME_LIST = BASEURI + 'userAction!webInterface.action?cmdId=4'; 	 	//月收入列表
+	var REQ_INCOME_SUMMARIZE = BASEURI + 'userAction!webInterface.action?cmdId=5';	//月收入入行汇总
+	var REQ_INCOME_DETAIL = BASEURI + 'userAction!webInterface.action?cmdId=6';		//月收入详情
+	var REQ_SALARYTAX_LIST = BASEURI + 'userAction!webInterface.action?cmdId=7';		//月税表列表
+	var REQ_SALARYTAX_DETAIL = BASEURI + 'userAction!webInterface.action?cmdId=11'; 	//月税详情
+	var REQ_WELFARETAX_LIST = BASEURI + 'userAction!webInterface.action?cmdId=9';		//福利计税项列表
+	var REQ_ANNOUCEMENT_LIST = BASEURI + '';	//公告列表获取 
+	var REQ_SALARY_PAGE = BASEURI + "";		/*薪酬页数据*/
+	var REQ_PERFORMANCE_LIST = BASEURI + 'userAction!webInterface.action?cmdId=3';
+	
+	var REQ_USERNAME = BASEURI + 'userAction!webInterface.action?cmdId=8';	//获取用户名
+	var REQ_LOGIN = BASEURI + 'userAction!webInterface.action?cmdId=1';		//登录
+	var REQ_LOGOUT = BASEURI + 'userAction!webInterface.action?cmdId=10';	//登出
+	
+	/*
+	 * 测试用地址
+	 */
+//	REQ_ANNOUCEMENT_LIST = '../json/guide.json';
+//	REQ_INCOME_LIST = '../json/incomelist.json';
+//	REQ_INCOME_SUMMARIZE = '../json/incomesummary.json';
+//	REQ_INCOME_DETAIL = '../json/incomedetail.json';
+//	REQ_PERFORMANCE_LIST = '../json/performancelist.json';
+//	REQ_SALARYTAX_LIST = '../json/taxlist.json';
+//	REQ_SALARYTAX_DETAIL = '../json/taxdetail.json';
+	
+//	$.LoadingMask = function(){
+//		this.init = function(){
+//			console.log('init')
+//			var maskhtml = 
+//			'<div style="background: rgba(0,0,0,0.5);position: absolute;left: 0;top: 0;right: 0;bottom: 0;z-index: 9999;">'
+//				+'<div style="position: absolute; left: 50%; top: 50%;margin: -12px 0 0 -12px;">'
+//			    	+'<i style="vertical-align: middle;" class="mui-spinner mui-spinner-white"></i>'
+//				+'</div></div>';
+//			var divdom = document.createElement('div');
+//			divdom.id = 'LOADINGMASK';
+//			divdom.innerHTML = maskhtml;
+//			document.body.appendChild(divdom);
+//		}
+//		this.show = function(){
+//			var maskdom = document.querySelector('#LOADINGMASK');
+//			if(maskdom){
+//				maskdom.style.display = 'block';
+//				maskdom.style.opacity = 1;
+//			}
+//			else{
+//				this.init()
+//			}
+//		}
+//		this.close = function(){
+//			var maskdom = document.querySelector('#LOADINGMASK');
+//			if(maskdom){
+//				maskdom.style.transition = 'all 0.1s';
+//				maskdom.style.opacity = 0;
+//				setTimeout(function(){
+//					maskdom.style.display = 'none';
+//				},100)
+//			}
+//		}
+//		return this;
+//	}
+	
+	var api = function(){}
+	
+	var _extendAjax = function(options){
+		var opts = $.extend(true, {
+			type: 'post',
+			dataType: 'json',
+			beforeSend:function(xhr){
+				//$.LoadingMask().show()
+			},
+			complete: function(xhr){
+				console.log('complete:::')
+				//$.LoadingMask().close()
+			},
+			error: function(xhr){
+				mui.toast('请求出错:::error')
+				console.log('error:::')
+				console.log(xhr)
+			}
+		},options);
+		$.ajax(opts)
+	}
+	
+	/*
+	 * 外部调用接口
+	 */
+	
+	//获取文件
+	api.getFile = function(options){
+		var opts = $.extend(true, {type:'get'}, options);
+		_extendAjax(opts)
+	}
+	
+	//登录
+	api.actionLogin = function(options){
+		var opts = $.extend(true, {
+			url: REQ_LOGIN
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//登出
+	api.actionLogout = function(options){
+		var opts = $.extend(true, {
+			type:'get',
+			url: REQ_LOGOUT
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取用户名
+	api.getUsername = function(options){
+		var opts = $.extend(true, {
+			type:'get',
+			url: REQ_USERNAME
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取月收入列表
+	api.getIncomeList = function(options){
+		var opts = $.extend(true, {
+			url: REQ_INCOME_LIST
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取月收入详情
+	api.getIncome = function(options){
+		var opts = $.extend(true, {
+			url: REQ_INCOME_DETAIL
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取月收入汇总
+	api.getIncomeSummarize = function(options){
+		var opts = $.extend(true, {
+			url: REQ_INCOME_SUMMARIZE
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取薪酬页列表
+	api.getSalaryPage = function(options){
+		var opts = $.extend(true, {
+			url: REQ_SALARY_PAGE
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取月税列表
+	api.getSalaryTaxList = function(options){
+		var opts = $.extend(true, {
+			url: REQ_SALARYTAX_LIST
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取月税详情
+	api.getSalaryTax = function(options){
+		var opts = $.extend(true, {
+			url: REQ_SALARYTAX_DETAIL
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取福利计税表
+	api.getWelfareTaxList = function(options){
+		var opts = $.extend(true, {
+			url: REQ_WELFARETAX_LIST
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取公告列表
+	api.getAnnoucementList = function(options){
+		var opts = $.extend(true, {
+			url: REQ_ANNOUCEMENT_LIST
+		}, options);
+		_extendAjax(opts)
+	}
+	
+	//获取绩效列表
+	api.getPerformanceList = function(options){
+		var opts = $.extend(true, {
+			url: REQ_PERFORMANCE_LIST
+		},options);
+		_extendAjax(opts);
+	}
+	
+	return api;
+}(mui,window))

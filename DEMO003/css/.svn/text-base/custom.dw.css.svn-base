@@ -1,0 +1,517 @@
+@charset "UTF-8";
+/*重置body*/
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "PingFang SC Regular";
+  font-size: 18px;
+  background: #fff;
+}
+
+/*健康卫士主页 healthGuard.html start*/
+.dw-health {
+  background-image: url(../image/banner01.png);
+  background-size: 100%;
+}
+
+.dw-health .dw-nav {
+  box-shadow: none;
+  background: transparent;
+}
+
+.dw-health .dw-nav .mui-icon, .dw-health .dw-nav .mui-title {
+  color: #00a5f5;
+  font-size: 24px;
+}
+
+.dw-health .dw-nav .mui-title {
+  font-family: "PingFang SC Medium";
+}
+
+.dw-health .dw-nav-tap {
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+
+.dw-health .dw-nav-tap .mui-tab-item {
+  color: #666666;
+  font-family: "PingFang SC Medium";
+}
+
+.dw-health .dw-nav-tap .mui-tab-item:first-child {
+  padding-left: 36px;
+}
+
+.dw-health .dw-nav-tap .mui-tab-item:last-child {
+  padding-right: 36px;
+}
+
+.dw-health .dw-nav-tap .dw-active {
+  color: #00a5f5;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-right > div, .dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-col-sm-6 {
+  width: 20vw;
+  height: 58px;
+  background-color: rgba(200, 233, 249, 0.5);
+  border-radius: 10px;
+}
+
+.dw-health .dw-health-wrap {
+  background-color: transparent;
+  color: #00a5f5;
+  height: 100%;
+  padding-top: 44px;
+  position: relative;
+  /*健康指数*/
+  /*趋势分析*/
+}
+
+.dw-health .dw-health-wrap .dw-health-index {
+  background-color: transparent;
+  position: relative;
+  height: 100%;
+}
+
+@media (orientation: landscape) {
+  .dw-health .dw-health-wrap .dw-health-index {
+    height: calc(100vw*1.7);
+    background-image: url(../image/banner01.png);
+    background-size: 100%;
+  }
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-left {
+  float: left;
+  padding: 24px;
+  text-align: center;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-left p {
+  font-size: 88px;
+  color: inherit;
+  line-height: 90px;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-right {
+  float: right;
+  padding-top: 42px;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-right > div {
+  margin: 10px;
+  padding-top: 4px;
+  text-align: center;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-right > div p {
+  color: inherit;
+  margin: 0px;
+  font-size: 18px;
+}
+
+@media (max-width: 366px) {
+  .dw-health .dw-health-wrap .dw-health-index .dw-health-right > div p {
+    font-size: 14px;
+  }
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-right > div p:first-child {
+  margin-bottom: 4px;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-right > div p:last-child {
+  font-family: "PingFang SC Medium";
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-right > div p .iconfont {
+  font-size: 12px;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down {
+  width: 100%;
+  position: absolute;
+  bottom: calc(100vh*0.32);
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row {
+  padding: 0 calc(100vw*0.04);
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover {
+  border: 1px solid #00a5f5;
+  box-shadow: none;
+  background: transparent;
+  width: auto;
+  text-align: center;
+  top: -56px;
+}
+
+@media (max-width: 366px) {
+  .dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover {
+    font-size: 14px;
+  }
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover:before {
+  content: "";
+  border: 8px solid #00a5f5;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  position: absolute;
+  bottom: -17px;
+  left: 42%;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover:after {
+  content: "";
+  border: 8px solid #fff;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  position: absolute;
+  bottom: -15px;
+  left: 42%;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover .mui-table-view {
+  background: #fff;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover .mui-table-view .mui-table-view-cell {
+  padding: 2px 6px;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover .mui-table-view .mui-table-view-cell:after {
+  height: 0;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover .mui-table-view .mui-table-view-cell:last-child {
+  padding-top: 0px;
+  font-size: 16px;
+}
+
+@media (max-width: 366px) {
+  .dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-popover .mui-table-view .mui-table-view-cell:last-child {
+    font-size: 12px;
+  }
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .dw-showpopover {
+  display: block;
+  opacity: 1;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-col-sm-6 {
+  margin-right: calc((100vw - 100vw*0.08 - 100vw*0.8)/3);
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-col-sm-6:last-child {
+  margin-right: 0;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-col-sm-6 p {
+  color: #00a5f5;
+  text-align: center;
+  margin: 0;
+  font-size: 18px;
+  padding: 5px 0;
+}
+
+@media (max-width: 366px) {
+  .dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-col-sm-6 p {
+    font-size: 14px;
+  }
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-col-sm-6 p.dw-index-level {
+  font-family: "PingFang SC Medium";
+  font-size: 21px;
+  padding-top: 0;
+}
+
+.dw-health .dw-health-wrap .dw-health-index .dw-health-down .mui-row .mui-col-sm-6 p.dw-index-level svg {
+  width: 21px;
+  height: 21px;
+  position: relative;
+  bottom: -2px;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend:after, .dw-health .dw-health-wrap .dw-alarm-tap:after, .dw-health .dw-health-wrap div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .ju-card-list .alarm-part1:after, div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .ju-card-list .dw-health .dw-health-wrap .alarm-part1:after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  background-color: #c6c6c6;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend {
+  position: relative;
+  background-color: transparent;
+  text-align: center;
+  font-family: "PingFang SC Medium";
+  height: 100%;
+}
+
+@media (orientation: landscape) {
+  .dw-health .dw-health-wrap .dw-health-trend {
+    height: calc(100vw*1.7);
+    background-image: url(../image/banner02.png);
+    background-size: 100%;
+  }
+}
+
+.dw-health .dw-health-wrap .dw-health-trend:after {
+  bottom: 50px;
+  position: fixed;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-tap .mui-row a {
+  width: calc(100vw/4);
+  color: #999999;
+  font-size: 15px;
+  line-height: 32px;
+  padding: 18px 0;
+  padding-bottom: 0px;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-tap .mui-row a span {
+  padding-bottom: 5px;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-tap .mui-row .dw-trend-active {
+  color: #00a5f5;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-tap .mui-row .dw-trend-active span {
+  border-bottom: 2px solid #00a5f5;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-date {
+  position: absolute;
+  bottom: 52px;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-date .mui-row a {
+  padding: 18px 0;
+  width: calc(100vw/3);
+  color: #999999;
+  font-size: 18px;
+  line-height: 32px;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-date .mui-row a span {
+  padding-bottom: 5px;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-date .mui-row .dw-trend-active {
+  color: #00a5f5;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-date .mui-row .dw-trend-active span {
+  border-bottom: 2px solid #00a5f5;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .chart {
+  height: 290px;
+  margin: 0px;
+  padding: 0px 0px 0px 30px;
+  width: 100%;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-unit {
+  width: 30px;
+  height: 290px;
+  position: absolute;
+  top: 68px;
+  left: 0;
+  padding-top: calc(290px*0.2);
+  text-align: right;
+}
+
+.dw-health .dw-health-wrap .dw-health-trend .dw-trend-unit span {
+  display: block;
+  transform: rotateZ(90deg) translate(30%, -40%);
+}
+
+/*健康卫士主页 healthGuard.html end*/
+/*报警查询和处理 alarmQueryAnddispose.html start*/
+.dw-alarm-tap {
+  top: 44px;
+  box-shadow: 0 -1.5px 6.5px 0 rgba(93, 228, 208, 0.2);
+  height: 40px;
+}
+
+.dw-alarm-tap:after {
+  height: 100%;
+  width: 1px;
+  left: calc(50vw);
+}
+
+.dw-alarm-tap .mui-tab-item {
+  width: 50%;
+}
+
+.dw-alarm-tap .mui-tab-item .mui-tab-label {
+  font-size: 15px;
+  font-family: "PingFang SC Medium";
+  padding-bottom: 14px;
+  display: inline;
+}
+
+.dw-alarm-tap .mui-tab-item .dw-tab-active {
+  color: #5dd3dc;
+  border-bottom: 2px solid;
+}
+
+div.dw-alarm-scroll {
+  margin-top: 94px;
+}
+
+div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap {
+  padding-top: 0px !important;
+  padding-bottom: 10px !important;
+  overflow: hidden;
+}
+
+div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .ju-card-list .mui-card-header .alarm-title {
+  color: #292929;
+}
+
+div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .ju-card-list .infolist dt {
+  color: #888888;
+}
+
+div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .ju-card-list .alarm-part1 {
+  padding-bottom: 15px;
+}
+
+div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .ju-card-list .alarm-part1:after {
+  background-color: #F3F2F2;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .ju-card-list .alarm-part2 .infolist dd {
+  font-size: 15px;
+  color: #444444;
+}
+
+div.dw-alarm-scroll .mui-scroll .dw-alarm-wrap .mui-btn-block {
+  border: none;
+  border-radius: 5px;
+  background: #5dd3dc;
+  color: #fff;
+  font-size: 18px;
+  font-family: "PingFang SC Medium";
+  width: 70vw;
+  margin: auto;
+  margin-bottom: 20px;
+  height: 35px;
+  padding: 0;
+  line-height: 35px;
+}
+
+/*报警查询和处理 alarmQueryAnddispose.html start*/
+/*报警查询和处理 qrCode.html start*/
+.dw-qrcode-dwrap {
+  height: 100%;
+}
+
+.dw-qrcode-dwrap .dw-qrcode {
+  width: calc(100vw*0.41);
+  height: calc(100vw*0.41);
+  margin: auto;
+  margin-top: 91px;
+  position: relative;
+  font-size: 15px;
+  text-align: center;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-code-scan {
+  position: absolute;
+  top: -28px;
+  left: 0;
+  color: #838282;
+  width: 100%;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-code-down {
+  position: absolute;
+  bottom: -28px;
+  left: 0;
+  color: #838282;
+  width: 100%;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-showcode {
+  width: 100%;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tl,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tr,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-br,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-bl {
+  width: calc(100vw*0.04);
+  height: calc(100vw*0.04);
+  position: absolute;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tl:before,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tr:before,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-br:before,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-bl:before {
+  content: "";
+  display: block;
+  width: calc(100vw*0.04);
+  height: 2px;
+  background-color: #666;
+  border-radius: 1px;
+  border-bottom-left-radius: 0;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tl:after,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tr:after,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-br:after,
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-bl:after {
+  content: "";
+  display: block;
+  width: 2px;
+  height: calc(100vw*0.04);
+  background-color: #666;
+  border-radius: 1px;
+  border-top-right-radius: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tl {
+  top: -10px;
+  left: -10px;
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-tr {
+  top: -10px;
+  right: -10px;
+  transform: rotateZ(90deg);
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-br {
+  right: -10px;
+  bottom: -10px;
+  transform: rotateZ(180deg);
+}
+
+.dw-qrcode-dwrap .dw-qrcode .dw-horn-bl {
+  left: -10px;
+  bottom: -10px;
+  transform: rotateZ(-90deg);
+}

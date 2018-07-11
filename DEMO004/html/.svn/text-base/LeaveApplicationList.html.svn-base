@@ -1,0 +1,236 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的申请（考勤）</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<style>
+			.mui-backdrop {
+				top: 44px;
+				background: rgba(0, 0, 0, 0.1);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content ju-leave-list-cont">
+			<!--搜索-->
+			<div class="ju-search-wrap mui-clearfix">
+				<div class="mui-input-row mui-search ju-search dw-search">
+					<input type="search" class="mui-input-clear" placeholder="请输入搜索信息关键字">
+				</div>
+			</div>
+			<div class="dw-leave-list-wrap">
+
+			</div>
+		</div>
+		<!--右上角弹出菜单-->
+		<div id="menuPopover" class="mui-popover ju-menu-popover">
+			<div class="mui-popover-arrow"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell fn-filter" data-type="end">已结束</li>
+				<li class="mui-table-view-cell fn-filter" data-type="ing">未结束</li>
+				<li class="mui-table-view-cell fn-filter" data-type="all">全部</li>
+			</ul>
+		</div>
+		<script type="text/html" id="tpl-list-item">
+			{{each}}
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell dw-attendence-type">
+					类型：&nbsp&nbsp<span>{{$value.type}}</span>
+					<a class="mui-navigate-right fn-more" data-param="type={{$value.type}}&id={{$value.id}}">
+						更多
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					申请时间<span>{{$value.date}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					当前审批人<span>{{$value.approver}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					休假开始日期<span>{{$value.startDate}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					休假结束日期<span>{{$value.endDate}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					申请人<span>{{$value.proposer}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					流程名称<span>{{$value.process}}</span>
+				</li>
+				<li class="mui-table-view-cell">
+					是否结束<span>{{$value.end}}</span>
+				</li>
+			</ul>
+			{{/each}}
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script type="text/javascript">
+			var _keyword = '';
+			var _filter = 'all';
+			var _filterTypeArr = {
+				end: '0',
+				ing: '1',
+				all: '-1'
+			};
+			var _typeArr = [{
+					value: 0,
+					text: '年休假'
+				},
+				{
+					value: 1,
+					text: '婚假'
+				},
+				{
+					value: 2,
+					text: '计划生育假'
+				},
+				{
+					value: 3,
+					text: '产假'
+				},
+				{
+					value: 4,
+					text: '看护假'
+				},
+				{
+					value: 5,
+					text: '病假'
+				},
+				{
+					value: 6,
+					text: '事假'
+				},
+				{
+					value: 7,
+					text: '工伤假'
+				},
+				{
+					value: 8,
+					text: '丧假'
+				},
+				{
+					value: 9,
+					text: '归侨'
+				},
+				{
+					value: 10,
+					text: '侨眷出境探亲假'
+				},
+				{
+					value: 11,
+					text: '探亲假'
+				}
+			];
+
+			function getList() {
+				//根据参数获取数据
+
+				//mui.toast('类型：'+_filter + '关键词：'+ _keyword)
+				//伪数据
+				var data = [];
+				for(var i = 0; i < 5; i++) {
+					data.push({
+						id: i,
+						type: i % 2 == 1 ? '考勤提前申报' : '年休假',
+						url: 'AdvanceAttendanceRegisterDetails.html',
+						date: '2018-01-09 16:00:00',
+						approver: '黄晓英',
+						startDate: '2018-01-10',
+						endDate: '2018-01-10',
+						proposer: '何应腾',
+						process: '休假申请',
+						end: '是'
+					});
+				}
+				//数据渲染
+				var html = template('tpl-list-item', data)
+				mui('.dw-leave-list-wrap')[0].innerHTML = html;
+				var scrolldom = document.querySelector('.ju-leave-list-wrap')
+				//scrolldom.scrollLeft = 320;
+				//scrolldom.scrollTop = 0;
+
+				//隐藏菜单
+				hideFilterMenu()
+			}
+
+			function filterList() {
+				var type = this.getAttribute('data-type');
+				var val = mui('input[type="search"]')[0].value;
+				if(type !== _filter || val !== _keyword) {
+					_filter = type;
+					_keyword = val;
+					getList()
+				}
+			}
+
+			function actionSearch(key) {
+				_keyword = key;
+				getList()
+			}
+
+			function showFilterMenu() {
+				mui('#menuPopover').popover('show');
+			}
+
+			function hideFilterMenu() {
+				mui('#menuPopover').popover('hide');
+			}
+
+			function moreLink(e) {
+				var uri = 'AdvanceAttendanceRegisterDetails.html',
+					params = this.getAttribute('data-param'),
+					reg = /type=(\D*)\&/,
+					_type = params.match(reg)[1];
+
+				switch(_type) {
+					case '年休假':
+						mui.openWindow({
+							url: uri + '?' + params.replace(_type, 0)
+						});
+						break;
+					case '考勤提前申报':
+						mui.openWindow({
+							url: uri + '?' + params.replace(_type, 1)
+						});
+						break;
+				}
+			}
+
+			/*
+			 * init and bindings
+			 */
+			mui.init();
+			mui.initBackHeader({
+				title: '我的申请',
+				rightBtn: '<i class="iconfont icon-menu-more" style="color:#1b98e6"></i>',
+				rightCallback: showFilterMenu
+			});
+
+			getList();
+
+			mui('.dw-leave-list-wrap').on('tap', '.fn-more', moreLink);
+			mui('.ju-menu-popover').on('tap', '.fn-filter', filterList);
+			mui('.ju-search')
+				.on('keyup', 'input[type="search"]', function(e) {
+					if(e.keyCode === 13) {
+						actionSearch(this.value);
+					}
+				})
+				.on('tap', '.mui-icon-clear', function() {
+					actionSearch('')
+				});
+		</script>
+	</body>
+
+</html>

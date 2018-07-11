@@ -1,0 +1,184 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">智能门禁控制</h1>
+		</header>
+		
+		<div class="mui-content ju-ctrl-acs">
+		    <ul class="ju-cards">
+		    	<li class="card" data-type='acs'>
+		    		<div class="cont">
+		    			<div class="img-wrap img-acs">
+		    				<div class="doors">
+		    					<div class="dr1"></div>
+			    				<div class="dr2"></div>
+			    				<div class="dr3"></div>
+			    				<div class="dr4"></div>
+			    				<div class="dr5"></div>
+			    				<div class="dr6"></div>
+		    				</div>
+		    			</div>
+		    		</div>
+		    		<div class="opt">
+		    			<span class="svg-icon-wrap">
+				        	<svg class="svg-icon">
+							    <use xlink:href="#icon-door-close"></use>
+							</svg>
+							<svg class="svg-icon active">
+							    <use xlink:href="#icon-door-open"></use>
+							</svg>
+				        </span>
+				        <span class="cont">
+					        <div class="mui-switch mui-switch-mini fn-acs-toggle">
+			    			  <div class="mui-switch-handle"></div>
+			    			</div>
+				        </span>
+		    		</div>
+		    	</li>
+		    </ul>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script type="text/javascript">
+			
+			var _oldData = {door: 0};
+			var _handlerGet = null, _isInit = true;
+			/*
+			 * 开关状态切换
+			 */
+			function acsToggle(e){
+				var state = e.detail.isActive;	//true or false
+				var reqdata = {door: state?1:0}
+				
+				if(state){
+					_oldData = reqdata;
+				}
+				else{
+					//关门
+					_oldData = reqdata;
+				}
+				initDoors(_oldData.door)
+//				if(_oldData.door == 1 || !state){
+//					initDoors(_oldData.door)
+//					mui.toast('门已打开，无需操作')
+//					return false;
+//				}
+//				else{
+//				}
+			}
+			
+			//开关门动画
+			function doorAnime(flag){
+				var imgacsDom = mui('.img-acs')[0],
+					doors = mui('.img-acs .doors')[0];
+				var wrapw = doors.clientWidth,
+					wraph = doors.clientHeight;
+				var dw = wrapw/6, dh = wraph;
+				if(!flag){
+					//关门
+					mui.each(mui('[class^=dr]'),function(index,ele){
+						ele.style.width =dw + 'px';
+						ele.style.height = wraph + 'px';
+						ele.style.left = dw * index + 'px';
+					})
+				}
+				else{
+					//开门
+					mui.each(mui('[class^=dr]'),function(index,ele){
+						ele.style.width =dw + 'px';
+						ele.style.height = wraph + 'px';
+						if(index<3){
+							ele.style.left = 10 * index + 'px';
+						}else{
+							ele.style.left = dw * 5 - (2-index%3)*10 + 'px';
+						}
+					})
+				}
+			}
+			
+			function initDoors(doorstatus){
+				//渲染页面
+				_oldData= {door:parseInt(doorstatus)};
+				if(_oldData.door){
+					//开门
+					mui('[data-type=acs]').addClass('active')
+					setSwitchStateStyle(mui('.fn-acs-toggle')[0], true)
+					doorAnime(1)
+				}
+				else{
+					//关门
+					mui('[data-type=acs]').removeClass('active')
+					setSwitchStateStyle(mui('.fn-acs-toggle')[0], false)
+					doorAnime(0)
+				}
+			}
+			
+			//获取页面初始化状态
+			function getInit(){
+				initDoors(_oldData.door);
+//				mui.ajax({
+//					url: parent._baseuri + 'object_getDoor.action',
+//					dataType:'json',
+//					beforeSend:function(){
+//						if(_isInit){
+//							mui.LoadingMask().show();
+//						}
+//					},
+//					success:function(rs){
+//						//var rs = JSON.parse(res);
+//						if(rs.status == "0"){
+//							//成功获取
+//							_oldData = rs.data;
+//						}
+//						else{
+//							mui.toast(rs.error);
+//						}
+//						initDoors(_oldData.door);
+//						//轮询
+//						autoReq(10)
+//					},
+//					complete:function(){
+//						if(_isInit){
+//							mui.LoadingMask().close();
+//							_isInit = false;
+//						}
+//					}
+//				})
+			}
+			
+			function autoReq(s){
+				if(_handlerGet != null){
+					clearTimeout(_handlerGet);
+					_handlerGet = null;
+				}
+				_handlerGet = setTimeout(getInit, s * 1000);
+			}
+			
+			/*
+			 * init and bindings 
+			 */
+			mui.init()
+			getInit()
+			mui('.fn-acs-toggle')[0].addEventListener('toggle', acsToggle)
+			
+			//door的样式会根据当前页面大小进行调整
+			window.addEventListener('resize',function(){
+				doorAnime(mui('.fn-acs-toggle')[0].classList.contains('mui-active'))
+			})
+		</script>
+</body>
+</html>

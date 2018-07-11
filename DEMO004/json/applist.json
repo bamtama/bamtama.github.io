@@ -1,0 +1,36 @@
+{
+    "status": "0",
+    "data": {
+        "applyList": [
+            {
+            "type": "在职证明",
+            "company": "省公司本部",
+            "department": "南方基地",
+            "reason": "测试1",
+            "time": "2017-12-21",
+            "state": "初始",
+            "handler": ""
+        },
+        {
+            "type": "在职证明",
+            "company": "省公司本部",
+            "department": "南方基地",
+            "reason": "测试3",
+            "time": "2017-12-21",
+            "state": "初始",
+            "handler": ""
+        },
+        {
+            "type": "在职证明",
+            "company": "省公司本部",
+            "department": "南方基地",
+            "reason": "测试5",
+            "time": "2017-12-21",
+            "state": "初始",
+            "handler": ""
+        }
+        ],
+        "total": "102"
+    },
+    "error": ""
+}

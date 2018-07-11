@@ -1,0 +1,151 @@
+{
+    "date": "201909",
+    "name": "test",
+    "no": "1234",
+    "classLevel": "2",
+    "quantile": "233",
+    "total": "233",
+    "incomeTotal": {
+        "base": "0",
+        "job": "0",
+        "benefit": "0",
+        "overtime": "0",
+        "jobWaiting": "0",
+        "jobWaitingSubsidy": "0",
+        "seniority": "0",
+        "innerRetirement": "0",
+        "innerRetirementSubsidy": "0",
+        "lastMonthAddition": "0",
+        "get1": "0",
+        "get2": "0",
+        "get3": "0",
+        "retirementSubsidy": "0",
+        "dispatchSubsidy": "0",
+        "quantile": "0",
+        "total": "0"
+    },
+    "incomeDeducted": {
+        "attendance": "1",
+        "pensions": "1",
+        "unemploymentInsurance": "1",
+        "healthInsurance": "1",
+        "birthInsurance": "1",
+        "fund": "1",
+        "injuryInsurance": "1",
+        "annuity": "1",
+        "annuityAfterTax": "1",
+        "deducted2": "1",
+        "rent": "1",
+        "tax": "1",
+        "total": "1"
+    },
+    "companyPaid": {
+        "pensions": "2",
+        "unemploymentInsurance": "2",
+        "healthInsurance": "2",
+        "birthInsurance": "2",
+        "fund": "2",
+        "injuryInsurance": "2",
+        "annuity": "2",
+        "total": "2"
+    },
+    "netPay": [
+        {
+            "bankName": "3",
+            "bankAccount": "3",
+            "amount": "3",
+            "explaination": "3"
+        },
+        {
+            "bankName": "3",
+            "bankAccount": "3",
+            "amount": "3",
+            "explaination": "3"
+        }
+    ],
+    "seasonBonus": {
+        "month": "4",
+        "bonus": "4",
+        "season": "4",
+        "yearhalf": "4",
+        "yearend": "4",
+        "operation": "4",
+        "tax": "4",
+        "leave": "4",
+        "deducted1": "4",
+        "deducted2": "4",
+        "otherDeducted": "4",
+        "otherDeducetdAfterTax": "4",
+        "yearendBonus": "4",
+        "accountName": "4",
+        "amount": "4",
+        "bankName": "4",
+        "bankAccount": "4",
+        "coefficient": "4",
+        "explaination": "4"
+    },
+    "yearBonus": {
+        "month": "5",
+        "bonus": "5",
+        "season": "5",
+        "yearhalf": "5",
+        "yearend": "5",
+        "operation": "5",
+        "tax": "5",
+        "leave": "5",
+        "deducted1": "5",
+        "deducted2": "5",
+        "otherDeducted": "5",
+        "otherDeducetdAfterTax": "5",
+        "yearendBonus": "5",
+        "accountName": "5",
+        "amount": "5",
+        "bankName": "5",
+        "bankAccount": "5",
+        "coefficient": "5",
+        "explaination": "5"
+    },
+    "otherBonus": [
+        {
+            "title": "6",
+            "sum": "6",
+            "quickSub": "6",
+            "tax": "6",
+            "deducted1": "6",
+            "deducted2": "6",
+            "otherDeducted": "6",
+            "otherDeducetdAfterTax": "6",
+            "amount": "6",
+            "accountName": "6",
+            "bankName": "6",
+            "bankAccount": "6",
+            "explaination": "6"
+        },
+        {
+            "title": "6",
+            "sum": "6",
+            "quickSub": "6",
+            "tax": "6",
+            "deducted1": "6",
+            "deducted2": "6",
+            "otherDeducted": "6",
+            "otherDeducetdAfterTax": "6",
+            "amount": "6",
+            "accountName": "6",
+            "bankName": "6",
+            "bankAccount": "6",
+            "explaination": "6"
+        }
+    ],
+    "entry": [
+        {
+            "bank": "7",
+            "amount": "7"
+        },
+        {
+            "bank": "7",
+            "amount": "7"
+        }
+    ],
+    "actualAmount": "8"
+}

@@ -1,0 +1,150 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=834cf6c879759b728d2f3ad76b8185e5"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">实时温度调节</h1>
+		</header>
+		
+		<div class="mui-content ju-ctrl-temper">
+		    <ul class="ju-cards">
+		    	<li class="card" data-type='air'>
+		    		<div class="cont">
+		    			<div class="img-wrap img-temper">
+		    			</div>
+		    		</div>
+		    	</li>
+		    </ul>
+		    <ul class="mui-list-unstyled ju-enters-list">
+		    	<li data-type="cool">
+					<a class="link">
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-air-cooler"></use>
+						</svg>
+						<span>冷风</span>
+					</a>
+				</li>
+				<li data-type="hot">
+					<a class="link">
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-air-warmer"></use>
+						</svg>
+						<span>暖风</span>
+					</a>
+				</li>
+				<li data-type="speed">
+					<a class="link">
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-air-speed"></use>
+						</svg>
+						<span>风速</span>
+					</a>
+				</li>
+				<li data-type="power">
+					<a class="link">
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-air-power"></use>
+						</svg>
+						<span>开关</span>
+					</a>
+				</li>
+		    </ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=834cf6c879759b728d2f3ad76b8185e5"></script>
+		<script type="text/javascript">
+			/*
+			 * 开关状态更新
+			 */
+			var _keyframesStyle = null;
+			function actionTap(){
+				//动画写入
+				if(!_keyframesStyle){
+					var scaleParam = this.clientWidth / 1.7;
+					var rule = "@keyframes touching{0% { transform: scale(0);} 100% {transform: scale("+scaleParam+");}}";
+					_keyframesStyle = document.createElement('style');
+					_keyframesStyle.type = 'text/css';
+					_keyframesStyle.innerHTML = '';
+					document.getElementsByTagName('head')[0].appendChild(_keyframesStyle);
+					this.stylesheet = document.styleSheets[document.styleSheets.length-1];
+					this.stylesheet.insertRule( rule , this.stylesheet.rules.length);
+				}
+				//动效
+				var curdom = this;
+				mui(curdom).addClass('z-touch')
+				setTimeout(function(){
+					mui(curdom).removeClass('z-touch');
+				},500)
+				
+				//操作事件
+				var type = curdom.getAttribute('data-type'),
+					reqdata = {
+						power:999,
+						speed:999,
+						cool:999,
+						hot:999
+					};
+				//不同情况下写入data
+				reqdata[type] = 1;
+				
+				//进行网络请求
+				actionChangeTemper(reqdata,type)
+			}
+			
+			function actionChangeTemper(reqdata,type){
+				mui.LoadingMask().show();
+				//获取坐标并开始请求
+				mui.getCoord(function(args){
+					reqdata.latitude = args.latitude;
+					reqdata.longitude = args.longitude;
+					mui.ajax({
+						url: parent._baseuri + 'object_setFan.action',
+						type: 'post',
+						dataType: 'json',
+						data: reqdata,
+						success: function(res){
+							if(res.status == '0'){
+								if(res.data[type] == 'true'){
+									mui.toast('操作成功')
+								}
+								else{
+									mui.toast('操作失败')
+								}
+							}
+							else{
+								mui.toast(res.error)
+							}
+						},
+						error:function(){},
+						complete:function(xhr){
+							mui.LoadingMask().close();
+						}
+					})
+				},function(){
+					mui.LoadingMask().close()
+				})
+			}
+			
+			/*
+			 * init and bindings
+			 */
+			mui.init()
+			//getInit()
+			mui('.ju-enters-list').on('tap','li',actionTap)
+		</script>
+	</body>
+
+</html>

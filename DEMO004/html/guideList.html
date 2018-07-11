@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+	</head>
+	<body style="background:#fff;">
+		<div id="refreshContainer" class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view ju-list ju-guide-list">
+					<script type="text/html" id="tpl-guidelist">
+						{{if $data.type==='questions'}}
+							{{each $data.list}}
+							<li class="mui-table-view-cell">
+								<a href="File.html?id={{$value.id}}" class="mui-navigate-right" data-id="{{$value.id}}">
+									{{$value.title}}
+								</a>
+							</li>
+							{{/each}}
+						{{else}}
+							{{each $data.list}}
+							<li class="mui-table-view-cell">
+								<a href="File.html?id={{$value.id}}" data-id="{{$value.id}}">
+									{{if $data.type==='regulation'}}
+									<p class="title title-break">{{$value.title}}</p>
+									{{else}}
+									<p class="title">{{$value.title}}</p>
+									{{/if}}
+									<p class="mui-clearfix info">
+										<span class="cate">[ {{$value.cate}} ]</span>
+										<span class="date">
+					            			{{$value.date}}
+					            			<i class="icon-arrow-right iconfont"></i>
+			            				</span>
+									</p>
+								</a>
+							</li>
+							{{/each}}
+						{{/if}}
+					</script>
+				</ul>
+			</div>
+			<script src="../js/mui.js"></script>
+			<script src="../js/dw-wheel.js"></script>
+			<script src="../js/template-web.js"></script>
+			<script src="../js/ajaxConfig.js"></script>
+			<script type="text/javascript">
+				var _param = '',
+					_fileData = null,	//整个数据列表
+					_dataArr = null,	//搜索数据列表
+					_pageSize = 20,
+					_pageIndex = 0;
+
+				function getData(state){
+					//获取数据
+					_param = (/\?(\w*)/).exec(location.href)[1];
+					
+					if(_fileData === null){
+						publicApi.getFile({
+							type:'get',
+							url: '../json/' + _param + '.json', 
+							success:function(res){
+								_fileData = res;
+								fillPage(res,state)
+							}
+						})
+					}
+					else{
+						fillPage(_dataArr,state)
+					}
+				}
+				function fillPage(res,state){
+					_dataArr = res;
+					//模板填充
+					var html = template('tpl-guidelist', {
+						type: _param, 
+						list: res.slice(_pageSize*(_pageIndex), _pageSize*(_pageIndex+1))
+					});
+					if(_pageIndex === 0){
+						mui('.ju-list')[0].innerHTML = '';
+						mui('#refreshContainer').pullRefresh().refresh(true);
+					}
+					if(state === 'up'){
+						//上拉加载
+						mui('.ju-list')[0].innerHTML += html;
+						if(_pageSize*(_pageIndex+1) >= res.length) {
+							//没有更多数据了
+							mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+							mui('.mui-pull-bottom-pocket')[0].classList.add('mui-visibility');	//强制显示（第一次不会显示）
+						} else {
+							mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+						}
+						++_pageIndex;
+					}
+				}
+				
+				function pullupRefresh() {
+					//假装上拉
+					setTimeout(function(){
+						getData('up');
+					},100)
+				}
+				
+				//搜索
+				function actionSearch(key){
+					_keyword = key;
+					//前端字符筛选
+					var tmparr = [];
+					for(var i in _fileData){
+						if(_fileData[i].title.indexOf(key) != -1){
+							tmparr.push(_fileData[i])
+						}
+					}
+					//结果赋值
+					_dataArr = tmparr;
+					_pageIndex = 0;
+					getData('up');
+				}
+				
+				//详情页跳转
+				function goPage(dom){
+					var id = dom.getAttribute('data-id');
+					for(var i in _dataArr){
+						if(_dataArr[i].id === id){
+							window.sessionStorage.setItem('OA_FILE_CONTENT',JSON.stringify(_dataArr[i]));
+							break;
+						}
+					}
+					mui.openWindow({
+						url: dom.href
+					});
+				}
+				
+				/*
+				 * init and bindings
+				 * 没必要用下拉刷新
+				 */
+				mui.init({
+					pullRefresh: {
+						container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+						up: {
+							height: 50, //可选.默认50.触发上拉加载拖动距离
+							auto: true,
+							contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+							contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+							callback: pullupRefresh
+						}
+					}
+				});
+				
+				mui('.ju-list')
+					.on('tap', 'a', function(){goPage(this)});
+				//监听搜索
+				window.addEventListener('message', function(e){
+					if(e.source !== window.parent) return;
+					//接收到父窗口发来的搜索参数
+					console.log(e.data)
+					actionSearch(e.data)
+				}, false)
+			</script>
+		</div>
+	</body>
+</html>

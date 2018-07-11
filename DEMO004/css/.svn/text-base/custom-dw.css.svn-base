@@ -1,0 +1,625 @@
+@charset "UTF-8";
+/*默认单行缩略*/
+.dw-annoucement .new-ann-wrap a p.title, .tip-wrap .mui-table-view-cell a .title {
+  overflow: hidden;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+}
+
+/*默认缩略后添加变为无缩略*/
+.mui-table-view .mui-table-view-cell .title-break {
+  white-space: normal;
+  word-break: break-all;
+}
+
+/*默认缩略后添加改为多行文本缩略*/
+/*guideList.html start*/
+.mui-table-view .mui-table-view-cell a.dw-flex {
+  display: flex;
+}
+
+.mui-table-view .mui-table-view-cell a.dw-flex .title {
+  flex: auto;
+}
+
+.mui-table-view .mui-table-view-cell a.dw-flex .titleIcon {
+  float: right;
+  flex: none;
+}
+
+/*guideList.html end*/
+/*salatyPage.html,attendencePage.html公共样式   start*/
+.dw-homebarpage-list {
+  top: 44px;
+}
+
+.dw-homebarpage-list .iconfont {
+  line-height: 44px;
+  color: #1B98E6;
+}
+
+.dw-homebarpage-list .mui-card {
+  margin: 10px 12px;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.dw-homebarpage-list .mui-card:first-child {
+  margin-top: 5px;
+}
+
+.dw-homebarpage-list .mui-table-view {
+  padding: 8px 15px 9px 24px;
+}
+
+.dw-homebarpage-list .mui-table-view-cell {
+  padding: 14px 9px 14px 0px;
+  font-family: "PingFang SC Regular";
+  font-size: 18px;
+}
+
+.dw-homebarpage-list .mui-table-view-cell:after {
+  left: 0;
+  right: 9px;
+  height: 2px;
+}
+
+.dw-homebarpage-list .mui-table-view-cell > a:not(.mui-btn) {
+  margin: -12px 0px;
+  margin-right: -8px;
+  padding-left: 15px;
+  color: #666666;
+}
+
+.dw-homebarpage-list .mui-navigate-right:after {
+  right: -3px;
+  font-weight: bold;
+}
+
+.dw-homebarpage-list li.dw-li-text {
+  padding: 13px 9px 13px 7px;
+  line-height: 18px;
+  font-size: 21px;
+  color: #292929;
+}
+
+.dw-homebarpage-list li.dw-li-text span {
+  font-family: "PingFang SC Medium";
+  font-size: 24px;
+  color: #ff6612;
+}
+
+.dw-homebarpage-list li.dw-attendence-li {
+  padding-left: 13px;
+}
+
+.dw-homebarpage-list .dw-plus:after {
+  content: "\e468";
+}
+
+.dw-homebarpage-list .icon-pin {
+  font-size: 15px;
+  position: absolute;
+  top: 14px;
+  left: 6px;
+}
+
+/*salatyPage.html,attendencePage.html公共样式   end*/
+/*attendencePage.html,applyPage.html 相同独立样式 start*/
+.dw-attendence-page .icon-pin,
+.dw-apply-page .icon-pin {
+  top: 9px;
+}
+
+/*attendencePage.html,applyPage.html 相同独立样式 end*/
+/*salaryWelfareTaxQuety.html 独立样式 start*/
+.mui-table-view > .dw-welfare-tax-list {
+  padding: 20px 18px;
+}
+
+/*salaryWelfareTaxQuety.html 独立样式 end*/
+/*apply-proofOfIncome.html 样式 start*/
+.dw-proof-of-income {
+  margin-top: 44px;
+  margin-bottom: 52px;
+}
+
+.dw-proof-of-income .dw-clean,
+.dw-proof-of-income .dw-form {
+  font-size: 18px;
+  font-family: "PingFang SC Regular";
+  color: #292929;
+}
+
+.dw-proof-of-income .dw-clean:active, .dw-proof-of-income .dw-clean:hover {
+  color: #292929;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row:after {
+  height: 2px;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row input[name="stampNum"],
+.dw-proof-of-income .dw-form .mui-input-row input[name="bank"] {
+  padding-right: 30px;
+  float: right;
+  width: 50%;
+  color: #292929;
+  text-align: right;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row input[name="income"],
+.dw-proof-of-income .dw-form .mui-input-row input[name="audit"],
+.dw-proof-of-income .dw-form .mui-input-row input[name="auditCN"] {
+  height: 22px;
+  padding: 0 4px;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row i {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row i:before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-title {
+  width: 135px;
+  font-family: "PingFang SC Medium";
+  padding-left: 13px;
+  padding-right: 5px;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-title span {
+  color: #f44719;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-mask-button {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  border: none;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-part-right {
+  min-width: 175px;
+  padding-top: 10px;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-part-right input {
+  min-width: 92px;
+  width: 120px;
+  float: initial;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-apply-result {
+  float: left;
+  width: 56%;
+  font-size: 18px;
+  color: #292929;
+  padding: 0 15px 0 0;
+  margin-top: 10px;
+  margin-bottom: 28px;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-apply-result:focus {
+  border: 1px #999999 dotted;
+}
+
+.dw-proof-of-income .dw-form .mui-input-row .dw-word-total {
+  font-size: 12px;
+  color: #999999;
+  text-align: right;
+  line-height: 16px;
+  margin-top: 5px;
+  margin-right: 12px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.dw-proof-of-income .dw-form .dw-input-top:after {
+  height: 0;
+}
+
+.dw-proof-of-income .dw-form .dw-input-top label {
+  line-height: 26px;
+  padding-bottom: 0;
+}
+
+.dw-proof-of-income .dw-form .dw-input-top label ~ input {
+  height: 35px;
+  padding-bottom: 0;
+}
+
+.dw-proof-of-income .dw-form .dw-input-bottom label {
+  line-height: 26px;
+  padding-top: 0;
+}
+
+.dw-proof-of-income .dw-form .dw-input-bottom label ~ input {
+  height: 35px;
+  padding-top: 0;
+}
+
+.dw-proof-of-income .dw-form .dw-input-last:after {
+  height: 0;
+}
+
+.dw-proof-of-income .dw-form .dw-exampl,
+.dw-proof-of-income .dw-form .dw-note {
+  width: 100%;
+  line-height: 20px;
+}
+
+.dw-proof-of-income .dw-form .dw-exampl:after {
+  height: 0;
+}
+
+.dw-proof-of-income .dw-form .dw-exampl input {
+  text-align: center;
+  width: 100%;
+}
+
+.dw-proof-of-income .dw-form .dw-note {
+  position: relative;
+  font-size: 12px;
+  padding-left: 14px;
+  padding-bottom: 10px;
+  color: #999999;
+}
+
+.dw-proof-of-income .dw-form .dw-note:after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  content: '';
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  background-color: #eaf0f3;
+}
+
+.dw-proof-of-income .mui-input-group input:focus {
+  color: #292929;
+  border: 1px #999999 dotted;
+}
+
+.dw-proof-of-income .dw-income-footer {
+  margin-top: 10px;
+}
+
+.dw-proof-of-income .dw-income-footer .dw-tips {
+  background: #eaf0f3;
+  font-size: 12px;
+  color: #666666;
+  padding: 3px 5px;
+}
+
+.dw-proof-of-income .dw-income-footer .dw-tips span {
+  height: 43px;
+}
+
+.dw-proof-of-income .dw-apply-submit {
+  height: 51px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 99;
+  background: #fff;
+  border-top: 1px #cccccc solid;
+}
+
+.dw-proof-of-income .dw-apply-submit .mui-btn {
+  border: none;
+  font-size: 21px;
+  font-family: "PingFang SC Medium";
+  width: 100%;
+  height: 100%;
+  color: #1B98E6;
+}
+
+/*apply-proofOfIncome.html 样式 end*/
+/*Annoucement.html 样式 start*/
+.dw-annoucement {
+  display: flex;
+  position: relative;
+  padding-top: 0 !important;
+  margin-top: 44px;
+}
+
+.dw-annoucement .new-ann-wrap {
+  position: absolute;
+  top: 0;
+  background: #fff;
+  width: 100%;
+  height: 90px;
+  margin-top: 10px;
+}
+
+.dw-annoucement .new-ann-wrap a {
+  color: #292929;
+  display: block;
+  padding: 10px 18px 16px 72px;
+  height: 100%;
+}
+
+.dw-annoucement .new-ann-wrap a .icon-annoucement-new {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #1B98E6;
+  font-size: 38px;
+  height: 100%;
+  line-height: 81px;
+}
+
+.dw-annoucement .new-ann-wrap a p {
+  margin: 0;
+}
+
+.dw-annoucement .new-ann-wrap a p.title {
+  font-family: "PingFang SC Regular";
+  font-size: 15px;
+  line-height: 20px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+}
+
+.dw-annoucement .new-ann-wrap a p.new-ann {
+  font-family: "PingFang SC Medium";
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 24px;
+}
+
+.dw-annoucement .new-ann-wrap a p.date {
+  text-align: right;
+}
+
+.dw-annoucement .notip-wrap {
+  flex: auto;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 88px;
+  background: #fff;
+}
+
+.dw-annoucement .notip-wrap .svg-icon {
+  font-size: 187px;
+  height: 0.75em;
+}
+
+.dw-annoucement .notip-wrap p {
+  color: #292929;
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+/*Annoucement.html 样式 end*/
+/*annoucementLIst.html 样式 start*/
+.tip-wrap .mui-table-view-cell {
+  padding: 12px 16px;
+}
+
+.tip-wrap .mui-table-view-cell:after {
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+.tip-wrap .mui-table-view-cell a {
+  margin: -12px -16px;
+}
+
+.tip-wrap .mui-table-view-cell a .title {
+  font-family: "PingFang SC Regular";
+  font-size: 15px;
+  line-height: 20px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+}
+
+.tip-wrap .mui-table-view-cell a .date {
+  width: 100%;
+  font-size: 12px;
+  color: #666666;
+}
+
+/*annoucementLIst.html 样式 end*/
+/*Setting.html 样式 start*/
+.dw-setting .mui-table-view,
+.dw-setting .dw-logout {
+  margin-top: 15px;
+  margin-bottom: 0;
+  font-family: "PingFang SC Medium";
+  color: #292929;
+  border: none;
+  border-radius: 0;
+}
+
+.dw-setting .mui-table-view:first-child {
+  margin-top: 10px;
+}
+
+.dw-setting .mui-table-view .mui-table-view-cell:last-child:after {
+  height: 0;
+}
+
+.dw-setting .mui-table-view .mui-table-view-cell:after {
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+.dw-setting .mui-table-view .mui-table-view-cell .mui-navigate-right .badge-new {
+  display: none;
+  border-radius: 10px;
+  background: #f44719;
+  color: #fff;
+  padding: 0 8px;
+  font-size: 18px;
+  line-height: 28px;
+  transform: scale(0.5) translateY(-100%);
+  right: 24px;
+}
+
+.dw-setting .mui-table-view .mui-table-view-cell .mui-navigate-right .z-new {
+  display: inline-block;
+}
+
+.dw-setting .mui-table-view .mui-table-view-cell .mui-navigate-right .dw-versions {
+  font-family: "PingFang SC Regular";
+  font-size: 17px;
+  color: #292929;
+}
+
+/*Setting.html 样式 end*/
+/*AdvanceAttendanceRegister.html 样式 start*/
+.close-img {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  background: rgba(200, 200, 200, 0.8);
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  text-align: center;
+  line-height: 20px;
+  font-size: 26px;
+  transform: rotateZ(45deg);
+}
+
+.image-tools {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.itBtn-wrap {
+  width: 100%;
+  position: absolute;
+  bottom: 10%;
+}
+
+.image-tools-btn {
+  width: 80%;
+  padding: 8px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+/*AdvanceAttendanceRegister.html 样式 end*/
+/*LeaveApplicationList.html 样式 start*/
+.ju-search-wrap {
+  background: #ddefff;
+}
+
+.ju-search-wrap .dw-search {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  color: #cbcbcb;
+}
+
+.ju-search-wrap .dw-search > input[type="search"] {
+  background: #fff;
+  color: #cbcbcb;
+}
+
+.ju-search-wrap .dw-search span {
+  color: #cbcbcb;
+}
+
+.dw-leave-list-wrap ul li,
+.details-content ul li {
+  font-family: "PingFang SC Regular";
+  font-size: 15px;
+  color: #292929;
+}
+
+.dw-leave-list-wrap ul li:first-child,
+.details-content ul li:first-child {
+  background: #ddefff;
+  font-size: 18px;
+}
+
+.dw-leave-list-wrap ul li:after,
+.details-content ul li:after {
+  left: 0;
+  height: 2px;
+}
+
+.dw-leave-list-wrap ul li span,
+.details-content ul li span {
+  float: right;
+}
+
+.dw-leave-list-wrap ul .dw-attendence-type,
+.details-content ul .dw-attendence-type {
+  color: #1B98E6;
+}
+
+.dw-leave-list-wrap ul .dw-attendence-type .mui-navigate-right:after,
+.details-content ul .dw-attendence-type .mui-navigate-right:after {
+  color: #1B98E6;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.dw-leave-list-wrap ul .dw-attendence-type span,
+.details-content ul .dw-attendence-type span {
+  display: inline;
+  float: none;
+  color: #000;
+}
+
+.dw-leave-list-wrap ul .dw-attendence-type a,
+.details-content ul .dw-attendence-type a {
+  display: inline;
+  float: right;
+  width: 80px;
+  font-size: 15px;
+}
+
+/*LeaveApplicationList.html 样式 end*/
+/*LeaveApplicationList.html 样式 end*/
+.details-content ul li {
+  position: relative;
+}
+
+.details-content ul li p {
+  display: inline;
+  width: calc(100vw - 165px);
+  position: absolute;
+  left: 150px;
+}
+
+.details-content ul li span {
+  float: left;
+  position: absolute;
+  left: 150px;
+}
+
+/*LeaveApplicationList.html 样式 end*/

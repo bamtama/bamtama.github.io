@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/project/!svn/ver/401/smartbase/frontend/unpackage
+END
+.dependencies
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/project/!svn/ver/228/smartbase/frontend/unpackage/.dependencies
+END
+.confirmed_dependencies
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/project/!svn/ver/401/smartbase/frontend/unpackage/.confirmed_dependencies
+END

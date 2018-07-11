@@ -1,0 +1,604 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>出国在职证明申请</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<!--<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">出国在职收入证明申请</h1>
+		    <a class="mui-btn-link mui-pull-right mui-btn-link-default fn-clear">清除</a>
+		</header>-->
+		<div class="mui-content ju-form-wrap">
+		    <div class="cont">
+		    	<script type="text/html" id="tpl-form-income-cert">
+			    	<form class="mui-input-group ju-form fn-form-base">
+				        <div class="mui-input-row">
+				            <label>员工姓名<i class="z-required">*</i></label>
+				            <input type="text" class="mui-input-clear" name="name" placeholder="请输入" value="{{name}}">
+				        </div>
+				        <div class="mui-input-row">
+				            <label>身份证号<i class="z-required">*</i></label>
+				            <input type="text" class="mui-input-clear" name="id" placeholder="请输入" value="{{id}}">
+				        </div>
+				        <div class="mui-input-row">
+				            <label>所属部门</label>
+				            <input type="text" class="mui-input-clear" name="department" placeholder="请输入" value="{{department}}" disabled>
+				        </div>
+				        <div class="mui-input-row">
+				            <label>员工编号</label>
+				            <input type="text" class="mui-input-clear" name="no" placeholder="请输入" value="{{no}}" disabled>
+				        </div>
+				        <div class="mui-input-row">
+				            <label>申请日期</label>
+				            <input type="text" class="mui-input-clear" name="date" placeholder="请输入" value="{{date}}" disabled>
+				        </div>
+				        <div class="mui-input-row">
+				            <label>证明内容<i class="z-required">*</i></label>
+				            <a class="link fn-file-sel">
+					            <span>{{ templSel | templSelToText }}</span>
+					            <input type="hidden" name="templSel" value="{{templSel}}"/>
+					            <input type="hidden" name="templCont" value="{{templCont}}"/>
+					            <i class="iconfont icon-arrow-right"></i>
+				            </a>
+				        </div>
+				    </form>
+				    <form class="mui-input-group ju-form">
+				        <div class="mui-input-row">
+				            <label>收入管理员意见<i class="z-required">*</i></label>
+				            <input type="text" class="mui-input-clear" name="reviewFromManager" value="{{reviewFromManager}}" disabled>
+				        </div>
+				        <div class="mui-input-row">
+				            <label>人力资源服务台意见<i class="z-required">*</i></label>
+				            <input type="text" class="mui-input-clear" name="reviewFromHr" value="{{reviewFromHr}}" disabled>
+				        </div>
+				    </form>
+				    <p class="tip mui-clearfix"><span class="title">温馨提示：</span><span>申请在人力资源部审核通过并打印盖章后，将发送短信通知后到33楼人力资源服务台领取证明。</span></p>
+			    </script>
+		    </div>
+	        <div class="opts">
+	        	<button type="button" class="mui-btn u-btn-bottom mui-btn-block fn-submit" data-loading-text="提交中">提交</button>
+	        </div>
+		</div>
+        <!--出国证明填写部分 / 不采用模板渲染，直接进行数据填充替换 -->
+        <div class="ju-apply-income-cert-inchina mui-hidden">
+        	<div class="header">
+        		<i class="iconfont icon-close fn-close"></i>
+        		<div class="bar">
+	        		<div class="mui-segmented-control mui-segmented-control-inverted">
+		        	    <a class="mui-control-item" href="#zhes">中英文模板</a>
+		        	    <a class="mui-control-item" href="#zhtw">中文模板（台湾）</a>
+		        	</div>
+        		</div>
+        	</div>
+        	<div class="cont">
+        		<div id="zhes" class="mui-control-content">
+        			<article class="ju-cert-article" data-type="es">
+	        			<h4>Statement of Employment and Income</h4>
+	        			<p>To whom it may concem,</p>
+	        			<p>This is to certify that
+	        				<input type="text" placeholder="输入示例：Mr.Zhangsan" name="name"/>
+	        				(<input type="text" name="gender" value="female" disabled/>,
+	        				born on <input type="text" placeholder="输入英文出生年月" name="birthDate"/>),
+	        				has been employed by China Mobile Group Guangdong Company since
+	        				<input type="text" placeholder="输入英文年月" name="entryDate"/>.</p>
+        				<p>China Mobile Group Guangdong is a state-owned company in telecommunication industry.
+        					We offer her a legal and stable monthly income with a number of RMB
+        					<input type="number" placeholder="输入税前收入" name="income"/>(before tax) in total, including salary and bonus.
+        					We understand that she will have a
+        					<input type="text" placeholder="输入国家时间时长" name="discribe"/>
+        					<span class="tip">(如6-day-travel to Korea in September2014)</span>.</p>
+        				<p class="mui-text-right">HR Dep.China Mobile Group Guangdong Co. Ltd</p>
+        				<p>Contact No. -86-18818812301</p>
+        				<p>Add: Global Access Building, No.11 Zhuajiang West Road, Zhujiang New City, Guangzhou, P.R.China</p>
+        			</article>
+
+        			<div class="ju-border-bottom"></div>
+        			<article class="ju-cert-article" data-type="zhcn">
+
+        				<h4>在职及收入证明</h4>
+        				<p>有关负责人：</p>
+        				<p>兹证明<input type="text" name="name" disabled/><input type="text" name="gender" disabled>（<input type="text" name="birthDate" disabled>出生），是中国移动通信集团广东有限公司员工，<input type="text" value="2013年7月05日" name="entryDate"/>至今在本公司工作。</p>
+        				<p>中国移动通信集团广东有限公司是一家从事电信业务的国有企业。<input type="text" placeholder="输入示例：张先生" name="called"/>在我司的收入合法而且稳定，月收入为税前<input placeholder="请填写税前收入" id="test" type="text" name="income" disabled/>元。
+        				他将于<input type="text" placeholder="输入出国时间" name="startDate"/> 前往<input type="text" placeholder="输入国家" name="countryName"/>旅游，度过<input type="number" placeholder="输入时长" name="travelDur"/>天左右的假期。</p>
+        				<p class="mui-text-right">中国移动通信集团广东有限公司 人力资源部</p>
+        				<p>单位联系电话：-86-18818812301</p>
+        				<p>单位地址：广东省广州市天河区珠江新城珠江西路11号广东全球通大厦</p>
+        			</article>
+        		</div>
+        		<div id="zhtw" class="mui-control-content">
+        			<p class="tip">如本《出国在职收入证明》模板无法满足您的签证需求，请电话联系人力资源服务台18818812301后再线下申请。</p>
+        			<article class="ju-cert-article" data-type="zhtw">
+        				<h4>在职及收入证明</h4>
+        				<p>有关负责人：</p>
+        				<p>兹证明<input type="text" name="name" disabled /><input type="text" name="gender" disabled>（<input name="birthDate" type="text" disabled />出生，
+        				身份证<input name="id" type="text" disabled />），
+        				是中国移动通信集团广东有限公司员工，<input type="text" value="2013年07月05日" name="entryDate"/>至今在本公司工作。</p>
+						<p>中国移动通信集团广东有限公司是一家从事电信业务的国有企业。<input type="text" placeholder="输入示例：张先生" name="called"/>在我司的收入合法而且稳定，
+							月收入为税前<input type="number" placeholder="输入税前收入" name="income" />元。
+							他将于<input type="text" placeholder="输入出发时间" name="startDate"/>前往台湾旅游，
+							度过<input type="number" placeholder="输入时长" name="travelDur" />天左右的假期。</p>
+						<p class="mui-text-right">中国移动通信集团广东有限公司 人力资源部</p>
+						<p>单位联系电话：18818812301</p>
+						<p>单位地址：广东省广州市天河区珠江新城珠江西路11号广东全球通大厦</p>
+        			</article>
+        		</div>
+        	</div>
+        	<div class="footer">
+	        	<button type="button" class="mui-btn u-btn-bottom mui-btn-block fn-confirm-file">确定</button>
+        	</div>
+        </div>
+		<script src="../js/mui.min.js"></script>
+		<!--<script src="../fonts/iconfont.js"></script>-->
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/apply.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script src="../js/public.js"></script>
+		<script type="text/javascript">
+			
+			var _initData = {},IncomeInfoObj;
+			
+			IncomeInfoObj = {
+				data:"",
+				IspageEdit:true,
+				params:{
+					id:getQueryString("id"),
+					type:getQueryString("type"),
+					option:getQueryString("option"),
+					state:getQueryString("state")
+				},
+				comparam:function(obj){
+					console.log(this.data.returnWebForm.ID)
+					obj.TEMPLATE_ID = this.data.returnWebForm.TEMPLATE_ID;
+					obj.ORG_ID = this.data.returnWebForm.ORG_ID
+					obj.ID = this.data.returnWebForm.ID||""
+					obj.HR_AUDIT_TIME = this.data.returnWebForm.HR_AUDIT_TIME
+					obj.HR_AUDIT_OPINION = this.data.returnWebForm.HR_AUDIT_OPINION
+					
+					obj.DEPT_ONE_ID = this.data.returnWebForm.DEPT_ONE_ID
+					obj.DEPT_NAME = this.data.returnWebForm.DEPT_NAME
+					obj.CHILD_CATEGORY_ID = this.data.returnWebForm.CHILD_CATEGORY_ID
+					obj.CATEGORY_ID = this.data.returnWebForm.CATEGORY_ID
+					obj.AUDIT_TIME = this.data.returnWebForm.AUDIT_TIME
+					
+					obj.AUDIT_OPINION = this.data.returnWebForm.AUDIT_OPINION;
+					obj.APPLY_TIM = this.data.returnWebForm.APPLY_TIM;
+					obj.APPLY_REASON = this.data.returnWebForm.APPLY_REASON;
+					obj.SEX = this.data.returnWebForm.SEX;
+					obj.APPLY_CONTENT = this.data.returnWebForm.APPLY_CONTENT||"";
+					obj.APPLY_EMPLOYEE_CODE = this.data.returnWebForm.APPLY_EMPLOYEE_CODE;
+					obj._FORM_UUID_TOKEN = Date.parse(new Date())
+				},
+				postData_EN:function(obj){
+					if(this.data == "") return;
+					var newreturnObj = this.data.returnWebForm;
+					var postDataObj_EN = {}
+					this.comparam(postDataObj_EN)
+					postDataObj_EN.APPLY_FIELD_1 = obj.name;
+					postDataObj_EN.APPLY_FIELD_2 = obj.id;
+					postDataObj_EN.APPLY_FIELD_3 = 1;  //模板类型
+					postDataObj_EN.APPLY_FIELD_4 = obj.templCont.es.name;    // 英文名字 示例
+					postDataObj_EN.APPLY_FIELD_5  =obj.templCont.es.birthDate;     //英文出生年月
+					postDataObj_EN.APPLY_FIELD_6 = obj.templCont.es.entryDate ;    //英文年月
+					postDataObj_EN.APPLY_FIELD_7 = obj.templCont.es.income;    //税前收入 英文
+					postDataObj_EN.APPLY_FIELD_8 = obj.templCont.es.discribe  //国家时长 示例 英文
+					postDataObj_EN.APPLY_FIELD_9 = newreturnObj.APPLY_FIELD_9||"";
+					postDataObj_EN.APPLY_FIELD_10 = newreturnObj.APPLY_FIELD_10;
+					postDataObj_EN.APPLY_FIELD_11 = newreturnObj.APPLY_FIELD_11;
+					postDataObj_EN.APPLY_FIELD_12 = newreturnObj.APPLY_FIELD_12;
+					postDataObj_EN.APPLY_FIELD_13 = obj.templCont.zhcn.name;   //中文名字 示例
+					postDataObj_EN.APPLY_FIELD_14 = obj.templCont.zhcn.startDate;   //出国时间
+					postDataObj_EN.APPLY_FIELD_15 = obj.templCont.zhcn.countryName;  //国家
+					postDataObj_EN.APPLY_FIELD_16 = obj.templCont.zhcn.travelDur;  //国家时长
+					postDataObj_EN.APPLY_FIELD_17 = newreturnObj.APPLY_FIELD_17||"";
+					postDataObj_EN.APPLY_FIELD_18 = obj.templCont.zhcn.income;  //税前收入
+					postDataObj_EN.APPLY_FIELD_19 = "";
+					
+					return postDataObj_EN
+				},
+				postData_CN:function(obj){
+					if(this.data == "") return;
+					var newreturnObj = this.data.returnWebForm;
+					var psotDateCNObj = {}
+					this.comparam(psotDateCNObj)
+					
+					psotDateCNObj.APPLY_FIELD_1 = obj.name;
+					psotDateCNObj.APPLY_FIELD_2 = obj.id;  //身份证
+					psotDateCNObj.APPLY_FIELD_3 = 2;  //模板类型
+					psotDateCNObj.APPLY_FIELD_7 = obj.templCont.zhtw.income;  //税前收入
+					psotDateCNObj.APPLY_FIELD_9 = newreturnObj.APPLY_FIELD_9
+					
+					psotDateCNObj.APPLY_FIELD_10 = newreturnObj.APPLY_FIELD_10;
+					psotDateCNObj.APPLY_FIELD_11 = newreturnObj.APPLY_FIELD_11;
+					psotDateCNObj.APPLY_FIELD_12 = newreturnObj.APPLY_FIELD_12;
+					psotDateCNObj.APPLY_FIELD_13 = obj.templCont.zhtw.called;   //中文名字 示例
+					psotDateCNObj.APPLY_FIELD_14 = obj.templCont.zhtw.startDate;   //出发时间
+					
+					psotDateCNObj.APPLY_FIELD_15 = "台湾";  //台湾
+					psotDateCNObj.APPLY_FIELD_16 = obj.templCont.zhtw.travelDur;  //国家时长
+					psotDateCNObj.APPLY_FIELD_17 = newreturnObj.APPLY_FIELD_17;
+					psotDateCNObj.APPLY_FIELD_20 = obj.id;
+					
+					return psotDateCNObj
+				}
+			}
+			
+			
+			/* 输入框初始化宽度 */
+			function getInputWidth(str,fontsize){
+				var predom = document.querySelector('span.get-width');
+				if(!predom){
+					predom = document.createElement('span');
+					predom.className = 'get-width';
+					document.querySelector('.ju-apply-income-cert-inchina').appendChild(predom);
+				}
+				predom.style.fontSize = fontsize;
+				predom.innerHTML = str;
+				return predom.offsetWidth;
+			}
+			
+			function initInputWidth(){
+				var doms = document.querySelector('.ju-apply-income-cert-inchina').querySelectorAll('input[name]');
+				doms.forEach(function(ele,index){
+					var ph = ele.placeholder, val = ele.value;
+					var fs = getComputedStyle(ele).fontSize;
+					if(ph.length > 0){
+						ele.style.width = getInputWidth(ph,fs) + 'px';
+					}
+					else{
+						ele.style.width = getInputWidth(val,fs) + 'px';
+					}
+				})
+			}
+			
+			/* 证明文档模板相关  */
+			function showFileTempl(){
+				//获取已存值
+				var sel = this.querySelector('input[name="templSel"]').value,
+					selcont = this.querySelector('input[name="templCont"]').value;
+				if(sel == ''){
+					sel = 'zhes';
+				}
+				mui('.ju-apply-income-cert-inchina .mui-control-item[href="#'+ sel +'"]').addClass('mui-active');
+				mui('.ju-apply-income-cert-inchina .mui-control-content#'+sel).addClass('mui-active')
+				mui('.ju-apply-income-cert-inchina').removeClass('mui-hidden');
+				initInputWidth()//初始化宽度
+			}
+			function closeFileTempl(){
+				mui('.ju-apply-income-cert-inchina .mui-control-item.mui-active').removeClass('mui-active');
+				mui('.ju-apply-income-cert-inchina .mui-control-content.mui-active').removeClass('mui-active')
+				mui('.ju-apply-income-cert-inchina').addClass('mui-hidden')
+			}
+			function relativeIncomeChange(){
+				var tar = mui('.ju-apply-income-cert-inchina article[data-type="zhcn"] input[name="income"]')[0];
+				tar.value = this.value;
+			}
+			function confirmFile(){
+				var curdom = mui('.ju-apply-income-cert-inchina .cont .mui-control-content.mui-active')[0];
+				
+				var tmp = {};
+				var breakflag = false;
+				curdom.querySelectorAll('article').forEach(function(ele,index){
+					if(breakflag == false){
+						tmp[ele.getAttribute('data-type')] = {};
+						ele.querySelectorAll('input').forEach(function(inp,index){
+							if(breakflag == false){
+								if(!inp.value || _.trim(inp.value) == ""){	//简单验证！
+									mui.toast('请输入完整信息');
+									breakflag = true;
+									return false;	//其实是continue
+								}
+								tmp[ele.getAttribute('data-type')][inp.getAttribute('name')] = inp.value;
+							}
+						})
+					}
+				})
+				
+				if(breakflag){
+					return false;
+				}
+				
+				//数据获取完毕，合并原始数据，写入dom
+				var oldv = mui('.fn-file-sel input[name="templCont"]')[0].value;
+				var newcont = mui.extend(true, JSON.parse(oldv), tmp);
+				
+				mui('.fn-file-sel input[name="templSel"]')[0].value = curdom.id;
+				mui('.fn-file-sel input[name="templCont"]')[0].value = JSON.stringify(newcont);
+				switch(curdom.id){
+					case 'zhes':
+						mui('.fn-file-sel span')[0].innerHTML = '中英文模板'
+						break;
+					case 'zhtw':
+						mui('.fn-file-sel span')[0].innerHTML = '中文模板（台湾）';
+						break;
+				}
+				closeFileTempl()
+			}
+			
+			//数据保存或提交 type：string 区别是保存还是提交
+			function ajaxPost(type){
+				var tplType = mui('.fn-file-sel span')[0].innerHTML == '中英文模板'?true:false;
+				var tplObj = getFormData()
+				console.log(tplObj)
+				var dadadas = tplType?IncomeInfoObj.postData_EN(tplObj):IncomeInfoObj.postData_CN(tplObj)
+				var _DateInfo = {
+					data: dadadas,
+					success:function(data){
+						if(data.status != 0){
+							mui.toast("请求数据失败")
+						}
+						//mui.oldback()
+					}
+				}
+				if(type == "save"){
+					tplType?publicApi.getOutProveIn.save_EN(_DateInfo):publicApi.getOutProveIn.save_CN(_DateInfo)
+				}else{
+					throw "暂时不要测试"
+//					tplType?publicApi.getOutProveIn.post_EN(_DateInfo):publicApi.getOutProveIn.post_CN(_DateInfo)
+				}
+			}
+			
+			
+			/* 数据填充 */
+			function getInfo(netData){
+				//本地或者网络获取默认数据
+				
+				_initData = {
+					"name": netData.returnObject.name||"text",
+					"id":netData.returnObject.Idcard||"1234556",
+					"department":netData.returnObject.deptName||"南方基地",
+					"no":netData.returnObject.employId||"1111",
+					"date":netData.returnObject.applyTime||"2017年9月9",
+					"templSel":"",
+					"templCont":{
+						"es":{
+							"name": "",
+						    "gender": "male",
+						    "birthDate":"",
+						    "entryDate": "",
+						    "income": "",
+						    "discribe": ""
+						},
+						"zhcn":{
+							"name": netData.returnObject.name||"test",
+						    "gender": netData.returnObject.sex||"男",
+						    "birthDate": netData.returnObject.birthday||"2019年9月9日",
+						    "entryDate": netData.returnObject.employDay||"2019年9月9日",
+						    "called": "",
+						    "income": "",
+						    "startDate": "",
+						    "countryName": "",
+						    "travelDur": ""
+						},
+						"zhtw":{
+							"name": netData.returnObject.name||"test",
+						    "gender": netData.returnObject.sex||"男",
+							"id":netData.returnObject.Idcard||"1233456789012345678",
+						    "birthDate": netData.returnObject.birthday||"2019年9月9日",
+						    "entryDate": netData.returnObject.employDay||"2019年9月9日",
+						    "called": "",
+						    "income": "",
+						    "startDate": "",
+						    "travelDur": ""
+						}
+					},
+					"reviewFromManager":netData.returnWebForm.audit_opinion||"",
+					"reviewFromHr":""
+				}
+//              _initData = netData;
+				var locdata = applyPublicMethods.getLocal(HR_STO_APPLY_INCOMECERTIFICATIONINCHINA);
+				if(locdata){
+					fillPage(JSON.parse(locdata))	
+				}
+				else{
+					fillPage(_initData)	
+				}
+			}
+			function fillPage(data){
+				template.defaults.imports.templSelToText = function(val){
+					var txt = '';
+					switch(val){
+						case 'zhes':
+						txt = '中英文模板'
+						break;
+						case 'zhtw':
+						txt = '中文模板（台湾）'
+						break;
+						default:
+						txt = '请选择'
+						break;
+					}
+					return txt;
+				}
+				var formhtml = template('tpl-form-income-cert', data);
+				mui('.ju-form-wrap .cont')[0].innerHTML = formhtml;
+				
+				fillTemplFile(data.templCont)
+			}
+			function fillTemplFile(data){
+				var domwrap = mui('.ju-apply-income-cert-inchina')[0];
+				for(type in data){
+					for(name in data[type]){
+						
+						var tmpinput = domwrap.querySelector('article[data-type="'+ type +'"]').querySelector('input[name="'+ name +'"]');
+						if(tmpinput){
+							tmpinput.value = data[type][name]
+						}
+					}
+				}
+			}
+			
+			/* 数据提交 */
+			function getFormData(){
+				var tmp = {};
+				mui('.fn-form-base')[0].querySelectorAll('input').forEach(function(ele,index){
+					tmp[ele.name] = ele.value;
+				})
+				var tmpcont = tmp.templCont || "{}";
+				tmp.templCont = JSON.parse(tmpcont);
+				return tmp;
+			}
+			function actionSubmit(){
+				var tdata = getFormData();
+				console.log(tdata)
+				//提交前数据验证(暂未特殊处理~)
+				var vflag = true;
+				for(i in tdata){
+					if(!tdata[i] || _.trim(tdata[i]) == ""){
+						vflag = false;
+						break;
+					}
+				}
+				if(!vflag){
+					mui.toast('请填写完整')
+					return false;
+				}
+				
+				//通过验证开始提交
+				var $btn = mui(this);
+				$btn.button('loading')
+				//模拟请求
+				ajaxPost("save")
+				
+				setTimeout(function(){
+					//成功
+					$btn.button('reset')
+				},1500)
+			}
+			
+			
+			/* 头部操作 */
+			function clearForm(){
+				fillPage(_initData)
+				applyPublicMethods.removeLocal(HR_STO_APPLY_INCOMECERTIFICATIONINCHINA);
+				mui('.mui-input-row input').input();	//dom已变，重新注册
+			}
+			function actionBack(){
+				var curdata = getFormData();
+				console.log(curdata)
+				
+				mui.confirm('您的内容尚未保存，是否保存','提示',['取消','确认'], function(e){
+						if(e.index == 0){
+							//取消并返回
+							//return false
+						}
+						else{
+							ajaxPost("save")
+							//applyPublicMethods.saveLocal(HR_STO_APPLY_INCOMECERTIFICATIONINCHINA, JSON.stringify(curdata))
+						}
+						//mui.oldback()
+				})
+					
+			}
+			
+			/* init and bindings */
+			mui.init()
+			mui.initBackHeader({
+				title:'出国在职证明申请',
+				rightBtn:'清除',
+				leftCallback:actionBack,
+				rightCallback:clearForm				
+			})
+			console.log(mui("[type=text]"))
+			//重置返回方法
+//			var _oldback = mui.back;
+//			mui.back = function(){
+//				//比较当前输入内容和初始化内容
+//				var curdata = getFormData();
+//				if(!_.isMatch(_initData,curdata))
+//				{
+//					mui.confirm('您的内容尚未保存，是否保存','提示',['取消','确认'], function(e){
+//						console.log(e.index)
+//						if(e.index == 0){
+//							//取消并返回
+//						}
+//						else{
+//							//保存并返回
+//							applyPublicMethods.saveLocal(HR_STO_APPLY_INCOMECERTIFICATIONINCHINA, JSON.stringify(curdata))
+//						}
+//						_oldback()
+//					})
+//				}
+//				else{
+//					_oldback()
+//				}
+//			}
+			
+<<<<<<< .mine
+			getInfo()
+=======
+			
+			/*
+			 * 初始化获取数据
+			 */
+			//初始化页面参数
+			var _editDateInitPage = {
+				
+				data :{
+					id:IncomeInfoObj.params.id||null,
+					type:IncomeInfoObj.params.type||null	
+				},
+				success:function(data){
+					if(data.status == "0"&&data.data.returnObject){
+						IncomeInfoObj.data = data.data
+						getInfo(IncomeInfoObj.data)
+					}else{
+						mui.toast("请求错误")
+					}
+				}	
+			}
+			var _getDateInitPage = {
+				success:function(data){
+					if(data.status == "0"&&data.data.returnObject){
+						IncomeInfoObj.data = data.data
+						getInfo(IncomeInfoObj.data)
+					}else{
+						mui.toast("请求错误")
+					}
+					
+				}
+			}
+			if(IncomeInfoObj.params.option == "modify"){
+				IncomeInfoObj.IsPageEdit = (IncomeInfoObj.params.state == "2")? false : true;
+				publicApi.getOutProveIn.edit(_editDateInitPage)
+			}else{
+				publicApi.getOutProveIn.get(_getDateInitPage)
+			}
+			
+			
+			
+				
+			 
+>>>>>>> .r1035
+			mui('.ju-form-wrap')
+				.on('tap', '.fn-file-sel', showFileTempl)
+				.on('tap', '.fn-submit', actionSubmit)
+			mui('.ju-apply-income-cert-inchina')
+				.on('tap', '.fn-close', closeFileTempl)
+				.on('input', 'article[data-type="es"] input[name="income"]',relativeIncomeChange)
+				.on('tap', '.fn-confirm-file', confirmFile)
+			
+			window.addEventListener('resize',function(){
+				//软键盘第一次弹起的时候，对表单界面高度产生的影响和定位
+				//获取当前焦点
+				var dh = document.body.clientHeight, top = document.activeElement.offsetTop;
+				
+				if(top + 44 < dh){
+					document.querySelector('.ju-apply-income-cert-inchina .cont').scrollTop = top
+				}
+			})
+			
+		</script>
+	</body>
+
+</html>

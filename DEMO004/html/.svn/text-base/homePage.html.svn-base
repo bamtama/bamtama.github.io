@@ -1,0 +1,207 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="mui-content mui-hidden">
+					<!--头部-->
+					<div class="ju-home-header">
+						<div class="bg"></div>
+						<div class="info">
+							<div class="greeting mui-clearfix">
+								<span class="name">
+									<span class="p"></span> 你好
+								</span>
+								<a class="mui-pull-right" href="Setting.html">
+									<i class="iconfont icon-setting"></i>
+								</a>
+							</div>
+							<div class="date">
+								<div class="day"></div>
+								<div class="year-month"></div>
+							</div>
+							<div class="mui-text-right">
+								<a class="annoucement" href="Annoucement.html">
+									<i class="iconfont icon-announcement"></i>系统公告
+								</a>
+							</div>
+						</div>
+						<!--主功能导航-->
+						<div class="ju-home-mainnav">
+							<a href="guide" class="item">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-guide"></use>
+								</svg>
+								<h5>办理指南</h5>
+							</a>
+							<a href="policies" class="item">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-rules"></use>
+								</svg>
+								<h5>政策法规</h5>
+							</a>
+							<a href="regulation" class="item">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-manage"></use>
+								</svg>
+								<h5>管理办法</h5>
+							</a>
+							<a href="questions" class="item">
+								<svg class="svg-icon">
+									<use xlink:href="#icon-qa"></use>
+								</svg>
+								<h5>常见问题</h5>
+							</a>
+						</div>
+					</div>
+					<!--常用入口-->
+					<div class="ju-home-enters">
+						<h5>
+							<i class="iconfont icon-pin"></i>常用入口
+						</h5>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="IncomeQuery.html">
+									<i class="iconfont icon-txt-yue"></i>月收入查询
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="performancePage.html">
+									<i class="iconfont icon-txt-ji"></i>绩效考核查询
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									<i class="iconfont icon-txt-shen"></i>考勤异常申报
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="ApplyForLeave.html">
+									<i class="iconfont icon-txt-shen"></i>休假申请
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="apply-proofOfIncome.html">
+									<i class="iconfont icon-txt-zheng"></i>收入证明
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script type="text/javascript">
+			function renderHomeInfo() {
+				var $name = mui('.greeting>.name>.p')[0];
+				var $day = mui('.date>.day')[0];
+				var $yearmonth = mui('.date>.year-month')[0];
+				var stoName = 'HR_APP_USERNAME';
+				
+				//请求用户名，获取用户名之前不加载HomePage
+				if(window.sessionStorage.getItem(stoName)){
+					mui('.mui-content').removeClass('mui-hidden');
+					$name.innerHTML = window.sessionStorage.getItem(stoName);
+				}
+				else{
+					publicApi.getUsername({
+						beforeSend:function(xhr){
+							mui.LoadingMask().show()
+						},
+						complete:function(xhr){
+							mui('.mui-content').removeClass('mui-hidden');
+							mui.LoadingMask().close()
+						},
+						success:function(response){
+							if(response.status == "123") {
+	                        	mui.toast(response.error);
+	                        }else if(response.status == "0") {
+	                        	window.sessionStorage.setItem(stoName, response.data)
+	                        	$name.innerHTML = response.data;
+	                        }
+						}
+					})
+				}
+				
+				//本地时间渲染
+				var tmpd = mui(new Date()).transDate();
+				$yearmonth.innerHTML = tmpd.theDate;
+				$day.innerHTML = tmpd.day;
+				
+				//是否有新公告
+//				var newflag = false;	
+//				if(newflag) {
+//					mui('.annoucement').addClass('z-new')
+//				}
+			}
+
+			mui.init({});
+			renderHomeInfo()
+			mui('.mui-scroll-wrapper').scroll({
+				indicators: false
+			});
+
+			mui('.ju-home-header, .ju-home-enters').on('tap', 'a', function(e) {
+				var thishref = this.getAttribute('href');
+
+				//针对首页特殊链接的处理
+				if(mui.os.plus) {
+					//5+环境生效
+					if(thishref === 'performancePage.html') {
+						//注：5+环境，homeBar和homePage是拆开的两个webview
+						var p = plus.webview.currentWebview().parent();
+						mui.fire(p, 'tabChange', {
+							target: thishref
+						})
+						var barview = plus.webview.getWebviewById('homeBar.html');
+						barview.evalJS("mui('.mui-active').removeClass('mui-active');mui('a[href=\"performancePage.html\"]').addClass('mui-active')")
+					} else {
+						mui.openWindow({
+							url: this.getAttribute('href'),
+							id: this.getAttribute('href')
+						})
+					}
+				} else {
+					if(thishref === 'performancePage.html') {
+						e.preventDefault()
+						parent.tabChangeClass(thishref)
+						parent.tabChange(thishref)
+						return false;
+					} else {
+						if(mui(this.parentElement).hasClass('ju-home-mainnav')) {
+							mui.openWindow({
+								url: 'Guide.html?' + thishref,
+								id: thishref
+							});
+						} else {
+							if(thishref){
+								mui.openWindow({
+									url: thishref,
+									id: thishref
+								})
+							}
+							else{
+								mui.toast('页面建设中...')
+							}
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,27 @@
+{
+  "status":200,
+  "message":"",
+  "data":{
+    "list":[
+      {
+        "id":"001",
+        "name":"姓名名",
+        "gender":"1",
+        "type": "类型",
+        "code":"1234567890",
+        "address":"suozaidizhi",
+        "cellphone":"13112341111",
+        "isfollow":"1"
+      },{
+        "id":"001",
+        "name":"姓名名",
+        "gender":"1",
+        "type": "类型",
+        "code":"1234567890",
+        "address":"suozaidizhi",
+        "cellphone":"13112341111",
+        "isfollow":"1"
+      }
+    ]
+  }
+}

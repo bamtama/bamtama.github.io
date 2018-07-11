@@ -1,0 +1,80 @@
+{
+  "status": 200,
+  "data": [{
+    "total": 33.33,
+    "detail": [{
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }]
+  }, {
+    "total": 33.33,
+    "detail": [{
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }]
+  }, {
+    "total": 33.33,
+    "detail": [{
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }]
+  }, {
+    "total": 33.33,
+    "detail": [{
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }]
+  }, {
+    "total": 33.33,
+    "detail": [{
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }, {
+      "label": "消费项目1",
+      "value": 3
+    }]
+  }],
+  "message": "操作成功"
+}

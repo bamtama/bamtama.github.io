@@ -1,0 +1,122 @@
+﻿﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body style="background: #fff;">
+		<div class="ju-reg-wrap">
+			<h2>智灵通注册</h2>
+			<form class="ju-form ju-reg-form">
+		        <div class="mui-input-row">
+		            <label>姓<span class="char2"></span>名 :</label>
+		            <input type="text" name="name" placeholder="请输入姓名">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>账<span class="char2"></span>号 :</label>
+		            <input type="text" name="account" placeholder="请输入账号">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>手<span class="charhalf"></span>机<span class="charhalf"></span>号 :</label>
+		            <input type="tel" name="phone" placeholder="请输入手机号">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>密<span class="char2"></span>码 :</label>
+		            <input type="password" name="password" placeholder="请输入密码">
+		        </div>
+		        <div class="mui-input-row">
+		            <label>密码确认 :</label>
+		            <input type="password" name="passwordRepeat" placeholder="请再次输入密码">
+		        </div>
+		        <div class="opts">
+		        	<button type="submit" data-loading-text="提交中" class="mui-btn mui-btn-grad-blue mui-btn-block fn-reg">提交</button>
+		        	<a class="mui-pull-right link-back" href="/smartbase/html/Login.html">返回登录</a>
+		        </div>
+		    </form>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/utils.js"></script>
+		<script type="text/javascript">
+			function actionReg(e){
+				e.preventDefault();
+				//序列化键值名和input name相同
+				var reqdata = {};
+				var checkflag = true;
+				mui.each(document.querySelectorAll('input'), function(index, ele){
+					if(ele.value == '' || ele.value.trim() == ''){
+						mui.toast('请填写完整的注册信息');
+						checkflag = false;
+						return false;
+					}
+					reqdata[ele.getAttribute('name')] = ele.value.trim();
+				})
+				
+				reqdata.token = localStorage.getItem('devId');
+				reqdata.type = localStorage.getItem('type');
+//				reqdata.token = "1231";
+//				reqdata.type = "1";
+				if(localStorage.getItem('devId')==null){
+					reqdata.token = 123;
+				}
+				if(localStorage.getItem('type')==null){
+					reqdata.type = 2;
+				}
+				if(!checkflag){
+					return false;
+				}
+				//其他验证
+				 if(!reqdata.phone.isTelphone()){
+					mui.toast('请填写正确的手机号码');
+					return false;
+				} 
+				if(reqdata.password != reqdata.passwordRepeat){
+					mui.toast('密码和确认密码不一致');
+					return false;
+				}
+				
+				mui.ajax({
+	                  type:"post",
+	                  data: reqdata,
+	                  dataType:"json", 
+	                  url:"/smartbase/register.action",
+	                  error: function(){
+	                    mui.toast('请求失败，请重试或联系管理员')
+	                  }, 
+	                  beforeSend:function(){
+	                  	mui('.fn-reg').button('loading');
+	                  },
+	                  success:function(response){
+	                    if(response.status=="1"){
+	                       mui.toast("注册失败，请重试");
+	                    }else if(response.status=="0"){
+	                    	mui.toast('注册成功，即将跳转...');
+	           			    setTimeout(function(){
+	           			    	mui.openWindow({url:'/smartbase/html/Layout.html'});
+	           			    },500)
+	                    }
+	                 },
+	                 complete:function(xhr, status){
+	                 	mui('.fn-reg').button('reset')
+	                 }
+	             });
+			}
+			
+			/*
+			 * init and bindings 
+			 */
+			mui.init()
+			mui('.ju-form')
+				.on('tap','button[type=submit]', actionReg)
+				.on('tap', '.link-back', function(){
+					var href = this.href;
+					mui.openWindow({url:href})
+				})
+		</script>
+	</body>
+</html>

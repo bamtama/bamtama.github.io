@@ -1,0 +1,118 @@
+/*
+ * base on mui.js
+ * 暂无数据兼容处理
+ * 
+ * initHeader
+ * 预设initMainHeader, initBackHeader
+ */
+
+(function($, document) {
+	$.oldback = mui.back;
+	
+	$.initHeader = function(option){
+		//预设标题栏
+		var TYPE_MAIN = 'main',
+			TYPE_BACK = 'back';
+		var _opts = $.extend({
+			title:'标题',
+			leftBtn:'',
+			rightBtn:'',
+			leftCallback: null,		//function
+			rightCallback: null,	//function
+			loadCallback:null		//funciton 创建dom结束后进行的操作
+		}, option);
+		
+		var _hw = null;
+		var isHeaderExsit = function(){
+			_hw = document.querySelector('header');
+			if(!_hw){
+				_hw = document.createElement('header');
+				_hw.className = 'mui-bar mui-bar-nav';
+				var first = document.body.firstElementChild;
+				document.body.insertBefore(_hw, first);
+				return false
+			}
+			else{
+				return true
+			}
+		}
+		
+		var html = ''
+			+'<span class="mui-pull-left left">'
+			+ _opts.leftBtn
+			+'</span>'
+			+'<h1 class="mui-title">'+ _opts.title + '</h1>'
+			+'<span class="mui-pull-right right">'
+			+ _opts.rightBtn
+			+'</span>';
+		
+		if(!isHeaderExsit()){
+			_hw.innerHTML = html;
+		}
+		
+		$(_hw)
+		.on('tap','.left', _opts.leftCallback)
+		.on('tap','.right', _opts.rightCallback)
+		
+		//执行其他注册事件
+		if(_opts.loadCallback){
+			_opts.loadCallback();
+		}
+		
+		return this;
+	}
+	
+	$.initMainHeader = function(option){
+		var _opts = $.extend({
+			title: '',
+			leftBtn:'', //'<a class="mui-icon"><i class="iconfont icon-announcement"></i></a>',
+			rightBtn: '<a class="mui-icon"><i class="iconfont icon-setting"></i></a>',
+			leftCallback: function(){
+				mui.openWindow({
+					url:'Annoucement.html'
+				})
+			},
+			rightCallback: function(){
+				mui.openWindow({
+					url:'Setting.html'
+				})
+			},
+			loadCallback: function(){
+				/*if(true){
+					mui('.icon-announcement').addClass('z-new')
+				}*/
+			}
+		}, option);
+		$.initHeader(_opts);
+	}
+	
+	$.initBackHeader = function(option){
+		if(option.rightBtn){
+			var txt = option.rightBtn;
+			option.rightBtn = '<a class="mui-btn-link mui-pull-right mui-btn-link-default">'+ txt +'</a>';
+		}
+//		var _oldback = mui.back;
+		var _opts = {
+			title: option.title,
+			leftBtn: '<a class="mui-action-back mui-icon mui-icon-left-nav"></a>',
+			rightBtn: option.rightBtn,
+			leftCallback: function(){
+				if(option.leftCallback){
+					mui.back = function(){
+						if(option.leftCallback()){
+							$.oldback()
+						}
+						else{
+							return false;
+						}
+					};
+				}
+			},
+			rightCallback: option.rightCallback,
+			loadCallback: option.loadCallback
+		};
+		
+		$.initHeader(_opts);
+	}
+
+})(mui, document)

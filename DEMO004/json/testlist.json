@@ -1,0 +1,28 @@
+{
+	"status": "0",
+	"data": {
+		"date": "2019年09月",
+		"status": "1",
+		"content": {
+			"total": "￥230",
+			"list": [
+				{
+					"title": "餐费",
+					"value": "200"
+				}, {
+					"title": "过节费",
+					"value": "300"
+				}, {
+					"title": "福利包",
+					"value": "200"
+				}, {
+					"title": "*异地任职",
+					"value": "200"
+				}, {
+					"title": "*通知计税",
+					"value": "100"
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,49 @@
+{
+	"status": "0",
+	"data": {
+		//salaryPage.html数据
+		//			"income": {
+		//				"category": "当月收入",
+		//				"money": "6000.25"
+		//			},
+		//			"welfare": {
+		//				"category": "当月福利",
+		//				"money": "500"
+		//			},
+		//			"insurance": {
+		//				"category": "抱歉本月无商业保险",
+		//				"money": ""
+		//			},
+		//			"tax": {
+		//				"category": "当月个税",
+		//				"money": "725.09"
+		//			},
+		//			"other": {
+		//				"category": "抱歉本月无商业保险"
+		//			}
+		//salaryWelfareTaxQuery.html数据
+		"date": "2019年09月",
+		"status": "1",
+		"content": {
+			"total": "￥230",
+			"list": [
+				{
+					"title": "餐费",
+					"value": "200"
+				}, {
+					"title": "过节费",
+					"value": "300"
+				}, {
+					"title": "福利包",
+					"value": "200"
+				}, {
+					"title": "*异地任职",
+					"value": "200"
+				}, {
+					"title": "*通知计税",
+					"value": "100"
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+	</head>
+	<body>
+		<!--标题栏-->
+		<!--内容-->
+		<div id="refreshContainer" class="mui-scroll-wrapper dw-homebarpage-list">
+			<div class="mui-scroll">
+				<div class="mui-content">
+					<!--数据列表-->
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="IncomeQuery.html">月收入查询</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="salaryWelfareTaxQuery.html">福利计税查询项</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">商业保险查询项</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="IncomeQuery.html?cate=tax">月税表明细查询</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">其他数据查询</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.extend.js"></script>
+			<script type="text/javascript">
+				mui(".mui-scroll").on('tap', 'a', function(e) {
+					var href = this.getAttribute('href');
+					if(href){
+						mui.openWindow({
+							url: href,
+							id: href
+						});
+					}
+					else{
+						mui.toast('页面建设中...')
+					}
+				});
+				
+				mui.init();
+				mui.initMainHeader({
+					title: '薪酬'
+				});
+				mui(".mui-scroll-wrapper").scroll();
+			</script>
+		</div>
+	</body>
+</html>

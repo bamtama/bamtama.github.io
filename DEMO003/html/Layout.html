@@ -1,0 +1,145 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/mui.picker.all.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+	</head>
+	<body>
+		<nav class="mui-bar mui-bar-tab fn-home-bar">
+		    <a class="mui-tab-item index-link mui-active" href="index.html" data-tabindex='0'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-home"></use>
+					</svg>
+					<svg class="svg-icon active">
+					    <use xlink:href="#icon-home-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">首页</span>
+		    </a>
+		    <a class="mui-tab-item home-link" href="home.html" data-tabindex='1'>
+		        <span class="svg-icon-wrap">
+		        	<svg class="svg-icon">
+					    <use xlink:href="#icon-mine"></use>
+					</svg>
+					<svg class="svg-icon active">
+					    <use xlink:href="#icon-mine-active"></use>
+					</svg>
+		        </span>
+		        <span class="mui-tab-label">我的</span>
+		    </a>
+		</nav>
+		<!-- 内容页 -->
+		<div class="mui-content">
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script type="text/javascript">
+			var _tabIndex = 0;
+			var _subpages = ['index.html','home.html'];
+			var _subpage_style = {
+				top: '0px',
+				bottom: '50px',
+				zindex:999
+			};
+			
+			var _baseuri = '/';
+			var _mask = mui.createMask();
+			
+			/* 非5+环境下的处理 */
+			var createIframe = function (el, opt) {
+			    var elContainer = document.querySelector(el);
+			    var wrapper = document.querySelector(".mui-iframe-wrapper");
+			    if(!wrapper){
+			        // 创建wrapper 和 iframe
+			        wrapper = document.createElement('div');
+			        wrapper.className = 'mui-iframe-wrapper';
+			        for(var i in opt.style){
+			            wrapper.style[i] = opt.style[i];
+			        }
+			    }else{
+			    }
+			    if(!opt.isAdd){
+				    //防止历史新增到history中，直接去除旧iframe，添加新iframe
+				    if(wrapper.querySelector('iframe')){
+				    	wrapper.querySelector('iframe').remove();
+				    }
+				    var iframe = document.createElement('iframe');
+			        iframe.src = opt.url;
+			        iframe.id = opt.id || opt.url;
+			        iframe.name = opt.id;
+			        wrapper.appendChild(iframe);
+			        elContainer.appendChild(wrapper);
+			    }
+			    else{
+			    	var iframe = wrapper.querySelector('iframe');
+			        iframe.src = opt.url;
+			        iframe.id = opt.id || opt.url;
+			        iframe.name = iframe.id;
+			    }
+		        //添加本地标记
+		        try{
+		        	
+		        }catch(e){
+		        	
+		        }
+			}
+			/*
+			 * 页面切换
+			 */
+			function tabChange(tab, flag){
+				//flag代表当前页面是替代模式还是新增模式
+				//子页面调用此方法进行内容页切换
+				createIframe('.mui-content', {
+					url: tab, 
+					style: _subpage_style,
+					isAdd: flag
+				})
+			}
+			//切换tab
+			mui('.fn-home-bar').on('tap', '.mui-tab-item', function(){
+				var t = this.getAttribute('href'),
+					ti = this.getAttribute('data-tabindex');
+				//是否正在两个主页面间切换,防止主页面tab反复切换
+				var ismainpage = document.querySelector('.mui-iframe-wrapper iframe').contentWindow._mianPage;
+				if(ismainpage){
+					if(_tabIndex != ti){
+						_tabIndex = ti;
+						tabChange(t,false)
+					}
+				}
+				else{
+					_tabIndex = ti;
+					tabChange(t,false)
+				}
+			})
+			
+			//获取我的新提醒
+			function getNewMsg(){
+				//后台请求方法
+				if(true){
+					mui('.fn-home-bar .home-link').addClass('z-new');
+				}
+				else{
+					mui('.fn-home-bar .home-link').removeClass('z-new');
+				}
+			} 
+			
+			/*
+			 * init and bindings
+			 */
+			mui.init()
+			//getNewMsg();
+			tabChange(_subpages[_tabIndex],false)
+			
+		</script>
+	</body>
+</html>

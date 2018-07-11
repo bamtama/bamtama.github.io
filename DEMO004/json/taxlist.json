@@ -1,0 +1,156 @@
+{
+  "data": {
+    "list": [
+      {
+        "date": "201601",
+        "status": "0"
+      },
+      {
+        "date": "201602",
+        "status": "0"
+      },
+      {
+        "date": "201603",
+        "status": "0"
+      },
+      {
+        "date": "201604",
+        "status": "0"
+      },
+      {
+        "date": "201605",
+        "status": "0"
+      },
+      {
+        "date": "201606",
+        "status": "0"
+      },
+      {
+        "date": "201607",
+        "status": "0"
+      },
+      {
+        "date": "201608",
+        "status": "0"
+      },
+      {
+        "date": "201609",
+        "status": "0"
+      },
+      {
+        "date": "201610",
+        "status": "0"
+      },
+      {
+        "date": "201611",
+        "status": "0"
+      },
+      {
+        "date": "201612",
+        "status": "0"
+      },
+      {
+        "date": "201701",
+        "status": "0"
+      },
+      {
+        "date": "201702",
+        "status": "0"
+      },
+      {
+        "date": "201703",
+        "status": "0"
+      },
+      {
+        "date": "201704",
+        "status": "0"
+      },
+      {
+        "date": "201705",
+        "status": "0"
+      },
+      {
+        "date": "201706",
+        "status": "0"
+      },
+      {
+        "date": "201707",
+        "status": "0"
+      },
+      {
+        "date": "201708",
+        "status": "1",
+        "total": "468.48",
+        "detail": {
+          "taxIncome": "8617.39",
+          "taxThreshold": "3500",
+          "taxAmount": "5117.39",
+          "taxRate": "20",
+          "quickSub": "555",
+          "twelfth": "0",
+          "twelfthTax": "0",
+          "personalIncomeTax": "468.48",
+          "withholdingTax": "0"
+        }
+      },
+      {
+        "date": "201709",
+        "status": "1",
+        "total": "194.79",
+        "detail": {
+          "taxIncome": "6497.88",
+          "taxThreshold": "3500",
+          "taxAmount": "2997.88",
+          "taxRate": "10",
+          "quickSub": "105",
+          "twelfth": "0",
+          "twelfthTax": "0",
+          "personalIncomeTax": "194.79",
+          "withholdingTax": "0"
+        }
+      },
+      {
+        "date": "201710",
+        "status": "1",
+        "total": "29.94",
+        "detail": {
+          "taxIncome": "4497.88",
+          "taxThreshold": "3500",
+          "taxAmount": "997.88",
+          "taxRate": "3",
+          "quickSub": "0",
+          "twelfth": "0",
+          "twelfthTax": "0",
+          "personalIncomeTax": "29.94",
+          "withholdingTax": "0"
+        }
+      },
+      {
+        "date": "201711",
+        "status": "1",
+        "total": "25.44",
+        "detail": {
+          "taxIncome": "4347.88",
+          "taxThreshold": "3500",
+          "taxAmount": "847.88",
+          "taxRate": "3",
+          "quickSub": "0",
+          "twelfth": "0",
+          "twelfthTax": "0",
+          "personalIncomeTax": "25.44",
+          "withholdingTax": "0"
+        }
+      },
+      {
+        "date": "201712",
+        "status": "0"
+      }
+    ],
+    "com_code": "34920440001",
+    "userid": "0121016638",
+    "sel_start": "201601",
+    "sel_end": "201712"
+  },
+  "error": "",
+  "status": "0"
+}

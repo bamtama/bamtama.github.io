@@ -1,0 +1,58 @@
+{
+  "status": 200,
+  "data": {
+    "list": [{
+      "educendate": "2018-04-29 17:02",
+      "educenplace": "dsfds",
+      "educencontent": "啊啊",
+      "index": 0
+    }, {
+      "educendate": "2018-04-29 09:28",
+      "educenplace": "广州",
+      "educencontent": "教育内容",
+      "index": 1
+    }, {
+      "educendate": "2018-04-29 09:28",
+      "educenplace": "广州",
+      "educencontent": "教育内容",
+      "index": 2
+    }, {
+      "educendate": "2018-04-28 16:48",
+      "educenplace": "sds",
+      "educencontent": "sdsff",
+      "index": 3
+    }, {
+      "educendate": "2018-04-28 10:44",
+      "educenplace": "鞭策",
+      "educencontent": "教务",
+      "index": 4
+    }, {
+      "educendate": "2018-04-28 10:42",
+      "educenplace": "边的",
+      "educencontent": "忌口",
+      "index": 5
+    }, {
+      "educendate": "2018-04-28 10:24",
+      "educenplace": "教育11",
+      "educencontent": "内容",
+      "index": 6
+    }, {
+      "educendate": "2018-04-27 12:06",
+      "educenplace": "测试",
+      "educencontent": "测试",
+      "index": 7
+    }, {
+      "educendate": "2018-04-27 11:15",
+      "educenplace": "ceshii",
+      "educencontent": "ghhhhhhhhh",
+      "index": 8
+    }, {
+      "educendate": "2018-04-26 15:00",
+      "educenplace": "测试",
+      "educencontent": "测试",
+      "index": 9
+    }],
+    "pageSum": 5
+  },
+  "message": "操作成功"
+}

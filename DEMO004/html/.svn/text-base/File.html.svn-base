@@ -1,0 +1,190 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<!-- 长文本标准:行高1.5,字间距1px,已设置对应css -->
+		<!--<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-pull-left mui-icon mui-icon-left-nav"></a>
+		    <h1 class="mui-title">标题</h1>
+		</header>-->
+		<div class="mui-content ju-file">
+
+			<!--<div class="ju-file-cont type1">
+		    	<h1>标题</h1>
+		    	<article>
+		    		<h4>title</h4>
+		    		<p class="mui-text-center">《国务院关于职工探亲待遇的规定》，已经一九八一年三月六日第五届全国人民代表大会常务委员会第十七次会议批准，现予公布施行。</p>
+		    		<p class="txt-r">一九八一年三月十四日</p>
+		    		<p class="i0">附:</p>
+		    		<p>文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件文本文件</p>
+		    	</article>
+		    </div>
+		    <div class="ju-file-cont type2">
+		    	<h1>标题</h1>
+		    	<p class="date">时间</p>
+		    	<article>
+		    		<h4 class="t-red">副标题</h4>
+		    		<h4>加粗标题</h4>
+		    		<p class="mui-text-center">《国务院关于职工探亲待遇的规定》，已经一九八一年三月六日第五届全国人民代表大会常务委员会第十七次会议批准，现予公布施行。</p>
+		    		<p class="txt-r">一九八一年三月十四日</p>
+		    		<p class="i0">附:</p>
+		    		<p>内容</p>
+		    	</article>
+		    </div>
+		    <div class="ju-file-cont type3">
+		    	<h1>标题</h1>
+		    	<p class="date">时间</p>
+		    	<article>
+		    		<p class="mui-text-center i0"></p>
+		    		<p></p>
+		    	</article>
+		    	<ul class="attachs">
+		    		<li>
+		    			<i class="iconfont icon-attach"><span>附件：</span></i>
+		    			<a>附件名</a>
+		    		</li>
+		    	</ul>
+		    </div>
+		    <div class="ju-file-cont type4">
+		    	<h1>标题</h1>
+		    	<p class="date">时间</p>
+		    	<div class="attach-tip">
+		    		<span>
+		    			<svg class="svg-icon">
+						    <use xlink:href="#icon-attach-tip"></use>
+						</svg>
+		    		</span>
+		    		<p>没有内容？<br />试试点击下面的附件</p>
+		    	</div>
+		    	<ul class="attachs">
+		    		<li>
+		    			<i class="iconfont icon-attach"><span>附件：</span></i>
+		    			<a>附件名</a>
+		    		</li>
+		    	</ul>
+		    </div>-->
+		</div>
+		<script type="text/html" id="tpl-filecont">
+			<div class="ju-file-cont {{blockclass}}">
+				<h1>{{title}}</h1>
+				<p class="date">{{date}}</p>
+
+				{{if content.article}}
+				<article>
+					{{@content.article}}
+				</article>
+				{{else}}
+				<div class="attach-tip">
+					<span>
+		    			<svg class="svg-icon">
+						    <use xlink:href="#icon-attach-tip"></use>
+						</svg>
+		    		</span>
+					<p>没有内容？<br />试试点击下面的附件</p>
+				</div>
+				{{/if}} {{if content.attaches.length}}
+				<ul class="attachs">
+					{{each content.attaches}}
+					<li>
+						<i class="iconfont icon-attach"><span>附件：</span></i>
+						<a href="{{$value.src}}">{{$value.title}}</a>
+					</li>
+					{{/each}}
+				</ul>
+				{{/if}}
+			</div>
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/setupWebViewJavascriptBridge.js"></script>
+		<script type="text/javascript">
+			
+			var _assetUri = 'http://10.251.95.21:8000/assets/hr/download';
+			//数据导入，暂缺
+			function addScript(url) {
+				var script = document.createElement('script');
+				script.type = 'text/javascript';
+				script.src = url;
+				document.body.appendChild(script);
+			}
+
+			function loadData() {
+				//获取数据
+				try {
+					var str = window.sessionStorage.getItem('OA_FILE_CONTENT');
+					if(str !== undefined && str !== null) {
+						var jsondata = dw.parseJson(str);
+						if(jsondata.blockclass == 'type4') {
+							addScript('../fonts/iconfont.js');
+						}
+						var htmlcont = template('tpl-filecont', jsondata);
+						mui('.ju-file')[0].innerHTML = htmlcont;
+					} else {
+						mui.toast('无法获取本地数据')
+					}
+				} catch(e) {
+					mui.toast('不支持localStorage')
+				}
+			}
+			
+			function actionDownload(dom,bridge){
+				var url = dom.getAttribute('href')
+				//下载附件
+				if(!bridge) {
+					window.androidShare.download_file(_assetUri + url);
+				}
+				else{
+					bridge.callHandler('DOWNLOAD_ATTACHMENT', {'assetUri': _assetUri + url})
+				}
+			}
+			
+			function gotoPreview(){
+				//转到图片预览页面
+				var href = this.getAttribute('data-href');
+				window.sessionStorage.setItem('HR_IMG_SRC', href);
+				mui.openWindow({
+					url: 'ImgPreview.html'
+				})
+			}
+			
+			//iOS端初始化
+			setupWebViewJavascriptBridge(function(bridge) {
+				loadData();
+				mui(".attachs").on("tap", "a", function() {
+					actionDownload(this,bridge)
+				})
+		    })
+			
+			//android端初始化
+			function init(){
+				if(mui.os.android){
+					loadData();
+					mui(".attachs").on("tap", "a", function() {
+						actionDownload(this)
+					})
+				}
+			}
+			
+			/* init and bindings */
+			mui.init()
+			mui.initBackHeader({
+				title: sessionStorage.getItem('OA_FILE_TITLE')
+			});
+			init();
+			mui('.ju-file-cont').on('tap','a.imgpreview',gotoPreview)
+		</script>
+	</body>
+
+</html>

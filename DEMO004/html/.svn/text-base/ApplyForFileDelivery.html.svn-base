@@ -1,0 +1,258 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>档案转递申请页面</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div class="mui-content ju-form-wrap">
+			<div class="cont form-apply-file-delivery">
+				<script type="text/html" id="tpl-form-file-delivery">
+					<form class="mui-input-group ju-form">
+						<div class="mui-input-row">
+							<label>员工姓名<i class="z-required">*</i></label>
+							<input type="text" class="mui-input-clear" name="APPLY_FIELD_1" placeholder="请输入" value="{{name}}">
+						</div>
+						<div class="mui-input-row">
+							<label>身份证号<i class="z-required">*</i></label>
+							<input type="text" class="mui-input-clear" name="APPLY_FIELD_2" placeholder="请输入" value="{{id}}">
+						</div>
+						<div class="mui-input-row">
+							<label>所属部门<i class="z-required">*</i></label>
+							<input type="text" class="mui-input-clear" name="APPLY_FIELD_3" placeholder="请输入" value="{{department}}">
+						</div>
+						<div class="mui-input-row">
+							<label>申请日期</label>
+							<input type="text" class="mui-input-clear" name="APPLY_TIME" placeholder="请输入" value="{{date}}" disabled>
+						</div>
+						<div class="mui-input-row">
+							<label>申请原因<i class="z-required">*</i></label>
+							<textarea class="fn-textarea-reason" cols="12" rows="2" name="APPLY_REASON" placeholder="请输入">{{reason}}</textarea>
+							<div class="textarea-count"><span class="counting">0</span>/200</div>
+						</div>
+					</form>
+					<form class="mui-input-group ju-form">
+						<div class="mui-input-row">
+							<label>管理员意见</label>
+							<input type="hidden" value="{{reviewContent}}">
+							<div class="cont">
+				            	<span>{{reviewContent}}</span>
+				            </div>
+						</div>
+						<div class="mui-input-row">
+							<label>审核日期</label>
+							<input type="hidden" value="{{reviewDate}}">
+							<div class="cont">
+				            	<span>{{reviewDate}}</span>
+				            </div>
+						</div>
+					</form>
+				</script>
+			</div>
+			<div class="opts">
+				<button type="button" class="mui-btn u-btn-bottom mui-btn-block fn-submit" data-loading-text="提交中">提交</button>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/apply.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script type="text/javascript">
+			var _initData = {},
+				postData = {},
+				_urlparams = {}
+
+			//获取页面初始化信息
+			function getInfo() {
+				if(_urlparams.state) {
+					var data = {
+						type: _urlparams.type,
+						id: _urlparams.ID
+					}
+					publicApi.getApplyForFD.change({
+						data: data,
+						success: resdata
+					})
+				}else {
+					publicApi.getApplyForFD.get({
+						success: resdata
+					})
+				}
+			}
+			
+			//获取初始化时返回的参数
+			function resdata(res) {
+				var data = res.data;
+				//console.log(data)						
+				_initData = {
+						"name": data.APPLY_FIELD_1,
+						"id": data.APPLY_FIELD_2,
+						"department": data.APPLY_FIELD_3,
+						"date": data.APPLY_TIME,
+						"reason": data.APPLY_REASON,
+						"reviewContent": "",
+						"reviewDate": ""
+					},
+					postData = {
+						"ID": data.ID,
+						"TEMPLATE_ID": data.TEMPLATE_ID,
+						"CHILD_CATEGORY_ID": data.CHILD_CATEGORY_ID,
+						"CATEGORY_ID": data.CATEGORY_ID,
+						"APPLY_CONTENT": data.APPLY_CONTENT,
+						"APPLY_EMPLOYEE_CODE": data.APPLY_EMPLOYEE_CODE,
+						"ORG_ID": data.ORG_ID,
+						"DEPT_ONE_ID": data.DEPT_ONE_ID,
+						"APPLY_REASON": data.APPLY_REASON,
+						"AUDIT_OPINION": data.AUDIT_OPINION,
+						"AUDIT_TIME": data.AUDIT_TIME,
+						"_FORM_UUID_TOKEN": (new Date()).getTime()
+					}
+				fillPage(_initData)
+			}
+
+			//获取url中所带的参数部分；
+			function getparams() {
+				var params = location.search;
+				if(params != "") {
+					params = params.substr(1).split("&");
+					params.forEach(function(val, ind) {
+						var arrval = val.split("=");
+						_urlparams[arrval[0]] = arrval[1];
+					});
+					console.log(_urlparams);
+				};
+			}
+
+			function fillPage(data) {
+				var html = template('tpl-form-file-delivery', data);
+				mui('.ju-form-wrap .cont')[0].innerHTML = html;
+				applyPublicMethods.initTextareaCounting(mui('.fn-textarea-reason')[0], mui('.counting')[0], 200)
+			}
+
+			function getFormData() {
+				var tdata = {};
+				var doms = document.querySelector('.form-apply-file-delivery').querySelectorAll('input[name],textarea[name]');
+				doms.forEach(function(ele, index) {
+					tdata[ele.getAttribute('name')] = ele.value;
+				})
+				return tdata;
+			}
+
+			function actionSubmit() {
+				document.activeElement.blur();
+				//获取数据并提交
+				var tdata = getFormData()
+				//提交前数据验证(暂未特殊处理~)
+				var vflag = true;
+				for(i in tdata) {
+					if(!tdata[i] || _.trim(tdata[i]) == "") {
+						vflag = false;
+						break;
+					}
+				}
+				if(!vflag) {
+					mui.toast('请将信息填写完整')
+					return false;
+				}
+
+				mui('.fn-submit').button('loading');
+				//提交
+				submitData = dw.cloneObj(postData, tdata);
+				//console.log(submitData);
+				publicApi.getApplyForFD.post({
+					data: submitData,
+					success: function(res) {
+						if(res.status == 0){
+							mui('.fn-submit').button('reset');
+							mui.oldback()
+						}
+						else{
+							mui.toast('提交失败，请重试')
+						}
+					}
+				})
+			}
+
+			function clearForm() {
+				//重置信息
+				fillPage(_initData)
+				mui('.mui-input-row input').input(); //dom已变，重新注册
+			}
+
+			var _confirmBox = null;
+			function actionBack() {
+				if(_confirmBox){
+					return;
+				}
+				if(_urlparams.state && _urlparams.state == 2) {
+					mui.oldback();
+				}
+				else{
+					var curdata = getFormData();
+					_confirmBox = mui.confirm('您的内容尚未保存，是否保存', '提示', ['取消', '确认'], function(e) {
+						_confirmBox = null;
+						if(e.index == 0) {
+							//取消并返回
+							mui.oldback()
+						} else {
+							//保存并返回  
+							var tdata = getFormData()
+							//提交前数据验证(暂未特殊处理~)
+							var vflag = true;
+							for(i in tdata) {
+								if(!tdata[i] || _.trim(tdata[i]) == "") {
+									vflag = false;
+									break;
+								}
+							}
+							if(!vflag) {
+								mui.toast('请将信息填写完整')
+							} else {
+								var data = curdata;
+								postData = dw.cloneObj(postData, data);
+								//console.log(postData)
+								publicApi.getApplyForFD.save({
+									data: postData,
+									success: function(res) {
+										if(res.status == 0){
+											mui.oldback();
+										}
+										else{
+											mui.toast('保存失败，请重试');
+										}
+									}
+								})
+							}
+						}
+					})
+				}
+			}
+			
+			/*init and bindings*/
+			mui.init();
+			getparams();
+			mui.initBackHeader({
+				title: '档案转递申请',
+				rightBtn: '清除',
+				leftCallback: actionBack,
+				rightCallback: clearForm
+			});
+			getInfo();
+			mui('.ju-form-wrap')
+				.on('tap', '.fn-submit', actionSubmit);
+			
+		</script>
+	</body>
+
+</html>

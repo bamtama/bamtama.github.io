@@ -1,0 +1,668 @@
+@charset "utf-8";
+$iconcl:#1B98E6;
+$badge:#f44719;
+$money:#ff6612;
+$bg:#eaf0f3;
+$font-psr:"PingFang SC Regular";
+$font-psm:"PingFang SC Medium";
+$fcl-d:#292929;
+$fcl-m:#666666;
+$fcl-l:#999999;
+
+/*默认单行缩略*/
+
+%singal-ellipsis {
+    overflow: hidden;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+}
+
+
+/*默认缩略后添加变为无缩略*/
+
+%no-ellipsis {
+    white-space: normal;
+    word-break: break-all;
+}
+
+
+/*默认缩略后添加改为多行文本缩略*/
+
+@mixin multi-ellipsis($line) {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+}
+
+
+/*guideList.html start*/
+
+.mui-table-view {
+    .mui-table-view-cell {
+        a.dw-flex {
+            display: flex;
+            .title {
+                flex: auto;
+            }
+            .titleIcon {
+                float: right;
+                flex: none;
+            }
+        }
+        .title-break {
+            @extend %no-ellipsis
+        }
+    }
+}
+
+
+/*guideList.html end*/
+
+
+/*salatyPage.html,attendencePage.html公共样式   start*/
+
+.dw-homebarpage-list {
+    top: 44px;
+    //  .mui-bar {
+    //      padding: 0 12px;
+    //  }
+    //  .mui-title {
+    //      font-size: 22px;
+    //  }
+    .iconfont {
+        line-height: 44px;
+        color: $iconcl;
+    }
+    //  .dw-homebarpage-announcement {
+    //      &:before {
+    //          content: '';
+    //          position: absolute;
+    //          left: 28px;
+    //          top: 9px;
+    //          background: $badge;
+    //          height: 10px;
+    //          width: 10px;
+    //          border-radius: 50%;
+    //      }
+    //  }
+    //  .icon-announcement {
+    //      font-size: 18px;
+    //  }
+    .mui-card {
+        margin: 10px 12px;
+        border-radius: 4px;
+        box-shadow: none;
+    }
+    .mui-card:first-child {
+        margin-top: 5px;
+    }
+    .mui-table-view {
+        padding: 8px 15px 9px 24px;
+    }
+    .mui-table-view-cell {
+        padding: 14px 9px 14px 0px;
+        font-family: $font-psr;
+        font-size: 18px;
+        &:after {
+            left: 0;
+            right: 9px;
+            height: 2px;
+        }
+        &>a:not(.mui-btn) {
+            margin: -12px 0px;
+            margin-right: -8px;
+            padding-left: 15px;
+            color: $fcl-m;
+        }
+    }
+    .mui-navigate-right:after {
+        right: -3px;
+        font-weight: bold;
+    }
+    li.dw-li-text {
+        padding: 13px 9px 13px 7px;
+        line-height: 18px;
+        font-size: 21px;
+        color: $fcl-d;
+        span {
+            font-family: $font-psm;
+            font-size: 24px;
+            color: $money;
+        }
+    }
+    li.dw-attendence-li {
+        padding-left: 13px;
+    }
+    .dw-plus {
+        &:after {
+            content: "\e468";
+        }
+    }
+    .icon-pin {
+        font-size: 15px;
+        position: absolute;
+        top: 14px;
+        left: 6px;
+    }
+}
+
+
+/*salatyPage.html,attendencePage.html公共样式   end*/
+
+
+/*attendencePage.html,applyPage.html 相同独立样式 start*/
+
+.dw-attendence-page .icon-pin,
+.dw-apply-page .icon-pin {
+    top: 9px;
+}
+
+
+/*attendencePage.html,applyPage.html 相同独立样式 end*/
+
+
+/*salaryWelfareTaxQuety.html 独立样式 start*/
+
+.mui-table-view>.dw-welfare-tax-list {
+    padding: 20px 18px;
+}
+
+
+/*salaryWelfareTaxQuety.html 独立样式 end*/
+
+
+/*apply-proofOfIncome.html 样式 start*/
+
+.dw-proof-of-income {
+    margin-top: 44px;
+    margin-bottom: 52px;
+    .dw-clean,
+    .dw-form {
+        font-size: 18px;
+        font-family: $font-psr;
+        color: $fcl-d;
+    }
+    .dw-clean {
+        &:active,
+        &:hover {
+            color: $fcl-d;
+        }
+    }
+    .dw-form {
+        .mui-input-row {
+            &:after {
+                height: 2px;
+            }
+            input[name="stampNum"],
+            input[name="bank"] {
+                padding-right: 30px;
+                float: right;
+                width: 50%;
+                color: $fcl-d;
+                text-align: right;
+            }
+            input[name="income"],
+            input[name="audit"],
+            input[name="auditCN"] {
+                height: 22px;
+                padding: 0 4px;
+            }
+            i {
+                position: absolute;
+                right: 0;
+                height: 100%;
+                font-size: 15px;
+                font-weight: 600;
+                &:before {
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    transform: translateX(-50%) translateY(-50%);
+                }
+            }
+            .dw-title {
+                width: 135px;
+                font-family: $font-psm;
+                padding-left: 13px;
+                padding-right: 5px;
+                span {
+                    color: $badge;
+                }
+            }
+            .dw-mask-button {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: transparent;
+                border: none;
+            }
+            .dw-part-right {
+                min-width: 175px;
+                padding-top: 10px;
+                input {
+                    min-width: 92px;
+                    width: 120px;
+                    float: initial;
+                }
+            }
+            .dw-apply-result {
+                float: left;
+                width: 56%;
+                font-size: 18px;
+                color: $fcl-d;
+                padding: 0 15px 0 0;
+                margin-top: 10px;
+                margin-bottom: 28px;
+                &:focus {
+                    border: 1px $fcl-l dotted;
+                }
+            }
+            .dw-word-total {
+                font-size: 12px;
+                color: $fcl-l;
+                text-align: right;
+                line-height: 16px;
+                margin-top: 5px;
+                margin-right: 12px;
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+            }
+        }
+        .dw-input-top {
+            &:after {
+                height: 0;
+            }
+            label {
+                line-height: 26px;
+                padding-bottom: 0;
+            }
+            label~input {
+                height: 35px;
+                padding-bottom: 0;
+            }
+        }
+        .dw-input-bottom {
+            label {
+                line-height: 26px;
+                padding-top: 0;
+            }
+            label~input {
+                height: 35px;
+                padding-top: 0;
+            }
+        }
+        .dw-input-last:after {
+            height: 0;
+        }
+        .dw-exampl,
+        .dw-note {
+            width: 100%;
+            line-height: 20px;
+        }
+        .dw-exampl {
+            &:after {
+                height: 0;
+            }
+            input {
+                text-align: center;
+                width: 100%;
+            }
+        }
+        .dw-note {
+            position: relative;
+            font-size: 12px;
+            padding-left: 14px;
+            padding-bottom: 10px;
+            color: $fcl-l;
+            &:after {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                height: 2px;
+                content: '';
+                -webkit-transform: scaleY(.5);
+                transform: scaleY(.5);
+                background-color: $bg;
+            }
+        }
+    }
+    .mui-input-group {
+        input:focus {
+            color: $fcl-d;
+            border: 1px $fcl-l dotted;
+        }
+    }
+    .dw-income-footer {
+        margin-top: 10px;
+        .dw-tips {
+            background: $bg;
+            font-size: 12px;
+            color: $fcl-m;
+            padding: 3px 5px;
+            span {
+                height: 43px;
+            }
+        }
+    }
+    .dw-apply-submit {
+        height: 51px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 99;
+        background: #fff;
+        border-top: 1px #cccccc solid;
+        .mui-btn {
+            border: none;
+            font-size: 21px;
+            font-family: "PingFang SC Medium";
+            width: 100%;
+            height: 100%;
+            color: #1B98E6;
+        }
+    }
+}
+
+
+/*apply-proofOfIncome.html 样式 end*/
+
+
+/*Annoucement.html 样式 start*/
+
+.dw-annoucement {
+    display: flex;
+    position: relative;
+    padding-top: 0 !important;
+    margin-top: 44px;
+    .new-ann-wrap {
+        position: absolute;
+        top: 0;
+        background: #fff;
+        width: 100%;
+        height: 90px;
+        margin-top: 10px;
+        a {
+            color: $fcl-d;
+            display: block;
+            padding: 10px 18px 16px 72px;
+            height: 100%;
+            .icon-annoucement-new {
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: $iconcl;
+                font-size: 38px;
+                height: 100%;
+                line-height: 81px;
+            }
+            p {
+                margin: 0;
+                &.title {
+                    font-family: $font-psr;
+                    font-size: 15px;
+                    line-height: 20px;
+                    @extend %singal-ellipsis;
+                    @include multi-ellipsis(2);
+                }
+                &.new-ann {
+                    font-family: $font-psm;
+                    font-size: 18px;
+                    font-weight: bold;
+                    line-height: 24px;
+                }
+                &.date {
+                    text-align: right;
+                }
+            }
+        }
+    }
+    .notip-wrap {
+        flex: auto;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 88px;
+        background: #fff;
+        .svg-icon {
+            font-size: 187px;
+            height: 0.75em;
+        }
+        p {
+            color: $fcl-d;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+    }
+}
+
+
+/*Annoucement.html 样式 end*/
+
+
+/*annoucementLIst.html 样式 start*/
+
+.tip-wrap {
+    .mui-table-view-cell {
+        &:after {
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+        padding: 12px 16px;
+        a {
+            margin: -12px -16px;
+            .title {
+                font-family: $font-psr;
+                font-size: 15px;
+                line-height: 20px;
+                @extend %singal-ellipsis;
+                @include multi-ellipsis(2);
+            }
+            .date {
+                width: 100%;
+                font-size: 12px;
+                color: $fcl-m;
+            }
+        }
+    }
+}
+
+
+/*annoucementLIst.html 样式 end*/
+
+
+/*Setting.html 样式 start*/
+
+.dw-setting {
+    .mui-table-view,
+    .dw-logout {
+        margin-top: 15px;
+        margin-bottom: 0;
+        font-family: $font-psm;
+        color: $fcl-d;
+        border: none;
+        border-radius: 0;
+    }
+    .mui-table-view {
+        &:first-child {
+            margin-top: 10px;
+        }
+        .mui-table-view-cell {
+            &:last-child {
+                &:after {
+                    height: 0;
+                }
+            }
+            &:after {
+                left: 0;
+                right: 0;
+                height: 2px;
+            }
+            .mui-navigate-right {
+                .badge-new {
+                    display: none;
+                    border-radius: 10px;
+                    background: #f44719;
+                    color: #fff;
+                    padding: 0 8px;
+                    font-size: 18px;
+                    line-height: 28px;
+                    transform: scale(0.5) translateY(-100%);
+                    right: 24px;
+                }
+                .z-new {
+                    display: inline-block;
+                }
+                .dw-versions {
+                    font-family: $font-psr;
+                    font-size: 17px;
+                    color: $fcl-d;
+                }
+            }
+        }
+    }
+}
+
+
+/*Setting.html 样式 end*/
+
+
+/*AdvanceAttendanceRegister.html 样式 start*/
+
+.close-img {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000000;
+    border-radius: 50%;
+    background: rgba(200, 200, 200, 0.8);
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 26px;
+    transform: rotateZ(45deg);
+}
+
+.image-tools {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.itBtn-wrap {
+    width: 100%;
+    position: absolute;
+    bottom: 10%;
+}
+
+.image-tools-btn {
+    width: 80%;
+    padding: 8px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+
+/*AdvanceAttendanceRegister.html 样式 end*/
+
+
+/*LeaveApplicationList.html 样式 start*/
+
+$lal-bg:#ddefff;
+$search:#cbcbcb;
+.ju-search-wrap {
+    background: $lal-bg;
+    .dw-search {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        color: $search;
+        &>input[type="search"] {
+            background: #fff;
+            color: $search;
+        }
+        span {
+            color: $search;
+        }
+    }
+}
+
+.dw-leave-list-wrap,
+.details-content {
+    ul {
+        li {
+            font-family: $font-psr;
+            font-size: 15px;
+            color: $fcl-d;
+            &:first-child {
+                background: $lal-bg;
+                font-size: 18px;
+            }
+            &:after {
+                left: 0;
+                height: 2px;
+            }
+            span {
+                float: right;
+            }
+        }
+        .dw-attendence-type {
+            color: $iconcl;
+            .mui-navigate-right {
+                &:after {
+                    color: $iconcl;
+                    font-size: 20px;
+                    font-weight: 600;
+                }
+            }
+            span {
+                display: inline;
+                float: none;
+                color: #000;
+            }
+            a {
+                display: inline;
+                float: right;
+                width: 80px;
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+
+/*LeaveApplicationList.html 样式 end*/
+
+
+/*LeaveApplicationList.html 样式 end*/
+
+.details-content {
+    ul {
+        li {
+            position: relative;
+            p {
+                display: inline;
+                width: calc(100vw - 165px);
+                position: absolute;
+                left: 150px;
+            }
+            span {
+                float: left;
+                position: absolute;
+                left: 150px;
+            }
+        }
+    }
+}
+
+
+/*LeaveApplicationList.html 样式 end*/

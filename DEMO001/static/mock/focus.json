@@ -1,0 +1,26 @@
+{
+  "status": 200,
+  "data": [{
+    "id":"001",
+    "avator":"static/images/a1.jpg"
+  },{
+    "id":"002",
+    "avator":"static/images/a2.jpg"
+  },{
+    "id":"003",
+    "avator":"static/images/a3.jpg"
+  },{
+    "id":"004",
+    "avator":"static/images/a3.jpg"
+  },{
+    "id":"005",
+    "avator":"static/images/a3.jpg"
+  },{
+    "id":"006",
+    "avator":"static/images/a3.jpg"
+  },{
+    "id":"007",
+    "avator":"static/images/a3.jpg"
+  }],
+  "message": "操作成功"
+}

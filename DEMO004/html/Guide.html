@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<!--内容-->
+		<div class="mui-content ju-guide">
+			<!--搜索-->
+			<div class="ju-search-wrap mui-clearfix">
+			    <div class="mui-input-row mui-search ju-search">
+				    <input type="search" class="mui-input-clear" placeholder="请输入标题关键字">
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script type="text/javascript">
+			var urlobj = {
+				'guide':'办理指南',
+				'policies':'政策法规',
+				'regulation':'管理办法',
+				'questions':'常见问题'
+			},
+			urlval = '';
+			
+			if(location.href.indexOf('?') !== -1){
+				urlval = (/\?(\w*)/).exec(location.href)[1];
+				mui.initBackHeader({title:urlobj[urlval]});
+				sessionStorage.setItem('OA_FILE_TITLE',urlobj[urlval]);
+				mui('input[type="search"]')[0].value = '';
+			}
+			
+			function postKeyword(k){
+				//向目标iframe传递搜索参数
+				var kw = k.trim();
+				document.querySelector('iframe[id="guideList.html"]').contentWindow.postMessage(kw,'*')
+			}
+			
+			mui.init({
+				subpages:[{
+					url:'guideList.html?' + urlval,
+					id:'guideList.html',
+					styles:{
+						top: '88px',
+						bottom: '0px',
+					}
+				}],
+				beforeback:function(){
+					//针对5+环境
+					if(mui.os.plus){
+						var subpage = plus.webview.getWebviewById("guideList.html");
+						plus.webview.close(subpage, "none");
+					}
+					return true;
+				}
+			});
+			
+			var _searchHandler = null;
+			mui('.ju-search')
+				.on('keyup', 'input[type="search"]', function(e){
+					//搜索标题，单个关键词
+					if(e.keyCode === 13){
+						postKeyword(this.value)
+					}
+				})
+				.on('input', 'input[type="search"]', function(){
+					var dom = this;
+					if(_searchHandler){
+						clearTimeout(_searchHandler);
+						_searchHandler = null;
+					}
+					_searchHandler = setTimeout(function(){
+						postKeyword(dom.value)
+					},300)
+				})
+				.on('tap', '.mui-icon-clear', function(){
+					postKeyword('')
+				})
+		</script>
+	</body>
+</html>

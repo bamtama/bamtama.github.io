@@ -1,0 +1,645 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/mui.picker.all.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<style>
+			.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{
+			    /*下拉滚动条的上部偏移重设*/
+			    top: 0 !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content ju-form-wrap">
+		    <div class="ju-apply-for-leave-wrap">
+		    	<div class="tabs">
+			   		<div class="tab-item active" data-href="applyform">
+			   			<span>本次申请</span>
+			   		</div>
+			   		<div class="tab-item" data-href="list" data-list-type="takenList">
+			   			<span>已休情况</span>
+			   		</div>
+			   		<div class="tab-item" data-href="list" data-list-type="approvedList">
+			   			<span>核定情况</span>
+			   		</div>
+			    </div>
+			    <div class="pages">
+			   		<div class="page-item active" data-href="applyform">
+			   			<div class="cont">
+			   				<script type="text/html" id="tpl-apply-for-leave">
+				   				<form class="mui-input-group ju-form">
+							        <div class="mui-input-row">
+							            <label>休假类型<i class="z-required">*</i></label>
+							            <a class="link fn-picker" data-type="type">
+								            <span class="data-type">{{typeName}}</span>
+								            <input type="hidden" value="{{type}}" name="type" />
+								            <i class="iconfont icon-arrow-right"></i>
+							            </a>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>假期核定<i class="z-required">*</i></label>
+							            <a class="link fn-picker" data-type="approved">
+								            <span class="data-approved">{{approvedDate}}</span>
+								            <input type="hidden" value="{{approvedDate}}" name="approved" />
+								            <i class="iconfont icon-arrow-right"></i>
+							            </a>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>剩余天数</label>
+							            <div class="input-wrap">
+							            	<input class="mui-text-right" type="text" name="date" placeholder="请输入" value="{{leftDays}}" disabled />
+							            	<span>天</span>
+							            </div>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>已休天数</label>
+							            <div class="input-wrap">
+							            	<input class="mui-text-right" type="text" name="date" placeholder="请输入" value="{{takenDays}}" disabled />
+							            	<span>天</span>
+							            </div>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>申请中天数</label>
+							            <div class="input-wrap">
+							            	<input class="mui-text-right" type="text" name="date" placeholder="请输入" value="{{applyingDays}}" disabled />
+							            	<span>天</span>
+							            </div>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>开始日期<i class="z-required">*</i></label>
+							            <a class="link fn-picker" data-type="startDate">
+								            <span class="data-startDate">{{startDate}}</span>
+								            <input type="hidden" value="{{startDate}}" name="startDate" />
+								            <i class="iconfont icon-arrow-right"></i>
+							            </a>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>结束日期<i class="z-required">*</i></label>
+							            <a class="link fn-picker" data-type="endDate">
+								            <span class="data-endDate">{{endDate}}</span>
+								            <input type="hidden" value="{{endDate}}" name="endDate" />
+								            <i class="iconfont icon-arrow-right"></i>
+							            </a>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>申请天数</label>
+							            <div class="input-wrap">
+							            	<input class="mui-text-right" type="text" name="date" placeholder="请输入" value="{{applyDays}}">
+							            	<span>天</span>
+							            </div>
+							        </div>
+							        <div class="mui-input-row">
+							            <label>申请原因<i class="z-required">*</i></label>
+							            <textarea class="fn-textarea-reason" cols="12" rows="2" name="reason" placeholder="请输入">{{reason}}</textarea>
+							            <div class="textarea-count"><span class="counting">0</span>/200</div>
+							        </div>
+							    </form>
+						        <div class="ju-pics-upload-wrap mui-clearfix">
+						        	<ul class="img-list mui-list-inline">
+						        		{{include 'tpl-attach-item'}}
+						        	</ul>
+						        </div>
+						        <div class="tips">
+						        	{{if (type!==3)}}
+						        	<p>提示信息：<br />
+						        	有以下情况者不享受当年年休假<br />
+						        	1、累计工作慢1年不满10年的员工，请病假累计2个月以上的；<br />
+						        	2、累计工作满10年不满20年的员工，请病假累计3个月以上的；<br />
+						        	3、累计工作满20年以上的员工，请病假累计4个月以上的。<br />
+						        	员工已享受当年的年休假，年度内又出现以上1、2、3条规定情形之一的，不享受下一年度的年休假。</p>
+						        	{{else}}
+						        	<p>提示信息：<br />
+						        	请自小孩出生或计划生育手术之日起10个月内必须向公司人力资源部提供有关资料，以便公司申领计划生育津贴，逾期不向公司提交资料造成公司无法申领生育津贴的员工，公司将从其工资中扣回生育津贴。生育津贴申领所需资料：<br />
+						        	1、参保人身份证复印件；<br />
+						        	2、计划生育服务证或政策内生产证明原件；<br />
+						        	3、小孩出生证原件、医院盖章的诊断证明书原件。
+						        	</p>
+						        	{{/if}}
+						        </div>
+					        </script>
+			   			</div>
+				        <div class="opts">
+				        	<button type="button" class="mui-btn u-btn-bottom mui-btn-block fn-submit" data-loading-text="提交中">提交</button>
+				        </div>
+			   		</div>
+			   		
+			   		<div class="page-item" data-href="list">
+			   			<div id="refreshContainer" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<table class="table" data-list-type="takenList">
+					   				<thead>
+					   					<tr>
+					   						<th width="132">休假时间</th>
+					   						<th>休假类型</th>
+					   						<th width="112">天数</th>
+					   					</tr>
+					   				</thead>
+					   				<tbody>
+					   					<!--tpl-takenlist-->
+					   				</tbody>
+					   			</table>
+					   			<table class="table" data-list-type="approvedList">
+					   				<thead>
+					   					<tr>
+					   						<th width="70">休假类型</th>
+					   						<th width="106">开始时间</th>
+					   						<th width="106">结束时间</th>
+					   						<th width="38">天数</th>
+					   					</tr>
+					   				</thead>
+					   				<tbody>
+					   					<!--tpl-approvedList-->
+					   				</tbody>
+					   			</table>
+				   			</div>
+				   		</div>
+			   		</div>
+			    </div>
+		    </div>
+		</div>
+		<script type="text/html" id="tpl-attach-item">
+			{{each attaches}}
+				<li class="img-item">
+					<div class="item-wrap">
+						<img class="img" src="{{$value.uri}}" />
+						<a class="del fn-remove-attach" data-id="{{$value.uri}}">
+							<i class="iconfont icon-close"></i>
+						</a>
+					</div>
+				</li>
+			{{/each}}
+			{{if (attaches.length == 0)}}
+			{{set newClass="z-new"}}
+			{{else}}
+			{{set newClass=""}}
+			{{/if}}
+			{{if (attaches.length >= 5)}}
+			{{set hiddenClass="mui-hidden"}}
+			{{else}}
+			{{set hiddenClass=""}}
+			{{/if}}
+			<li class="btn-add {{hiddenClass}}">
+				<div class="item-wrap btn-wrap {{newClass}}">
+					<input type="file" multiple accept="image/*" style="display: none;" />
+					<div class="new">
+						<i class="iconfont icon-pic-new"></i>
+						<span>添加图片</span>
+					</div>
+					<div class="add">
+						<i class="iconfont icon-pics"></i>
+						<span class="pics-num">{{attaches.length}}/5</span>
+					</div>
+				</div>
+			</li>
+		</script>
+		<script type="text/html" id="tpl-takenList">
+			{{each $data}}
+			<tr>
+				<td class="date-space">
+					<span>{{$value.startDate}}</span>
+					<i>~</i>
+					<span>{{$value.endDate}}</span>
+				</td>
+				<td>{{$value.typeName}}</td>
+				<td>
+					{{$value.days}}天
+				</td>
+			</tr>
+			{{/each}}
+		</script>
+		<script type="text/html" id="tpl-approvedList">
+			{{each $data}}
+			<tr>
+				<td>
+					{{$value.typeName}}
+				</td>
+				<td>{{$value.startDate}}</td>
+				<td>{{$value.endDate}}</td>
+				<td>
+					{{$value.days}}天
+				</td>
+			</tr>
+			{{/each}}
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/apply.js"></script>
+		<script src="../js/getPhoto.js"></script>
+		<script type="text/javascript">
+			var _typeArr = [
+			{ value: 0, text:'年休假' },
+			{ value: 1, text:'婚假' },
+			{ value: 2, text:'计划生育假' },
+			{ value: 3, text:'产假' },
+			{ value: 4, text:'看护假' },
+			{ value: 5, text:'病假' },
+			{ value: 6, text:'事假' },
+			{ value: 7, text:'工伤假' },
+			{ value: 8, text:'丧假' },
+			{ value: 9, text:'归侨' },
+			{ value: 10, text:'侨眷出境探亲假' },
+			{ value: 11, text:'探亲假' }];
+			
+			var _approvedArr = [
+			{ value: 0, text:'2011-01-01 至 2011-01-01 （15天）' },
+			{ value: 1, text:'2011-01-02 至 2011-01-02 （15天）' },
+			{ value: 2, text:'2011-01-03 至 2011-01-03 （15天）' }];
+			
+			var _attaches = [];
+			var _initData = {
+				'type': 0, 	//休假类型
+				'typeName': '',	//休假类型
+				'leftDays': 0,		//剩余假期
+				'takenDays': 0,		//已休假期
+				'applyingDays': 0,	//申请中假期
+				'applyDays':'',		//申请假期
+				'startDate': applyPublicMethods.getFormatDate(0) + ' 全天',	//开始日期
+				'endDate': applyPublicMethods.getFormatDate(0) + ' 全天',	//结束日期
+				'approvedDate': '',	//核定日期
+				'reason':'',		//原因
+				'attaches': _attaches	//附件
+			}
+			var _fillData = null;
+			
+			var _customHourData = [
+			{ value: "全天", text: "全天" },
+			{ value: "上半天", text: "上半天" },
+			{ value: "下半天", text: "下半天" }];
+			
+			var _pickers = {
+				type:null,
+				approved:null,
+				startDate:null,
+				endDate:null
+			};
+			
+			var _pageSize = 20;
+			var _isInit = {
+				takenList : 1,
+				approvedList: 1
+			}; //是否为初始化页面
+			var _pageIndex = {
+				takenList : 1,
+				approvedList: 1
+			}
+			var _canRefresh = {
+				takenList: 1,
+				approvedList: 1
+			}
+			
+			function getFormInfo(ty){
+				//默认休假类型前端设置（静态数据），根据实际情况可更改为动态
+				//选择休假类型后，从服务器端获取对应动态初始化数据
+				if(ty !== -1){
+					_fillData = {
+						'type': ty,
+						'typeName': _typeArr[ty].text ,	//休假类型
+						'leftDays':14,	//剩余假期
+						'takenDays':1,	//已休假期
+						'applyingDays':0,	//申请中假期
+						'applyDays':'',	//申请假期
+						'startDate': applyPublicMethods.getFormatDate(0) + ' 全天' ,	//开始日期
+						'endDate': applyPublicMethods.getFormatDate(0) + ' 全天',//结束日期
+						'approvedDate': _approvedArr[0].text,	//核定日期
+						'reason':''	,//原因,
+						'attaches': _attaches
+					}
+					//设定核定日期的dtpicker
+//					_pickers.approved.setData()
+				}
+				else{
+					_fillData = _initData;
+				}
+				fillPage(_fillData)	
+			}
+			function fillPage(data){
+				var html = template('tpl-apply-for-leave', data);
+				mui('.page-item[data-href="applyform"] .cont')[0].innerHTML = html;
+				
+				applyPublicMethods.initTextareaCounting(mui('.fn-textarea-reason')[0], mui('.counting')[0], 200)
+			}
+			
+			function getList(type, action){
+				//获取已休情况的列表
+				var tmplist = []
+				for(var i =0; i< 20; i++){
+					tmplist.push({
+		                "startDate": "2017-09-09",
+		                "endDate": "2017-09-09",
+		                "typeName": "休假类型"+i,
+		                "days": 10
+		            })
+				}
+				//去除初始化状态
+				if(_isInit[type]){
+					_isInit[type] = 0;
+				}
+				
+				var total = 23;	//伪数据
+				//渲染页面
+				var html = template('tpl-'+ type, tmplist);
+				
+				var $refresh = mui('#refreshContainer').pullRefresh();
+				if(_pageIndex[type] == 1){
+					mui('table[data-list-type="'+ type +'"] tbody')[0].innerHTML = '';
+				}
+				
+				mui('table[data-list-type="'+ type +'"] tbody')[0].innerHTML += html;
+				//上拉
+				if(action === 'up'){
+					if(_pageIndex[type] * _pageSize >= 23){
+						//无更多数据
+						_canRefresh[type] = 0;
+						disablePullup()
+					}
+					else{
+						enablePullup()
+					}
+				}
+				else{
+					//下拉
+					$refresh.endPulldownToRefresh()
+					enablePullup()
+				}
+			}
+			
+			function initPickers(type){
+				//创建对应的picker
+				if(_pickers[type] === null){
+					switch(type){
+						case 'type':
+							_pickers[type] = new mui.PopPicker({title:'休假类型'});
+							_pickers[type].setData(_typeArr)
+						break;
+						case 'approved':
+							_pickers[type] = new mui.PopPicker({title:'核定日期'});
+							_pickers[type].setData(_approvedArr)
+						break;
+						case 'startDate':
+						case 'endDate':
+							var t = '开始日期';
+							if(type==='endDate'){
+								t = '结束日期'
+							}
+							_pickers[type] = new mui.DtPicker({
+								title: t,
+								type:'hour',
+								showWeek:true,
+								customData:{h:_customHourData}
+							})
+						break;
+					}
+				}
+			}
+			
+			function showPicker(e){
+				var cur = this;
+				var type = cur.getAttribute('data-type');
+				initPickers(type);
+				
+				_pickers[type].show(function(item){
+					console.log(item)
+					switch(type){
+						case 'type':
+						case 'approved':
+							if(type === 'type'){
+								//根据选择类型重置填写内容
+								getFormInfo(item[0].value)
+							}
+							else{
+								mui('.data-'+type)[0].innerHTML = item[0].text;
+								mui('input[name="'+ type +'"]').value = item[0].value;
+							}
+						break;
+						case 'startDate':
+						case 'endDate':
+							mui('.data-'+type)[0].innerHTML = item.value;
+						break;
+					}
+				})
+			}
+			
+			function tabChange(){
+				var cur = this;
+				var pagehref = cur.getAttribute('data-href');
+				if(!cur.classList.contains('active')){
+					//非当前tab，可切换，去除已选中，添加active到选中tab上
+					var actab = mui('.tab-item.active')[0];
+					var acpage = mui('.page-item.active')[0];
+					if(actab){
+						actab.classList.remove('active');
+					}
+					if(acpage){
+						acpage.classList.remove('active');
+					}
+					cur.classList.add('active');
+					mui('.page-item[data-href="'+ pagehref +'"]')[0].classList.add('active');
+					//根据情况去除header上的清除按钮，并显示对应列表
+					var clearbtn = mui('header .mui-btn-link-default')[0];
+					if(pagehref !== 'applyform'){
+						clearbtn.classList.add('mui-hidden');
+						var listtype = cur.getAttribute('data-list-type');
+						document.querySelectorAll('.table').forEach(function(e,i){
+							if(e.getAttribute('data-list-type') === listtype){
+								//加载并显示对应列表
+								e.classList.remove('mui-hidden')
+								if(_isInit[listtype]){
+									getList(listtype,'up')
+								}
+								else{
+									if(_canRefresh[listtype]){
+										enablePullup()
+									}
+									else{
+										disablePullup()
+									}
+								}
+								mui('#refreshContainer').pullRefresh().scrollTo(0,0,0)
+							}
+							else{
+								e.classList.add('mui-hidden')
+							}
+						})
+					}
+					else{
+						clearbtn.classList.remove('mui-hidden');
+					}
+				}
+			}
+			
+			function getFormData(){
+				var tdata= {};
+				var doms = document.querySelector('.ju-form-wrap').querySelectorAll('input[name],textarea[name]');
+				doms.forEach(function(ele, index){
+					tdata[ele.getAttribute('name')] = ele.value;
+				})
+				var imgs = document.querySelector('.ju-form-wrap').querySelectorAll('.img');
+				var imgarr = [];
+				imgs.forEach(function(ele,index){
+					imgarr.push(ele.getAttribute('src'))
+				})
+				tdata.attaches = imgarr;
+				return tdata;
+			}
+			
+			function actionSubmit(){
+				document.activeElement.blur();
+				
+				var tdata= getFormData();
+				console.log(tdata)
+				//提交前数据验证(暂未特殊处理~)
+				var vflag = true;
+				for(i in tdata){
+					if(!tdata[i] || _.trim(tdata[i]) == ""){
+						vflag = false;
+						break;
+					}
+				}
+				if(!vflag){
+					mui.toast('请填写完整')
+					return false;
+				}
+				
+				//开始提交
+				mui('.fn-submit').button('loading');
+				setTimeout(function(){
+					mui('.fn-submit').button('reset');
+				},1500)
+			}
+			
+			/*
+			 * 开启/关闭上拉
+			 */
+			function enablePullup(){
+				mui('#refreshContainer').pullRefresh().enablePullupToRefresh();
+				mui('#refreshContainer').pullRefresh().refresh(true);
+			}
+			function disablePullup(){
+				mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+			}
+			
+			/*
+			 * 上传附件部分
+			 */
+			//预上传处理
+			function actionPreUploadImgs(){
+				//模拟
+				_attaches.push({
+					'uri':'../image/qr-code.png'
+				})
+				var html = template('tpl-attach-item', {attaches:_attaches});
+				mui('.img-list')[0].innerHTML = html;
+				
+				//实际上传
+				getPhoto.getFiles({
+					domID: 'input[type="file"]',
+					callbackfn: function(imgObj){
+						for(var i in imgObj){
+							_attaches.push({
+								'uri': imgObj[i]
+							})
+						}
+						renderAttachTempl()
+					}
+				})
+			}
+			function removeAttachItem(){
+				var cur = this;
+				var imgid = cur.getAttribute('data-id');
+				//比较要删除的对象
+				for(var i in _attaches){
+					if(_attaches[i].uri === imgid){
+						_attaches.splice(i,1);
+						break;
+					}
+				}
+				renderAttachTempl()
+			}
+			//渲染附件页面，本次采用数据控制页面的模式
+			function renderAttachTempl(){
+				var html = template('tpl-attach-item', {attaches:_attaches});
+				mui('.img-list')[0].innerHTML = html;
+			}
+			
+			function actionBack(){
+				//根据实际情况添加保存方法
+				return true;
+			}
+			function clearForm(){
+				fillPage(_initData)
+				//重置附件
+				_attaches = [];
+				renderAttachTempl()
+			}
+			
+			//上拉加载动作
+			function actionUpToRefresh(){
+				//获取当前标签页
+				var actab = mui('.tab-item.active')[0];
+				var listtype = actab.getAttribute('data-list-type');
+				_pageIndex[listtype]++;
+				setTimeout(function(){
+					getList(listtype,'up');
+				},2000)
+			}
+			//下拉刷新动作
+			function actionDownToRefresh(){
+				var actab = mui('.tab-item.active')[0];
+				var listtype = actab.getAttribute('data-list-type');
+				_pageIndex[listtype] = 1;
+				_canRefresh[listtype] = 1;
+				setTimeout(function(){
+					getList(listtype,'down');
+				},2000)
+			}
+			
+			/*
+			 * init & bindings
+			 */
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", 
+					up: {
+						height: 50, 
+						auto: false,
+						contentrefresh: "正在加载...", 
+						contentnomore: '没有更多数据了',
+						callback:  actionUpToRefresh
+					},
+					down : {
+				     	auto: false,
+				     	callback : actionDownToRefresh
+				    }
+				}
+			})
+			
+			mui.initBackHeader({
+				title:'休假申请',
+				rightBtn:'清除',
+				leftCallback: actionBack,
+				rightCallback: clearForm
+			})
+			getFormInfo(-1)
+			mui('.ju-apply-for-leave-wrap')
+				.on('tap', '.tab-item', tabChange)
+				.on('tap', '.fn-picker', showPicker)
+				.on('tap', '.fn-submit', actionSubmit)
+				.on('tap', '.btn-add', actionPreUploadImgs)
+				.on('tap', '.fn-remove-attach', removeAttachItem)
+			
+		</script>
+	</body>
+</html>

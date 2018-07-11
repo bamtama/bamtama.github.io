@@ -1,0 +1,240 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">权限审批</h1>
+		</header>
+		<div class="mui-content ju-permissions-pull-wrap">
+			<div class="ju-permissions-wrap">
+				<div class="ju-card-list">
+					<!-- data here -->
+				</div>
+				<script type="text/html" id="tpl-permission">
+					{{if($data.length <= 0)}}
+					<p class="mui-text-center tip-empty">暂无待审批项目</p>
+					{{else}}
+					{{each $data}}
+					<div class="mui-card" data-id='{{$value.id}}'>
+						<div class="mui-card-header">
+							<i class="iconfont icon-pin"></i>
+							<span class="title">{{$value.title}}</span>
+						</div>
+						<div class="mui-card-content">
+							<dl class="infolist">
+								<dt>用户名：</dt>
+								<dd>{{$value.username}}</dd>
+								<dt>时<span class="char1"></span>间：</dt>
+								<dd>{{$value.time}}</dd>
+								<dt>申<span class="char1"></span>请：</dt>
+								<dd>{{$value.content}}</dd>
+							</dl>
+						</div>
+						<div class="mui-card-footer">
+							<a class="mui-card-link fn-pass" data-id='{{$value.id}}'>批准</a>
+							<a class="mui-card-link default fn-deny" data-id='{{$value.id}}'>拒绝</a>
+						</div>
+					</div>
+					{{/each}}
+					{{/if}}
+				</script>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script type="text/javascript">
+			var _pageSize = 10,
+				_pageIndex = 0,
+				_totalNum = 0;
+
+			var _userType = -1;
+			
+			function getList(type) {
+				mui.ajax({
+					type: "post",
+					dataType: "json",
+					url: parent._baseuri + "getApplications.action?type="+ type,
+					error: function(res) {
+						console.log(res)
+					},
+					beforeSend: function(xhr) {
+						xhr.crossDomain = true;
+						xhr.withCredentials = true;
+						mui.LoadingMask().show();
+					},
+					success: function(res) {
+						var response;
+						if(typeof(res) != 'object'){
+							response = JSON.parse(res);
+						}
+						else{
+							response = res;
+						}
+						if(response.status == "1") {
+							mui.toast("用户名或密码错误！");
+						} else if(response.status == "0") {
+							//网络请求获取待审批列表
+							var list = new Array();
+							for(var i = 0; i < response.data.length; i++) {
+								list.push({
+									id: response.data[i].orderId,
+									title: response.data[i].permissionContent,
+									username: response.data[i].userName,
+									time: response.data[i].orderTime,
+									content: '申请' + response.data[i].permissionContent
+								})
+							}
+							var newhtml = template('tpl-permission', list),
+								html = mui('.ju-card-list')[0].innerHTML;
+							mui('.ju-card-list')[0].innerHTML = newhtml;
+						}
+					},
+					complete:function(){
+						mui.LoadingMask().close();
+					}
+				});
+			}
+
+			function askForPermission() {
+				var isdeny = this.classList.contains('fn-deny');
+				var curid = this.getAttribute('data-id');
+				var confirmText = '', ispassed = 0;
+				if(isdeny){
+					ispassed = 2;
+					confirmText = '是否拒绝';
+				}
+				else{
+					ispassed = 1;
+					confirmText = '是否通过';
+				}
+				parent.mui.confirm(confirmText, ' ', ['确定', '取消'], function(e) {
+					switch(e.index) {
+						case 0:
+							//是否通过，进入请求阶段
+							mui.ajax({
+								type: "post",
+								dataType: "json",
+								url: parent._baseuri + "user!approvePermission.action?orderId=" + curid + "&isPassed="+ ispassed,
+								error: function(res) {
+									console.log(res)
+								},
+								beforeSend: function(xhr) {
+									xhr.crossDomain = true;
+									xhr.withCredentials = true;
+									mui.LoadingMask().show();
+								},
+								success: function(res) {
+									var response;
+									if(typeof(res) != 'object'){
+										response = JSON.parse(res);
+									}
+									else{
+										response = res;
+									}
+									if(response.status == "0") {
+										//请求成功，删除本条目
+//										var curdom = mui('.mui-card[data-id="' + curid + '"]')[0];
+//										curdom.parentNode.removeChild(curdom)
+										getList(_userType)
+									}
+									else{
+										mui.toast(response.error)
+									}
+								},
+								complete:function(){
+									mui.LoadingMask().close();
+								}
+							});
+							break;
+						case 1: //取消操作，do nothing
+						default:
+							break;
+					}
+				})
+			}
+
+			var _pullRefreshConfig = {
+				container: ".ju-permissions-pull-wrap",
+				down: {
+					//单webview模式
+					auto: false,
+					callback: function() {
+						setTimeout(function() {
+							//重置各参数和页面元素，并刷新列表
+							getList(0);
+							//数据刷新后结束刷新状态
+							mui('.ju-permissions-pull-wrap').pullRefresh().endPulldownToRefresh()
+							mui('.ju-permissions-pull-wrap').pullRefresh().enablePullupToRefresh();
+						}, 1000)
+					}
+				},
+				up: {
+					contentrefresh: "正在加载...",
+					contentnomore: '没有更多数据了',
+					callback: function() {
+						console.log(_pageIndex)
+						var cur = this;
+						//请求数据
+						setTimeout(function() {
+							_pageIndex++;
+							getList(_pageIndex);
+							if(_totalNum / _pageSize <= _pageIndex + 1) {
+								cur.endPullupToRefresh(true)
+							} else {
+								cur.endPullupToRefresh(false)
+							}
+						}, 1000)
+					}
+				}
+			}
+
+			function getInit() {
+				//网络请求
+				mui.ajax({
+					url: parent._baseuri + 'getUser.action',
+					beforeSend: function(xhr) {
+						mui.LoadingMask().show();
+					},
+					success: function(res) {
+						var resjson = JSON.parse(res)
+						if(resjson.status == 0) {
+							if(resjson.data.isAdmin){
+								_userType = 1;
+							}
+							else{
+								_userType = 2;
+							}
+							getList(_userType)
+						} else {
+							console.log(resjson)
+						}
+					},
+					complete: function() {
+						mui.LoadingMask().close();
+					}
+				})
+			}
+			//不需要分页可以去掉
+			mui.init({
+				//pullRefresh: _pullRefreshConfig
+			});
+			getInit()
+			mui('.ju-permissions-wrap')
+				.on('tap', '.fn-pass, .fn-deny', askForPermission)
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,180 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">实时温度调节</h1>
+		</header>
+		
+		<div class="mui-content ju-ctrl-temper">
+		    <ul class="ju-cards">
+		    	<li class="card" data-type='air'>
+		    		<div class="cont">
+		    			<div class="img-wrap img-temper">
+		    				<div class="fan-table">
+								<div class="fan" data-speed="0"></div>
+		    				</div>
+		    			</div>
+		    		</div>
+		    		<div class="opt">
+		    			<span class="svg-icon-wrap">
+				        	<svg class="svg-icon">
+							    <use xlink:href="#icon-air-off"></use>
+							</svg>
+							<svg class="svg-icon active">
+							    <use xlink:href="#icon-air-on"></use>
+							</svg>
+				        </span>
+				        <span class="cont">
+					        <div class="mui-switch mui-switch-mini" data-type="onoff" data-sp="1">
+			    			  <div class="mui-switch-handle"></div>
+			    			</div>
+				        </span>
+		    		</div>
+		    	</li>
+		    </ul>
+		    <ul class="ju-ul-list">
+		    	<li>
+		    		<label>一档</label>
+		    		<span class="cont">
+				        <div class="mui-switch mui-switch-mini" data-type='speed' data-sp="1">
+		    			  <div class="mui-switch-handle"></div>
+		    			</div>
+		    		</span>
+		    	</li>
+		    	<li>
+		    		<label>二档</label>
+		    		<span class="cont">
+				        <div class="mui-switch mui-switch-mini" data-type='speed' data-sp="2">
+		    			  <div class="mui-switch-handle"></div>
+		    			</div>
+		    		</span>
+		    	</li>
+		    	<li>
+		    		<label>三档</label>
+		    		<span class="cont">
+				        <div class="mui-switch mui-switch-mini" data-type='speed' data-sp="3">
+		    			  <div class="mui-switch-handle"></div>
+		    			</div>
+		    		</span>
+		    	</li>
+		    </ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.control.js"></script>
+		<script type="text/javascript">
+			
+			var _oldData = {};
+			
+			/*
+			 * 开关状态更新
+			 */
+			function changeTemperature(e){
+				//state-switch开关， sp-speed速度
+				var state = e.detail.isActive,	//true or false
+					sp = this.getAttribute('data-sp');
+				
+				//请求数据
+				var reqdata = {
+					power: state ? 1: 0, 
+					speed: sp
+				}
+				
+				mui.ajax({
+					url:  parent._baseuri +'object_setFan.action',
+					type: 'post',
+					data: reqdata,
+					beforeSend:function(){
+						//parent.mui.LoadingMask().show();
+					},
+					success:function(rs){
+						if(rs.status == 0){
+							//操作成功
+							if(rs.data.power == 'true' && rs.data.speed == 'true'){
+								_oldData = reqdata;
+							}
+						}
+						else{
+							//操作失败
+							mui.toast(res.error)
+						}
+						initTemper(_oldData.power, _oldData.speed)
+					},
+					complete:function(){
+						//parent.mui.LoadingMask().close();
+					}
+				})
+			}
+			
+			function initTemper(sw, sp){
+				_oldData = {power:parseInt(sw), speed:parseInt(sp)};
+				
+				if(sw){
+					mui('[data-type=air]').addClass('active');
+					mui('.fan')[0].setAttribute('data-speed', sp);	//打开风扇动画
+					
+					setSwitchStateStyle(mui('[data-type=onoff]')[0], true);
+					mui.each(document.querySelectorAll('[data-type="speed"]'), function(index, ele){
+						if(ele.getAttribute('data-sp') == sp){
+							setSwitchStateStyle(ele, true)
+						}
+						else{
+							setSwitchStateStyle(ele, false);
+						}
+					})
+				}
+				else{
+					mui('[data-type=air]').removeClass('active');
+					mui('.fan')[0].setAttribute('data-speed', -1);	//打开风扇动画
+					
+					setSwitchStateStyle(mui('[data-type=onoff]')[0], false);
+					mui.each(document.querySelectorAll('[data-type="speed"]'), function(index, ele){
+						setSwitchStateStyle(ele, false)
+					})
+				}
+			}
+			
+			function getInit(){
+				mui.ajax({
+					url:  parent._baseuri +'object_getFan.action',
+					beforeSend:function(){
+						//parent.mui.LoadingMask().show();
+					},
+					success:function(res){
+						//网络请求
+						if(res.status == "0"){
+							initTemper(res.data.power, res.data.speed);
+						}
+						else{
+							mui.toast(res.error);
+						}
+					},
+					complete:function(){
+						//parent.mui.LoadingMask().close();
+					}
+				})
+			}
+			
+			/*
+			 * init and bindings
+			 */
+			mui.init()
+			getInit()
+			mui.each(document.querySelectorAll('.mui-switch'),function(index,ele){
+				ele.addEventListener('toggle',changeTemperature)
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,473 @@
+$font-psr:"PingFang SC Regular";
+$font-psm:"PingFang SC Medium";
+$fcn:#00a5f5;
+
+/*重置body*/
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: $font-psr;
+    font-size: 18px;
+    background: #fff;
+}
+
+
+/*健康卫士主页 healthGuard.html start*/
+
+.dw-health {
+    background-image: url(../image/banner01.png);
+    background-size: 100%;
+    .dw-nav {
+        box-shadow: none;
+        background: transparent;
+        .mui-icon {
+            color: $fcn;
+            font-size: 24px;
+        }
+        .mui-title {
+            @extend .mui-icon;
+            font-family: $font-psm;
+        }
+    }
+    .dw-nav-tap {
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.5);
+        box-shadow: none;
+        .mui-tab-item {
+            color: #666666;
+            font-family: $font-psm;
+            &:first-child {
+                //              text-align: left;
+                padding-left: 36px;
+            }
+            &:last-child {
+                //              text-align: right;
+                padding-right: 36px;
+            }
+        }
+        .dw-active {
+            color: $fcn;
+        }
+    }
+    %index-set {
+        width: 100vw*0.2;
+        height: 58px;
+        background-color: rgba(200, 233, 249, 0.5);
+        border-radius: 10px;
+    }
+    %med {
+        @media (max-width: 366px) {
+            font-size: 14px;
+        }
+    }
+    .dw-health-wrap {
+        background-color: transparent;
+        color: $fcn;
+        height: 100%;
+        padding-top: 44px;
+        position: relative;
+        /*健康指数*/
+        .dw-health-index {
+            @media (orientation: landscape) {
+                height: calc(100vw*1.7);
+                background-image: url(../image/banner01.png);
+                background-size: 100%;
+            }
+            background-color: transparent;
+            position: relative;
+            height: 100%;
+            .dw-health-left {
+                float: left;
+                padding: 24px;
+                text-align: center;
+                p {
+                    font-size: 88px;
+                    color: inherit;
+                    line-height: 90px;
+                }
+            }
+            .dw-health-right {
+                float: right;
+                padding-top: 42px;
+                &>div {
+                    @extend %index-set;
+                    margin: 10px;
+                    padding-top: 4px;
+                    text-align: center;
+                    p {
+                        color: inherit;
+                        margin: 0px;
+                        font-size: 18px;
+                        @media (max-width: 366px) {
+                            font-size: 14px;
+                        }
+                        &:first-child {
+                            margin-bottom: 4px;
+                        }
+                        &:last-child {
+                            font-family: $font-psm;
+                        }
+                        .iconfont {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+            .dw-health-down {
+                width: 100%;
+                position: absolute;
+                bottom: calc(100vh*0.32);
+                .mui-row {
+                    padding: 0 calc(100vw*0.04);
+                    .mui-popover {
+                        border: 1px solid $fcn;
+                        box-shadow: none;
+                        background: transparent;
+                        width: auto;
+                        text-align: center;
+                        top: -56px;
+                        @media (max-width: 366px) {
+                            font-size: 14px;
+                        }
+                        &:before {
+                            content: "";
+                            border: 8px solid $fcn;
+                            border-bottom-color: transparent;
+                            border-left-color: transparent;
+                            border-right-color: transparent;
+                            position: absolute;
+                            bottom: -17px;
+                            left: 50%-8;
+                        }
+                        &:after {
+                            content: "";
+                            border: 8px solid #fff;
+                            border-bottom-color: transparent;
+                            border-left-color: transparent;
+                            border-right-color: transparent;
+                            position: absolute;
+                            bottom: -15px;
+                            left: 50%-8;
+                        }
+                        .mui-table-view {
+                            background: #fff;
+                            .mui-table-view-cell {
+                                padding: 2px 6px;
+                                &:after {
+                                    height: 0;
+                                }
+                                &:last-child {
+                                    padding-top: 0px;
+                                    font-size: 16px;
+                                    @media (max-width: 366px) {
+                                        font-size: 12px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .dw-showpopover {
+                        display: block;
+                        opacity: 1;
+                    }
+                    .mui-col-sm-6 {
+                        @extend %index-set;
+                        margin-right: calc((100vw - 100vw*0.08 - 100vw*0.8)/3);
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                        p {
+                            color: $fcn;
+                            text-align: center;
+                            margin: 0;
+                            font-size: 18px;
+                            @media (max-width: 366px) {
+                                font-size: 14px;
+                            }
+                            padding: 5px 0;
+                            &.dw-index-level {
+                                font-family: $font-psm;
+                                font-size: 21px;
+                                padding-top: 0;
+                                svg {
+                                    width: 21px;
+                                    height: 21px;
+                                    position: relative;
+                                    bottom: -2px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        /*趋势分析*/
+        %trend-after {
+            content: "";
+            display: block;
+            height: 1px;
+            width: 100%;
+            position: absolute;
+            background-color: #c6c6c6;
+        }
+        .dw-health-trend {
+            @media (orientation: landscape) {
+                height: calc(100vw*1.7);
+                background-image: url(../image/banner02.png);
+                background-size: 100%;
+            }
+            position:relative;
+            background-color: transparent;
+            text-align: center;
+            font-family: $font-psm;
+            height: 100%;
+            &:after {
+                @extend %trend-after;
+                bottom: 50px;
+                position: fixed;
+            }
+            .dw-trend-tap {
+                .mui-row {
+                    a {
+                        width: calc(100vw/4);
+                        color: #999999;
+                        font-size: 15px;
+                        line-height: 32px;
+                        padding: 18px 0;
+                        padding-bottom: 0px;
+                        span {
+                            padding-bottom: 5px;
+                        }
+                    }
+                    .dw-trend-active {
+                        color: $fcn;
+                        span {
+                            border-bottom: 2px solid $fcn;
+                        }
+                    }
+                }
+            }
+            .dw-trend-date {
+                position: absolute;
+                bottom: 52px;
+                .mui-row {
+                    a {
+                        padding: 18px 0;
+                        width: calc(100vw/3);
+                        color: #999999;
+                        font-size: 18px;
+                        line-height: 32px;
+                        span {
+                            padding-bottom: 5px;
+                        }
+                    }
+                    .dw-trend-active {
+                        color: $fcn;
+                        span {
+                            border-bottom: 2px solid $fcn;
+                        }
+                    }
+                }
+            }
+            .chart {
+                height: 290px;
+                margin: 0px;
+                padding: 0px 0px 0px 30px;
+                width: 100%;
+            }
+            .dw-trend-unit {
+                width: 30px;
+                height: 290px;
+                position: absolute;
+                top: 68px;
+                left: 0;
+                padding-top: calc(290px*0.2);
+                text-align: right;
+                span {
+                    display: block;
+                    transform: rotateZ(90deg) translate(30%, -40%);
+                }
+            }
+        }
+    }
+}
+
+
+/*健康卫士主页 healthGuard.html end*/
+
+
+/*报警查询和处理 alarmQueryAnddispose.html start*/
+
+$alarm-cl:#5dd3dc;
+.dw-alarm-tap {
+    top: 44px;
+    box-shadow: 0 -1.5px 6.5px 0 rgba(93, 228, 208, .2);
+    height: 40px;
+    &:after {
+        @extend %trend-after;
+        height: 100%;
+        width: 1px;
+        left: calc(50vw);
+    }
+    .mui-tab-item {
+        width: 50%;
+        .mui-tab-label {
+            font-size: 15px;
+            font-family: $font-psm;
+            padding-bottom: 14px;
+            display: inline;
+        }
+        .dw-tab-active {
+            color: $alarm-cl;
+            border-bottom: 2px solid;
+        }
+    }
+}
+
+div.dw-alarm-scroll {
+    margin-top: 94px;
+    .mui-scroll {
+        .dw-alarm-wrap {
+            padding-top: 0px!important;
+            padding-bottom: 10px!important;
+            overflow: hidden;
+            .ju-card-list {
+                .mui-card-header {
+                    .alarm-title {
+                        color: #292929;
+                    }
+                }
+                .infolist dt {
+                    color: #888888;
+                }
+                .alarm-part1 {
+                    padding-bottom: 15px;
+                    &:after {
+                        @extend %trend-after;
+                        background-color: #F3F2F2;
+                        left: 15px;
+                        right: 15px;
+                        bottom: 15px;
+                    }
+                }
+                .alarm-part2 {
+                    .infolist {
+                        dd {
+                            font-size: 15px;
+                            color: #444444;
+                        }
+                    }
+                }
+            }
+            .mui-btn-block {
+                border: none;
+                border-radius: 5px;
+                background: $alarm-cl;
+                color: #fff;
+                font-size: 18px;
+                font-family: $font-psm;
+                width: 100vw*0.7;
+                margin: auto;
+                margin-bottom: 20px;
+                height: 35px;
+                padding: 0;
+                line-height: 35px;
+            }
+        }
+    }
+}
+
+
+/*报警查询和处理 alarmQueryAnddispose.html start*/
+
+
+/*报警查询和处理 qrCode.html start*/
+
+.dw-qrcode-dwrap {
+    height: 100%;
+    .dw-qrcode {
+        width: calc(100vw*0.41);
+        height: calc(100vw*0.41);
+        margin: auto;
+        margin-top: 91px;
+        position: relative;
+        font-size: 15px;
+        $cscan: #838282;
+        text-align: center;
+        .dw-code-scan {
+            position: absolute;
+            top: -28px;
+            left: 0;
+            color: $cscan;
+            width: 100%;
+        }
+        .dw-code-down {
+            position: absolute;
+            bottom: -28px;
+            left: 0;
+            color: $cscan;
+            width: 100%;
+        }
+        .dw-showcode {
+            width: 100%;
+        }
+        .dw-horn-tl,
+        .dw-horn-tr,
+        .dw-horn-br,
+        .dw-horn-bl {
+            width: calc(100vw*0.04);
+            height: calc(100vw*0.04);
+            position: absolute;
+        }
+        .dw-horn-tl:before,
+        .dw-horn-tr:before,
+        .dw-horn-br:before,
+        .dw-horn-bl:before {
+            content: "";
+            display: block;
+            width: calc(100vw*0.04);
+            height: 2px;
+            background-color: #666;
+            border-radius: 1px;
+            border-bottom-left-radius: 0;
+        }
+        .dw-horn-tl:after,
+        .dw-horn-tr:after,
+        .dw-horn-br:after,
+        .dw-horn-bl:after {
+            content: "";
+            display: block;
+            width: 2px;
+            height: calc(100vw*0.04);
+            background-color: #666;
+            border-radius: 1px;
+            border-top-right-radius: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .dw-horn-tl {
+            top: -10px;
+            left: -10px;
+        }
+        .dw-horn-tr {
+            top: -10px;
+            right: -10px;
+            transform: rotateZ(90deg);
+        }
+        .dw-horn-br {
+            right: -10px;
+            bottom: -10px;
+            transform: rotateZ(180deg);
+        }
+        .dw-horn-bl {
+            left: -10px;
+            bottom: -10px;
+            transform: rotateZ(-90deg);
+        }
+    }
+}

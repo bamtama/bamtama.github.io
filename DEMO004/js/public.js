@@ -1,0 +1,94 @@
+/*
+ * 使用了new Fc_render()实例化对象，进行对页面节点获取参数和渲染
+ * 
+ */
+
+
+function FC_render(){
+	this.data = {};
+	this.num = 1;
+}
+//获取节点标签上的值，最好通过name属性
+
+/*
+ * @param {string||Object} ele 代表DOM节点的属性 如 class, id ,name = 'ddd' 等
+ * @param {String}  styleName  节点属性值 name，value等 默认为value 
+ */
+
+FC_render.prototype.get = function(ele,styleName){
+	var tag = mui(ele)[0],
+	    tagName = tag.tagName.toLowerCase(),
+	    //styleNames = styleName||"value"
+		key = tag.name||this.num++;
+		//console.log(tag)
+		
+		this.data[key] = styleName?tag.getAttribute(styleName):tag.value
+		
+	
+	return this;
+}
+
+//渲染数据到节点标签上去
+FC_render.prototype.set = function(ele,val){
+	var tag = mui(ele)[0],
+		tagName = tag.tagName.toLowerCase();
+		
+	(tag == "input" || tag == "button")?tag.value = val:tag.innerHTML = val;
+	
+	return this;
+}
+/*
+ * @param {Array} Arrele
+ * [{ele:".ddd",value:"123"}]
+ */
+
+FC_render.prototype.setArr = function(Arrele){
+	var that = this;
+	Arrele.forEach(function(item,index){
+		that.set(item.ele,item.value)
+	})
+}
+
+FC_render.prototype.end = function(){
+	return this.data;
+}
+/*
+ * 获取URL参数
+ */
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+} 
+
+
+  /** 数字金额大写转换(可以处理整数,小数,负数) */    
+function smalltoBIG(n)     
+    {    
+        var fraction = ['角', '分'];    
+        var digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];    
+        var unit = [ ['元', '万', '亿'], ['', '拾', '佰', '仟']  ];    
+        var head = n < 0? '欠': '';    
+        n = Math.abs(n);    
+      
+        var s = '';    
+      
+        for (var i = 0; i < fraction.length; i++)     
+        {    
+            s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');    
+        }    
+        s = s || '整';    
+        n = Math.floor(n);    
+      
+        for (var i = 0; i < unit[0].length && n > 0; i++)     
+        {    
+            var p = '';    
+            for (var j = 0; j < unit[1].length && n > 0; j++)     
+            {    
+                p = digit[n % 10] + unit[1][j] + p;    
+                n = Math.floor(n / 10);    
+            }    
+            s = p.replace(/(零.)*零$/, '').replace(/^$/, '零')  + unit[0][i] + s;    
+        }    
+        return head + s.replace(/(零.)*零元/, '元').replace(/(零.)+/g, '零').replace(/^整$/, '零元整');    
+    } 

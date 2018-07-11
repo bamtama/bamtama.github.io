@@ -1,0 +1,56 @@
+{
+	"data": {
+		"list": [{
+			"date": "201601",
+			"status": "1",
+			"total": "7325.35",
+			"detail": {
+				"incomeTotal": "5192",
+				"incomeDeducted": "1756.85",
+				"bonusTotal": "4252.79",
+				"bonusDeducted": "0",
+				"personalIncomeTax": "362.59",
+				"yearendBonus": "0",
+				"companyPaid": "0",
+				"withholdingTax": "0"
+			}
+		}, {
+			"date": "201711",
+			"status": "1",
+			"total": "6176.14",
+			"detail": {
+				"incomeTotal": "5575",
+				"incomeDeducted": "3262.09",
+				"bonusTotal": "4338.52",
+				"bonusDeducted": "0",
+				"personalIncomeTax": "475.29",
+				"yearendBonus": "0",
+				"companyPaid": "0",
+				"withholdingTax": "0"
+			}
+		}, {
+			"date": "201712",
+			"status": "0"
+		}, {
+			"date": "-1",
+			"status": "1",
+			"total": "204915.27",
+			"detail": {
+				"incomeTotal": "125972",
+				"incomeDeducted": "61969.34",
+				"bonusTotal": "159684.1",
+				"bonusDeducted": "0",
+				"personalIncomeTax": "18771.49",
+				"yearendBonus": "0",
+				"companyPaid": "0",
+				"withholdingTax": "0"
+			}
+		}],
+		"com_code": "34920440001",
+		"userid": "0121015918",
+		"sel_start": "201601",
+		"sel_end": "201712"
+	},
+	"error": "",
+	"status": "0"
+}

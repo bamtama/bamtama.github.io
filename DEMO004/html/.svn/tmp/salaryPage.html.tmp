@@ -1,0 +1,93 @@
+<<<<<<< .mine
+<!doctype html>
+=======
+﻿锘�<!doctype html>
+>>>>>>> .r714
+<html>
+	<head>
+		<meta charset="UTF-8">
+<<<<<<< .mine
+		<title></title>
+=======
+		<title>钖叕</title>
+>>>>>>> .r714
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+	</head>
+	<body>
+		<!--鏍囬鏍�-->
+		<!--鍐呭-->
+		<div id="refreshContainer" class="mui-scroll-wrapper dw-homebarpage-list">
+			<div class="mui-scroll">
+				<div class="mui-content">
+					<!--鏁版嵁鍒楄〃-->
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="IncomeQuery.html">鏈堟敹鍏ユ煡璇�</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="salaryWelfareTaxQuery.html">绂忓埄璁＄◣鏌ヨ椤�</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="salaryWelfareTaxQuery.html">鍟嗕笟淇濋櫓鏌ヨ椤�</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="IncomeQuery.html?cate=tax">鏈堢◣琛ㄦ槑缁嗘煡璇�</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<i class="iconfont icon-pin"></i>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right" href="">鍏朵粬鏁版嵁鏌ヨ</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.extend.js"></script>
+			<script type="text/javascript">
+				mui(".mui-scroll").on('tap', 'a', function(e) {
+					var href = this.getAttribute('href');
+					if(href){
+						mui.openWindow({
+							url: href,
+							id: href
+						});
+					}
+					else{
+						mui.toast('椤甸潰寤鸿涓�...')
+					}
+				});
+				
+				mui.init();
+				mui.initMainHeader({
+					title: '钖叕'
+				});
+				mui(".mui-scroll-wrapper").scroll();
+			</script>
+		</div>
+	</body>
+</html>

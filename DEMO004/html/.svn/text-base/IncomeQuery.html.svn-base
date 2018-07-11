@@ -1,0 +1,476 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/mui.picker.all.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<script src="../fonts/iconfont.js"></script>
+	</head>
+	<!-- 合并：月收入&月税表 -->
+	<body style="background: #EAF0F3;">
+		<div class="mui-content ju-query-wrap">
+		    <ul class="mui-table-view ju-list">
+	            <li class="mui-table-view-cell">
+	                <a class="btn-date-picker" data-type="startDate">
+	                	<span>开始时间</span>
+	                	<span class="mui-pull-right">
+	                		<span class="dt-value dt-start"></span>
+	                		<i class="iconfont icon-arrow-right"></i>
+	                	</span>
+	                </a>
+	            </li>
+	            <li class="mui-table-view-cell">
+	                <a class="btn-date-picker" data-type="endDate">
+	                	<span>结束时间</span>
+	                	<span class="mui-pull-right">
+	                		<span class="dt-value dt-end"></span>
+	                		<i class="iconfont icon-arrow-right"></i>
+	                	</span>
+	                </a>
+	            </li>
+	        </ul>
+	        <div class="query-tip">
+	        	<div class="tip-cont">
+	        		<svg class="svg-icon">
+					    <use xlink:href="#icon-certification"></use>
+					</svg>
+		        	<p></p>
+	        	</div>
+	        </div>
+	        <!--月收入列表-->
+	        <div data-cate="income" class="ju-query-result mui-hidden">
+	        	<ul class="mui-list-unstyled">
+	        		<!--正常月收入示例 / 合计收入-->
+	        		<script id="tpl-incomelist" type="text/html">
+	        		{{each list}}
+	        		{{if($value.status==1)}}
+	        		<li class="ju-query-result-item">
+	        			<div class="title">
+	        				<i class="iconfont icon-right"></i>
+	        				<span>{{$value.date | dateFormat}}</span>
+	        				{{if($value.date.indexOf('-') == -1)}}
+	        				<a class="more" href="IncomeDetail.html?querydate={{$value.date}}&ccode={{com_code}}&uid={{userid}}">更多<i class="iconfont icon-arrow-right"></i></a>
+	        				{{/if}}
+	        			</div>
+	        			<div class="info">
+	        				<p>您的实际到账总额</p>
+	        				<div class="salary">{{$value.total}}</div>
+	        			</div>
+	        			<ul class="list mui-table-view">
+	        				<li class="mui-table-view-cell">
+	        					<label>应发工资</label>
+	        					<span>{{$value.detail.incomeTotal}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>应扣工资</label>
+	        					<span>{{$value.detail.incomeDeducted}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>应发奖金</label>
+	        					<span>{{$value.detail.bonusTotal}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>应扣奖金</label>
+	        					<span>{{$value.detail.bonusDeducted}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>个人税金</label>
+	        					<span>{{$value.detail.personalIncomeTax}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>预留年终效益收益奖</label>
+	        					<span>{{$value.detail.yearendBonus}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>企业代缴收入</label>
+	        					<span>{{$value.detail.companyPaid}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>企业代缴纳税</label>
+	        					<span>{{$value.detail.withholdingTax}}</span>
+	        				</li>
+	        			</ul>
+	        		</li>
+	        		{{/if}}
+	        		{{if($value.status == 0)}}
+	        		<!--无结果月收入示例-->
+	        		<li class="ju-query-result-item">
+	        			<div class="title">
+	        				<i class="iconfont icon-wrong"></i>
+	        				<span>{{$value.date | dateFormat}}</span>
+	        				<!--<a class="more">更多<i class="iconfont icon-arrow-right"></i></a>-->
+	        			</div>
+	        			<div class="info">
+	        				<div class="tip">
+	        					抱歉！<br />
+	        					未查询到您的该月工资
+	        				</div>
+	        			</div>
+	        		</li>
+	        		{{/if}}
+	        		{{/each}}
+	        		</script>
+	        	</ul>
+	        	<div class="summary">
+	        		<button type="button" class="mui-btn mui-btn-blue mui-btn-block fn-show-summary">
+	        			<!--临时图标-->
+	        			查看入行汇总<i class="iconfont icon-ar-bottom"></i>
+	        		</button>
+	        		<div class="ju-summary-list mui-hidden">
+	        			<div class="title">
+	        				<i class="iconfont icon-close close"></i>
+	        				入行汇总
+	        			</div>
+	        			<!--此处缺少无数据情况-->
+	        			<ul class="mui-table-view">
+	        				<script type="text/html" id="tpl-sumlist">
+	        					{{each summary}}
+		    			        <li class="mui-table-view-cell">
+		    			            <span class="mui-pull-left">{{$value.bank}}</span>
+		    			            <span class="mui-pull-right">{{$value.amount}}</span>
+		    			        </li>
+		    			        {{/each}}
+        			        </script>
+        			    </ul>
+	        		</div>
+        		</div>
+        		<div class="tips">
+        			<div class="title">内容说明</div>
+        			<p>1、企业代缴纳税-公司为员工代缴的税金</p>
+        			<p>2、社会保险的缴纳方式请参见薪资社区中社会保险的相关说明</p>
+        			<p>3、入行汇总-汇总选定各时段内，存入各银行的收入</p>
+        		</div>
+	        </div>
+	        <!--月税列表-->
+	        <div data-cate="tax" class="ju-query-result mui-hidden">
+	        	<ul class="mui-list-unstyled">
+	        		<!--正常月收入示例 / 合计收入-->
+	        		<script id="tpl-incomelist" type="text/html">
+	        		{{each list}}
+	        		{{if($value.status==1)}}
+	        		<li class="ju-query-result-item">
+	        			<div class="title">
+	        				<i class="iconfont icon-right"></i>
+	        				<span>{{$value.date | dateFormat }}</span>
+	        				<a class="more" href="IncomeDetail.html?cate=tax&querydate={{$value.date}}&ccode={{com_code}}&uid={{userid}}">明细<i class="iconfont icon-arrow-right"></i></a>
+	        			</div>
+	        			<div class="info">
+	        				<p>您的个人纳税金额</p>
+	        				<div class="salary">{{$value.total}}</div>
+	        			</div>
+	        			<ul class="list mui-table-view">
+	        				<li class="mui-table-view-cell">
+	        					<label>应征收入</label>
+	        					<span>{{$value.detail.taxIncome}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>起征点</label>
+	        					<span>{{$value.detail.taxThreshold}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>税率</label>
+	        					<span>{{$value.detail.taxRate}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>速算扣除数</label>
+	        					<span>{{$value.detail.quickSub}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>1/12法金额</label>
+	        					<span>{{$value.detail.twelfth}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>1/12法税金</label>
+	        					<span>{{$value.detail.twelfthTax}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>个人纳税</label>
+	        					<span>{{$value.detail.personalIncomeTax}}</span>
+	        				</li>
+	        				<li class="mui-table-view-cell">
+	        					<label>企业代缴税</label>
+	        					<span>{{$value.detail.withholdingTax}}</span>
+	        				</li>
+	        			</ul>
+	        		</li>
+	        		{{/if}}
+	        		{{if($value.status == 0)}}
+	        		<li class="ju-query-result-item">
+	        			<div class="title">
+	        				<i class="iconfont icon-wrong"></i>
+	        				<span>{{$value.date | dateFormat}}</span>
+	        				<!--<a class="more">更多<i class="iconfont icon-arrow-right"></i></a>-->
+	        			</div>
+	        			<div class="info">
+	        				<div class="tip">
+	        					抱歉！<br />
+	        					未查询到您的该月税表
+	        				</div>
+	        			</div>
+	        		</li>
+	        		{{/if}}
+	        		{{/each}}
+	        		</script>
+	        	</ul>
+	        	<!--<div class="summary">
+	        		<button type="button" class="mui-btn mui-btn-blue mui-btn-block">
+	        			个税申报表
+	        		</button>
+        		</div>-->
+        		<div class="tips">
+        			<div class="title">内容说明</div>
+        			<p>1、企业代缴纳税-公司为员工代缴的税金</p>
+        			<p>2、实际个人纳税-等于合并计税项税金加单独计税税金</p>
+        		</div>
+	        </div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.all.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/utils.js"></script>
+		<script src="../js/ajaxConfig.js"></script>
+		<script>
+			var _dtPicker = null,
+				_startDate = window.sessionStorage.getItem('HR_APP_QUERY_STARTDATE'),
+				_endDate =  window.sessionStorage.getItem('HR_APP_QUERY_ENDDATE');
+			var _cate = location.href.getUrlParam('cate');
+			var _title = '', _tipstr = '';
+			
+			/* datepicker */ 
+			function initDatePicker(startdate,enddate){
+				if(_dtPicker === null){
+					_dtPicker = new mui.DtPicker({
+						type:'month',
+						title:'查询时间',
+						beginDate: startdate === "" ? new Date(1990,01) : new Date(startdate),//设置开始日期 
+    					endDate: enddate === "" ? new Date() : new Date(enddate)//设置结束日期 
+					});
+				}
+				else{
+					return _dtPicker;
+				}
+			}
+			
+			function disposeDatePicker(){
+				//销毁dtpicker
+				_dtPicker.dispose();
+				_dtPicker = null;
+			}
+			
+			function showDatePicker(type) {
+				_dtPicker.show(function(time) {
+					switch(type){
+						case 'startDate':
+							_startDate = time.value;
+							mui('.dt-start')[0].innerHTML = _startDate;
+							break;
+						case 'endDate':
+							_endDate = time.value;
+							mui('.dt-end')[0].innerHTML = _endDate;
+							break;
+						default:
+							break;
+					}
+				});
+			}
+			
+			/* query income */
+			function queryIncome(){
+				//开始查询
+				var rd1 = {
+					startYear: _startDate.split('-')[0],
+					startMonth: parseInt(_startDate.split('-')[1]),
+					endYear: _endDate.split('-')[0],
+					endMonth: parseInt(_endDate.split('-')[1])
+				}
+				if(_cate === 'tax'){
+					//获取月税表
+					publicApi.getSalaryTaxList({
+						data: rd1,
+						success:function(res){
+							if(res.status === '0'){
+								//数据渲染
+								var tmpdate = res.data;
+								template.defaults.imports.dateFormat = function(date, format){
+									var y = date.substr(0,4), m = date.substr(4);
+									return y + '年' + m + '月税表';
+								};
+								var incomehtml = template('tpl-incomelist',tmpdate);
+								mui('.ju-query-result ul')[0].innerHTML = incomehtml;
+								
+								//页面显示
+								mui('.query-tip').addClass('mui-hidden');
+								mui('.ju-query-result').removeClass('mui-hidden');
+								window.sessionStorage.setItem('HR_APP_QUERY_STARTDATE', _startDate);
+								window.sessionStorage.setItem('HR_APP_QUERY_ENDDATE', _endDate);
+							}
+							else if(res.status === '130' || res.status === '131' || res.status === '133'){
+								mui.toast(res.error)
+							}
+							else{
+								mui.toast('获取月税列表失败，请重试或联系管理员')
+							}
+						}
+					})
+				}
+				else{
+					//获取月收入列表
+					publicApi.getIncomeList({
+						data: rd1,
+						success:function(res){
+							if(res.status === '0'){
+								//成功，页面渲染
+								var listdata = res.data;
+								template.defaults.imports.dateFormat = function(date, format){
+									if(date==-1){
+										return '合计工资总额';
+									}
+									else{
+										var y = date.substr(0,4), m = date.substr(4);
+										return y + '年' + m + '月工资';
+									}
+								};
+								var incomehtml = template('tpl-incomelist',listdata);
+								mui('.ju-query-result ul')[0].innerHTML = incomehtml;
+								//页面显示
+								mui('.query-tip').addClass('mui-hidden');
+								mui('.ju-query-result').removeClass('mui-hidden');
+								window.sessionStorage.setItem('HR_APP_QUERY_STARTDATE', _startDate);
+								window.sessionStorage.setItem('HR_APP_QUERY_ENDDATE', _endDate);
+								
+								//开始获取入行汇总
+								var rd2 = {
+									com_code: res.data.com_code,
+									userid: res.data.userid,
+									sel_start: res.data.sel_start,
+									sel_end: res.data.sel_end
+								}
+								publicApi.getIncomeSummarize({
+									//type:'post',
+									data:rd2,
+									success:function(res){
+										if(res.status === '0'){
+											//成功，页面渲染
+											var tmpsum = res.data;
+											var sumhtml =  template('tpl-sumlist', tmpsum);
+											mui('.ju-summary-list>ul')[0].innerHTML = sumhtml;
+										}
+										else if(res.status === '113'){
+											mui.toast(res.error)
+										}
+										else{
+											mui.toast('无法获取月收入入行汇总，请重试或联系管理员')
+										}
+									
+									}
+								})
+							}
+							else if(res.status === '110'){
+								mui.toast(res.error)
+							}
+							else{
+								mui.toast('无法获取月收入列表，请重试或联系管理员')
+							}
+						}
+					})
+				}
+			}
+			
+			function showSummary(){
+				mui('.fn-show-summary').addClass('mui-hidden')
+				mui('.ju-summary-list').removeClass('mui-hidden')
+			}
+			function hideSummary(){
+				mui('.fn-show-summary').removeClass('mui-hidden')
+				mui('.ju-summary-list').addClass('mui-hidden')
+			}
+			
+			function init(){
+				//页面初始化,月收入列表or月税列表
+				var removedom;
+				if(_cate === 'tax'){
+					_title = '月税表查询'
+					_tipstr = '选择查询税表的开始月份、结束月份，点击“查询”即可';
+					removedom = mui('[data-cate="income"]')[0];
+				}
+				else{
+					_title = '收入查询';
+					_tipstr = '选择查询工资的开始月份、结束月份，点击“查询”即可';
+					removedom = mui('[data-cate="tax"]')[0];
+				}
+				
+				mui('.query-tip p')[0].innerHTML = _tipstr;
+				removedom.parentNode.removeChild(removedom);
+				
+				initDatePicker("","");
+				mui.initBackHeader({
+					title: _title,
+					rightBtn:'<span style="color:#1b98e6">查询</span>',
+					rightCallback:function(){
+						if(new Date(_endDate) - new Date(_startDate) >= 0){
+							queryIncome();
+						}
+						else if(_endDate === "" || _startDate === ""){
+							mui.alert('请选择查询时间');
+						}
+						else{
+							mui.alert('查询结束时间不能小于开始时间') ;
+						}
+					}
+				})
+				
+				//初始化第一次加载当月信息
+				if(_startDate && _endDate){
+					
+				}
+				else{
+					var now = new Date();
+					var m = now.getMonth()+1 >= 10 ? (now.getMonth()+1) : '0'+(now.getMonth()+1) ;
+					_startDate = now.getFullYear() + '-' + m;
+					_endDate = _startDate;
+				}
+				mui('.dt-start')[0].innerHTML = _startDate;
+				mui('.dt-end')[0].innerHTML = _endDate;
+				queryIncome()
+			}
+			
+			function rewriteBack(){
+				window.sessionStorage.removeItem('HR_APP_QUERY_STARTDATE');
+				window.sessionStorage.removeItem('HR_APP_QUERY_ENDDATE');
+				return true;
+			}
+			
+			/* init and bindings */
+			mui.init({
+				beforeback: rewriteBack
+			});
+			init();
+			
+			mui(".mui-content")
+				.on("tap", ".btn-date-picker", function() {
+					var valspan = this.querySelector('.dt-value'),
+						type = this.getAttribute('data-type');
+						
+					//initDatePicker(_startDate, _endDate);
+					showDatePicker(type);
+				})
+				.on('tap','a.more', function(){
+					var tmphref = this.href;
+					mui.openWindow({
+						url: tmphref,
+						id: tmphref
+					})
+				})
+			
+			mui('.ju-query-result')
+				.on('tap','.fn-show-summary', showSummary)
+				.on('tap','.close', hideSummary)
+		</script>
+	</body>
+</html>

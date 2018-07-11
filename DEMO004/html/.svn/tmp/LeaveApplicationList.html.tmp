@@ -1,0 +1,274 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的申请（考勤）</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+		<style>
+			.mui-backdrop {
+				top: 44px;
+				background: rgba(0, 0, 0, 0.1);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content ju-leave-list-cont">
+			<!--搜索-->
+			<div class="ju-search-wrap mui-clearfix">
+				<div class="mui-input-row mui-search ju-search dw-search">
+					<input type="search" class="mui-input-clear" placeholder="请输入搜索信息关键字">
+				</div>
+			</div>
+<<<<<<< .mine
+			<!--原生overflow 没有物理回弹反馈-->
+			<div class="ju-leave-list-wrap">
+			    <!--数据列表-->
+				<table class="ju-leave-list">
+					<col width="200"/>
+					<col width="120"/>
+					<col width="240"/>
+					<col />
+					<col width="85"/>
+					<col width="85"/>
+					<thead>
+						<tr>
+							<th>申请时间</th>
+							<th>当前审批人</th>
+							<th colspan="2">摘要信息</th>
+							<th>流程名称</th>
+							<th>是否结束</th>
+						</tr>
+						<tr class="subth">
+							<th></th>
+							<th></th>
+							<th>休假日期</th>
+							<th>类型</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- tpl-tb-item -->
+					</tbody>
+				</table>
+				<!--伪装上拉刷新-->
+				<div class="fake-uprefresh">
+					<div id="refresh" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+						</div>
+					</div>
+				</div>
+			</div>
+=======
+			<div class="dw-leave-list-wrap">
+				
+			</div>
+>>>>>>> .r1035
+		</div>
+		<!--右上角弹出菜单-->
+		<div id="menuPopover" class="mui-popover ju-menu-popover">
+			<div class="mui-popover-arrow"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell fn-filter" data-type="end">已结束</li>
+				<li class="mui-table-view-cell fn-filter" data-type="ing">未结束</li>
+				<li class="mui-table-view-cell fn-filter" data-type="all">全部</li>
+			</ul>
+		</div>
+		<script type="text/html" id="tpl-list-item">
+			{{each}}
+<<<<<<< .mine
+			<tr>
+				<td>{{$value.date}}</td>
+				<td>{{$value.auditor}}</td>
+				<td>{{$value.period}}</td>
+				<td>{{$value.type}}</td>
+				<td>{{$value.process}}</td>
+				<td>{{$value.end}}</td>
+			</tr>
+=======
+			<ul class="mui-table-view">
+					<li class="mui-table-view-cell dw-attendence-type">
+						类型：&nbsp&nbsp<span>{{$value.type}}</span>
+						<a class="mui-navigate-right" href="{{$value.url}}">
+							更多
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						申请时间<span>{{$value.date}}</span>
+					</li>
+					<li class="mui-table-view-cell">
+						当前审批人<span>{{$value.approver}}</span>
+					</li>
+					<li class="mui-table-view-cell">
+						休假开始日期<span>{{$value.startDate}}</span>
+					</li>
+					<li class="mui-table-view-cell">
+						休假结束日期<span>{{$value.endDate}}</span>
+					</li>
+					<li class="mui-table-view-cell">
+						申请人<span>{{$value.proposer}}</span>
+					</li>
+					<li class="mui-table-view-cell">
+						流程名称<span>{{$value.process}}</span>
+					</li>
+					<li class="mui-table-view-cell">
+						是否结束<span>{{$value.end}}</span>
+					</li>
+				</ul>
+>>>>>>> .r1035
+			{{/each}}
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script src="../js/dw-wheel.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script type="text/javascript">
+			var _keyword = '';
+			var _filter = 'all';
+			var _filterTypeArr = {
+				end: '0',
+				ing: '1',
+				all: '-1'
+			};
+
+			function getList() {
+				//根据参数获取数据
+
+				//mui.toast('类型：'+_filter + '关键词：'+ _keyword)
+				//伪数据
+				var data = [];
+				for(var i = 0; i < 10; i++) {
+					data.push({
+<<<<<<< .mine
+						date:'2010-09-09 19:00:00',
+						auditor:'审批人'+i,
+						period:'2019-09-09至2019-09-09',
+						type:'年休假',
+						process:'休假申请',
+						end:'是'
+=======
+						type: '年休假',
+						url:'AdvanceAttendanceRegisterDetails.html',
+						date: '2010-09-09 19:00:00',
+						approver: '审批人',
+						startDate: '2019-09-09',
+						endDate:'2019-09-09',
+						proposer:'申请人',
+						process: '休假申请',
+						end: '是'
+>>>>>>> .r1035
+					})
+				}
+				//数据渲染
+				var html = template('tpl-list-item', data)
+				mui('.dw-leave-list-wrap')[0].innerHTML = html;
+				
+				//scroll初始化定位
+				var scrolldom = document.querySelector('.ju-leave-list-wrap')
+				//scrolldom.scrollLeft = 320;
+				//scrolldom.scrollTop = 0;
+
+				//注册监听页面滚动事件,伪上拉加载
+				document.querySelector('.ju-leave-list-wrap').addEventListener('scroll', function(e){
+					var st = this.scrollTop;
+					var sh = this.scrollHeight;
+					var vh = this.clientHeight;
+					
+					if(st+20 >= sh-vh){
+						setTimeout(function(){upToRefresh()},300)
+					}
+				})
+				
+				//隐藏菜单
+				hideFilterMenu()
+			}
+
+			function filterList() {
+				var type = this.getAttribute('data-type');
+				var val = mui('input[type="search"]')[0].value;
+				if(type !== _filter || val !== _keyword) {
+					_filter = type;
+					_keyword = val;
+					getList()
+				}
+			}
+
+			function actionSearch(key) {
+				_keyword = key;
+				getList()
+			}
+
+			function showFilterMenu() {
+				mui('#menuPopover').popover('show');
+			}
+
+			function hideFilterMenu() {
+				mui('#menuPopover').popover('hide');
+			}
+
+			/*
+			 * init and bindings
+			 */
+<<<<<<< .mine
+			mui.init({
+			  pullRefresh : {
+			    container:'#refresh',
+			    up : {
+			      height:50,
+			      auto:false,
+			      contentrefresh : "正在加载...",
+			      contentnomore:'没有更多数据了',
+			      callback: actionUpToRefresh
+			    }
+			  }
+			})
+=======
+			mui.init();
+>>>>>>> .r1035
+			mui.initBackHeader({
+				title: '我的申请',
+				rightBtn: '<i class="iconfont icon-menu-more" style="color:#1b98e6"></i>',
+				rightCallback: showFilterMenu
+			});
+
+			getList();
+<<<<<<< .mine
+			
+			//主动触发上拉刷新
+			function upToRefresh(){
+				mui('.fake-uprefresh')[0].classList.add('z-active');
+				mui('#refresh').pullRefresh().pullupLoading();
+			}
+			//主动隐藏上拉刷新
+			function endUpToRefresh(){
+				mui('.fake-uprefresh')[0].classList.remove('z-active');
+			}
+			//上拉加载回调方法
+			function actionUpToRefresh(){
+				
+			}
+			
+			mui('.ju-menu-popover').on('tap','.fn-filter', filterList)
+=======
+
+			mui('.ju-menu-popover').on('tap', '.fn-filter', filterList);
+>>>>>>> .r1035
+			mui('.ju-search')
+				.on('keyup', 'input[type="search"]', function(e) {
+					if(e.keyCode === 13) {
+						actionSearch(this.value);
+					}
+				})
+				.on('tap', '.mui-icon-clear', function() {
+					actionSearch('')
+				});
+		</script>
+	</body>
+
+</html>

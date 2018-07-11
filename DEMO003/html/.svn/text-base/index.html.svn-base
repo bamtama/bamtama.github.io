@@ -1,0 +1,182 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/custom.july.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+	<body>
+		<div class="ju-index-wrap">
+			<div class="bg"></div>
+			<div class="baseinfo">
+				<p class="name">姓名</p>
+				<p class="wel">欢迎进入智灵通</p>
+			</div>
+			<ul class="mui-list-unstyled enters ju-enters-list">
+				<li>
+					<a class="link" name="light" href="controlLight.html">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-light"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-light-invalid"></use>
+						</svg>
+						<span>智能灯光控制</span>
+					</a>
+				</li>
+				<li>
+					<a class="link" name="tv" href="controlTV.html">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-tv"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-tv-invalid"></use>
+						</svg>
+						<span>智能电视控制</span>
+					</a>
+				</li>
+				<li>
+					<a class="link" name="door" href="controlACS.html">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-acs"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-acs-invalid"></use>
+						</svg>
+						<span>智能门禁控制</span>
+					</a>
+				</li>
+				<li>
+					<a class="link" name="fans" href="controlTemperature.html">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-temperature"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-temperature-invalid"></use>
+						</svg>
+						<span>实时温度调节</span>
+					</a>
+				</li>
+				<li>
+					<a class="link" name="healthguard" href="healthGuard.html" data-pagenew="1">
+						<svg class="svg-icon active">
+						    <use xlink:href="#icon-home-health"></use>
+						</svg>
+						<svg class="svg-icon">
+						    <use xlink:href="#icon-home-health-invalid"></use>
+						</svg>
+						<span>办公健康卫士</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var _mianPage = true;
+		    mui.ajax({
+	              type:"post",
+	              dataType:"json", 
+	              url:"/smartbase/getUser.action",
+	              error: function(){
+	              	mui.toast('请求失败，请重试或联系管理员')
+	              }, 
+	              beforeSend:function(){ 
+	              },
+	              success:function(response){
+	                if(response.status=="1"){
+	                   mui.toast("用户名或密码错误！");
+	                }else if(response.status=="0"){
+	                   document.querySelector(".name").innerHTML = response.data.name;
+	                }
+	             }
+	        });
+	        
+			mui.ajax({
+                type:"get",
+                dataType:"json", 
+                url:"/smartbase/permission/getPermissions.action",
+                error: function(){
+                	mui.toast('请求失败，请重试或联系管理员')
+                }, 
+                beforeSend:function(){ 
+                },
+                success:function(response){
+                  if(response.status=="103"){
+                     mui.toast(response.error);
+                  }else if(response.status=="0"){
+                     for(var i in response.data){
+                     	var tmpdom = mui('.link[name="'+ i +'"]')[0];
+                     	tmpdom.setAttribute('data-state', response.data[i]);
+                     	if(response.data[i] == '1'){
+                     		tmpdom.classList.add('active');
+                     	}else{
+                     		tmpdom.classList.remove('active');
+                     	}
+                     }
+                  }
+              
+               }
+            });
+			
+			mui('.enters').on('tap','a',function(){
+				var ids = {
+					light:1,
+					door:2,
+					fans:3,
+					healthguard:4
+				}
+				var curdom = this;
+				var flag = curdom.getAttribute('data-state');
+				console.log(flag)
+				switch(parseInt(flag)){
+					case 0:
+						parent.mui.toast("权限申请中");
+					break;
+					case -1:
+						parent.mui.confirm("确认申请权限吗？","您没有该权限",["确定","取消"],function(e){
+					        if(e.index == 0){
+					        	mui.ajax({
+					                type:"post",
+					                dataType:"json", 
+					                url:"user!applyPermission.action?permissionId="+ids[curdom.getAttribute('name')],
+					                error: function(){
+					                    mui.toast('请求失败，请重试或联系管理员')
+					                }, 
+					                beforeSend:function(){ 
+					                },
+					                success:function(response){
+					                  if(response.status=="103"){
+					                     mui.toast(response.error);
+					                  }else if(response.status=="0"){
+					                  		curdom.setAttribute('data-state', 0)	//状态重置为申请中
+					                    	parent.mui.toast("申请成功！");
+					                  }
+					               }
+					            });
+					        } 
+				   		});
+					break;
+					case 1:
+						if(curdom.getAttribute('data-pagenew')){
+							mui.openWindow({
+								url: curdom.getAttribute('href')
+							})
+						}
+						else{
+							//内容页替换 调用layout中相关方法
+							parent.tabChange(curdom.getAttribute('href'),true)
+						}
+					break;
+					default:
+						console.log('数据还在请求中')
+					break;
+				}
+			})
+		</script>
+	</body>
+</html>

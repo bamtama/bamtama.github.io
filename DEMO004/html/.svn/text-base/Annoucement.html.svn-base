@@ -1,0 +1,76 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>系统公告</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/custom-july.css" />
+		<link rel="stylesheet" href="../css/custom-dw.css" />
+		<link rel="stylesheet" href="../fonts/iconfont.css" />
+	</head>
+
+	<body style="overflow: hidden;">
+		<div class="mui-content dw-annoucement">
+			<div class="new-ann-wrap mui-hidden">
+				<a href="javascript:;">
+					<i class="iconfont icon-annoucement-new"></i>
+					<p class="new-ann">最新公告</p>
+					<p class="title"></p>
+				</a>
+			</div>
+			<div class="notip-wrap">
+				<svg class="svg-icon">
+					<use xlink:href="#icon-annoucement-tip"></use>
+				</svg>
+				<p>目前暂无系统公告</p>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../fonts/iconfont.js"></script>
+		<script src="../js/mui.extend.js"></script>
+		<script type="text/javascript">
+
+			mui.init();
+			mui.initBackHeader({title:'系统公告'});
+			
+//			function initAnn() {
+//				mui.init({
+//					subpages: [{
+//						url: 'annoucementList.html',
+//						id: 'annoucementList.html',
+//						styles: {
+//							top: '154px',
+//							bottom: '0px',
+//						}
+//					}],
+//					beforeback: function() {
+//						//针对5+环境
+//						if(mui.os.plus) {
+//							var subpage = plus.webview.getWebviewById("guideList.html");
+//							plus.webview.close(subpage, "none");
+//						}
+//						return true;
+//					}
+//				});
+//			}
+
+//			publicApi.getAnnoucementList({
+//				success: function(res) {
+//					var _res = dw.parseJson(res);
+//
+//					if(_res instanceof Array && _res.length > 0) {
+//						mui('.new-ann-wrap').removeClass('mui-hidden');
+//						mui('.notip-wrap').addClass('mui-hidden');
+//						initAnn();
+//						mui('.new-ann-wrap .title')[0].innerText = _res[0].title;
+//						sessionStorage.annList = JSON.stringify(_res.slice(1));
+//					}
+//				}
+//			});
+
+		</script>
+	</body>
+</html>

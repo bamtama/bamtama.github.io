@@ -1,0 +1,44 @@
+{
+  "status": 200,
+  "data": [{
+    "id": "1D9806B6-6C7C-64AA-D80B-F7A78E7FCA7E",
+    "text": "轻音部",
+    "code": "440113",
+    "level": "3",
+    "type": "folder",
+    "checked": false,
+    "open": false,
+    "children": []
+  }, {
+    "id": "21F98C7F-F6E7-54C4-789D-43DA4620EAF8",
+    "text": "回家部",
+    "code": "440114",
+    "level": "3",
+    "type": "folder",
+    "iconclass": "pink",
+    "checked": false,
+    "open": false,
+    "children": []
+  }, {
+    "id": "2DD2AA79-9B12-54C6-187A-E0B118974A8A",
+    "text": "读书部",
+    "code": "440115",
+    "level": "3",
+    "type": "folder",
+    "iconclass": "pink",
+    "checked": false,
+    "open": false,
+    "children": []
+  }, {
+    "id": "562A3657-7F7A-74F7-18BE-B17E60F0BA4E",
+    "text": "xxxx部",
+    "code": "440105",
+    "level": "3",
+    "type": "folder",
+    "iconclass": "pink",
+    "checked": false,
+    "open": false,
+    "children": []
+  }],
+  "message": "操作成功"
+}
