@@ -1,0 +1,56 @@
+{
+  "status": 200,
+  "data": {
+    "list": [{
+      "personid": "ff80808160de71070160f7690a3c0cd0",
+      "personno": "4401062018010006",
+      "personname": "测试移动",
+      "rctype": "暂予监外执行",
+      "monitorlevel": "普通管理",
+      "sex": "男",
+      "tel": "13802880377",
+      "jdgstartdate": "2018-01-01",
+      "jdgenddate": "2019-06-30",
+      "arrivedate": "2018-01-01",
+      "isFocus": false
+    }, {
+      "personid": "ff808081620a444a01620a4ca88b0027",
+      "personno": "4499012018030001",
+      "personname": "测试二",
+      "rctype": "假释",
+      "monitorlevel": "重点管理",
+      "sex": "男",
+      "tel": "12345678910",
+      "jdgstartdate": "2018-03-01",
+      "jdgenddate": "2018-10-31",
+      "arrivedate": "2018-03-01",
+      "isFocus": false
+    }, {
+      "personid": "ff808081620a444a01620a5d72d300b4",
+      "personno": "4499012018040001",
+      "personname": "测试三",
+      "rctype": "假释",
+      "monitorlevel": "普通管理",
+      "sex": "男",
+      "tel": "12345678910",
+      "jdgstartdate": "2018-03-01",
+      "jdgenddate": "2018-04-21",
+      "arrivedate": "2018-03-01",
+      "isFocus": false
+    }, {
+      "personid": "ff808081621ed0790162b25a1f8c3842",
+      "personno": "4499012018040002",
+      "personname": "关云长",
+      "rctype": "缓刑",
+      "monitorlevel": "重点管理",
+      "sex": "男",
+      "tel": "",
+      "jdgstartdate": "",
+      "jdgenddate": "",
+      "arrivedate": "2018-04-01",
+      "isFocus": false
+    }],
+    "pageSum": 1
+  },
+  "message": "操作成功"
+}

@@ -1,0 +1,49 @@
+[{
+  "cnt": 3860,
+  "age": null,
+  "prisoncat": null,
+  "diploma": null,
+  "name": "缓刑",
+  "sex": null,
+  "yyyy": null,
+  "registertype": null,
+  "country": null,
+  "fcorepersondict": null,
+  "value": null
+}, {
+  "cnt": 25,
+  "age": null,
+  "prisoncat": null,
+  "diploma": null,
+  "name": "管制",
+  "sex": null,
+  "yyyy": null,
+  "registertype": null,
+  "country": null,
+  "fcorepersondict": null,
+  "value": null
+}, {
+  "cnt": 54,
+  "age": null,
+  "prisoncat": null,
+  "diploma": null,
+  "name": "暂予监外执行",
+  "sex": null,
+  "yyyy": null,
+  "registertype": null,
+  "country": null,
+  "fcorepersondict": null,
+  "value": null
+}, {
+  "cnt": 108,
+  "age": null,
+  "prisoncat": null,
+  "diploma": null,
+  "name": "假释",
+  "sex": null,
+  "yyyy": null,
+  "registertype": null,
+  "country": null,
+  "fcorepersondict": null,
+  "value": null
+}]
