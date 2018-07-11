@@ -4,12 +4,12 @@
     "orgDepart": [{
       "departId": 9,
       "parentId": 3,
-      "departName": "信息1办",
+      "departName": "总部1",
       "sequence": 0
     }, {
       "departId": 10,
       "parentId": 3,
-      "departName": "信息2办",
+      "departName": "总部2",
       "sequence": 0
     }],
     "orgUser": [{
