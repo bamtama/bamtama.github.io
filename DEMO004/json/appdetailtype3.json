@@ -1,17 +1,17 @@
 {
     "data": {
-        "applyTitle": "在职证明申请",
+        "applyTitle": "xxxxxxxxxx",
         "content": [
             {
-                "name": "蒋业",
-                "department": "南方基地",
-                "idNumber": "43112619920212082X",
-                "empID": "21016611",
+                "name": "xxxxxxxxxx",
+                "department": "xxxxxxxxxx",
+                "idNumber": "xxxxxxxxxx",
+                "empID": "xxxxxxxxxx",
                 "printNumber": "1",
-                "applyTime": "2017年12月21日",
+                "applyTime": "xxxxxxxxxx",
                 "inServiceYear": "2017",
                 "inServiceMonth": "07",
-                "applyReason": "测试5",
+                "applyReason": "xxxxxxxxxx",
                 "hrOpinion": "",
                 "hrTime": ""
             }

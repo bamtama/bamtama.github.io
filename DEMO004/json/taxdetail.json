@@ -1,21 +1,21 @@
 {
   "data": {
     "date": "2017-09",
-    "name": "董灿佳",
+    "name": "xxxxxxxxxx",
     "detail": {
-      "income": "3547.88",
-      "bonus": "150",
-      "benifit": "2800",
+      "income": "44.88",
+      "bonus": "44",
+      "benifit": "44",
       "fundTax": "0",
-      "incomeTotal": "6497.88",
-      "deducted": "3500",
-      "personalIncomeTax": "2997.88",
-      "taxRate": "10%",
-      "quickSub": "105",
-      "incomeWithTax": "194.79",
+      "incomeTotal": "44.88",
+      "deducted": "44",
+      "personalIncomeTax": "44.88",
+      "taxRate": "44%",
+      "quickSub": "44",
+      "incomeWithTax": "44.79",
       "taxAdjustment": "0",
       "seperateTax": "0",
-      "actualTax": "194.79",
+      "actualTax": "44.79",
       "companyPaid": "0",
       "withholdingTax": "0"
     }
