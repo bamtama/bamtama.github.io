@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -6,9 +5,103 @@
 		<title>一些小小示例</title>
 	</head>
 	<body>
-		<a href="DEMO001/index.html">示例1</a>
+		<div class='wrap' id='wrap'>
+			<div class='item'>
+				<div class='cont'>
+					<img src="bg-01.png"/>
+					<p>一个完整逻辑站点；展示了列表、详情、部分列表操作；本地JSON数据读取；内有高德地图和ECharts应用场景。<br />
+						<a href="DEMO001/index.html" target="_blank">访问站点 &gt;</a><br />
+						<a href="001000.gif" target="_blank">截图预览 &gt;</a>
+					</p>
+				</div>
+			</div>
+			<div class='item'>
+				<div class='cont'>
+					<img src="bg-02.png"/>
+					<p>一个适用于微信公众号的网页服务，展示了列表、详情、部分列表操作<br />
+						<a href="DEMO002/index.html" target="_blank">访问站点 &gt;</a><br />
+						<a href="002000.gif" target="_blank">截图预览 &gt;</a>
+					</p>
+				</div>
+			</div>
+			<div class='item'>
+				<div class='cont'>
+					<img src="bg-03.png"/>
+					<p>一个完整逻辑的站点，用于操作实际硬件，并将操作和结果以动画反馈和动画展示。<br />
+						<a href="DEMO003/html/Login.html" target="_blank">访问站点 &gt;</a><br />
+						<a href="002000.gif" target="_blank">截图预览 &gt;</a>
+					</p>
+				</div>
+			</div>
+			<div class='item'>
+				<div class='cont'>
+					<img src="bg-04.png"/>
+					<p>一个完整逻辑的站点；展示了列表、详情、部分列表操作、表单填写、效果展现等。<br />
+						<a href="DEMO004/html/Login.html" target="_blank">访问站点 &gt;</a><br />
+						<a href="002000.gif" target="_blank">截图预览 &gt;</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<!-- <a href="DEMO001/index.html">示例1</a>
 		<a href="DEMO002/index.html">示例2</a>
 		<a href="DEMO003/html/Login.html">示例3</a>
-		<a href="DEMO004/html/Login.html">示例4</a>
+		<a href="DEMO004/html/Login.html">示例4</a> -->
 	</body>
+	<style>
+	html,body{
+		padding:0;
+		margin:0;
+		width: 100vw;
+		height: 100vh;
+	}
+	div,a,p{
+		padding: 0;
+		margin: 0;
+	}
+	a{
+		color: inherit;
+	}
+	.wrap{
+		background: #aaa;
+	}
+	.item:nth-child(1){
+		background: rgba(107, 96, 211,0.5) no-repeat fixed center 0;
+	}
+	.item:nth-child(2){
+		background: rgba(60, 136, 253,0.5) no-repeat fixed center 0;
+	}
+	.item:nth-child(3){
+		background: rgba(93, 203, 225,0.5) no-repeat fixed center 0;
+	}
+	.item:nth-child(4){
+		background: rgba(30, 152, 228,0.5) no-repeat fixed center 0;
+	}
+	.item{
+		position: relative;
+		width: 100vw;
+		height: 100vh;
+		text-align: center;
+	}
+	.cont>img{
+		margin-top: 30px;
+		width: 50vw;
+		border-radius: 7px;
+		overflow: hidden;
+		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	}
+	.cont>p{
+		text-align: left;
+		font-size: 14px;
+		color: #fff;
+		line-height: 1.8;
+		padding: 10px 20px;
+		background: rgba(0,0,0,0.3);
+		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+		margin: 20px;
+		border-radius: 7px;
+	}
+	</style>
+	<script>
+	</script>
 </html>
