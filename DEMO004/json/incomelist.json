@@ -3,9 +3,9 @@
 		"list": [{
 			"date": "201601",
 			"status": "1",
-			"total": "7325.35",
+			"total": "75.35",
 			"detail": {
-				"incomeTotal": "5192",
+				"incomeTotal": "52",
 				"incomeDeducted": "1756.85",
 				"bonusTotal": "4252.79",
 				"bonusDeducted": "0",
@@ -17,11 +17,11 @@
 		}, {
 			"date": "201711",
 			"status": "1",
-			"total": "6176.14",
+			"total": "617.14",
 			"detail": {
 				"incomeTotal": "5575",
 				"incomeDeducted": "3262.09",
-				"bonusTotal": "4338.52",
+				"bonusTotal": "438.52",
 				"bonusDeducted": "0",
 				"personalIncomeTax": "475.29",
 				"yearendBonus": "0",
@@ -34,20 +34,20 @@
 		}, {
 			"date": "-1",
 			"status": "1",
-			"total": "204915.27",
+			"total": "20495.27",
 			"detail": {
-				"incomeTotal": "125972",
+				"incomeTotal": "1272",
 				"incomeDeducted": "61969.34",
-				"bonusTotal": "159684.1",
+				"bonusTotal": "15964.1",
 				"bonusDeducted": "0",
-				"personalIncomeTax": "18771.49",
+				"personalIncomeTax": "1871.49",
 				"yearendBonus": "0",
 				"companyPaid": "0",
 				"withholdingTax": "0"
 			}
 		}],
-		"com_code": "34920440001",
-		"userid": "0121015918",
+		"com_code": "XXX",
+		"userid": "XXXX",
 		"sel_start": "201601",
 		"sel_end": "201712"
 	},
