@@ -63,7 +63,16 @@
 		color: inherit;
 	}
 	.wrap{
+		margin: 0 auto;
 		background: #aaa;
+	}
+	@media screen and (min-width: 440px) {  
+	    .wrap{
+			max-width: 440px;
+		}
+		.item{
+			max-height: 635px;
+		}
 	}
 	.item:nth-child(1){
 		background: rgba(107, 96, 211,0.5) no-repeat fixed center 0;
@@ -79,13 +88,21 @@
 	}
 	.item{
 		position: relative;
-		width: 100vw;
+		width: 100%;
 		height: 100vh;
+		min-height: 560px;
 		text-align: center;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		align-content: center;
+	}
+	.cont{
+		padding: 1px;
 	}
 	.cont>img{
 		margin-top: 30px;
-		width: 50vw;
+		width: 50%;
 		border-radius: 7px;
 		overflow: hidden;
 		box-shadow: 0 0 15px rgba(0,0,0,0.2);
